@@ -1,0 +1,6 @@
+# ملف ads.txt — مطلوب من Google AdSense للتحقق من أنك المُخوَّل ببيع الإعلانات على موقعك.
+# استبدل pub-XXXXXXXXXXXXXXXX برقم الناشر (Publisher ID) الحقيقي الخاص بك من حساب AdSense،
+# ثم ضع هذا الملف في المجلد الجذر للموقع بحيث يكون متاحاً على العنوان:
+# https://yourdomain.com/ads.txt
+
+google.com, pub-XXXXXXXXXXXXXXXX, DIRECT, f08c47fec0942fa0

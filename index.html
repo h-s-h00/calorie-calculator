@@ -1,0 +1,986 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title data-i18n="meta.title">حاسبة السعرات الحرارية اليومية | احسب احتياجك من الطاقة مجاناً</title>
+<meta name="description" data-i18n-attr="meta.description" content="احسب احتياجك اليومي من السعرات الحرارية بدقة باستخدام معادلة ميفلين-سانت جيور العلمية، بناءً على الوزن والطول والعمر ومستوى النشاط. أداة مجانية وسريعة.">
+<meta name="keywords" content="حاسبة السعرات الحرارية, حساب السعرات الحرارية, BMR, TDEE, السعرات اليومية, calorie calculator">
+<meta name="robots" content="index, follow">
+<meta property="og:type" content="website">
+<meta property="og:title" data-i18n-attr="meta.title" content="حاسبة السعرات الحرارية اليومية">
+<meta property="og:description" data-i18n-attr="meta.description" content="احسب احتياجك اليومي من الطاقة خلال ثوانٍ باستخدام معادلة علمية معتمدة.">
+<meta name="theme-color" content="#123832">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='45' fill='%23123832'/%3E%3Ccircle cx='50' cy='50' r='45' fill='none' stroke='%23E8A33D' stroke-width='10' stroke-dasharray='180 300' stroke-linecap='round' transform='rotate(-90 50 50)'/%3E%3C/svg%3E">
+
+<!--
+  ══════════════════════════════════════════════════════════════════
+  Google AdSense — كود التحقق من الملكية / تفعيل الإعلانات التلقائية
+  بعد قبول موقعك في AdSense، الصق السكربت الذي يعطيك إياه هنا:
+
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXXXXXXXXXX" crossorigin="anonymous"></script>
+
+  راجع ملف README.md المرفق لشرح خطوات التركيب كاملة.
+  ══════════════════════════════════════════════════════════════════
+-->
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Reem+Kufi:wght@400;500;600;700&family=IBM+Plex+Sans+Arabic:wght@300;400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {"@type":"Question","name":"هل حاسبة السعرات الحرارية دقيقة بنسبة 100%؟","acceptedAnswer":{"@type":"Answer","text":"لا توجد حاسبة رقمية دقيقة بنسبة كاملة لأن الجسم يختلف من شخص لآخر حسب التركيب العضلي والهرمونات ومعدل الأيض. الحاسبة تعطيك تقديراً علمياً موثوقاً كنقطة بداية جيدة يمكن تعديلها لاحقاً حسب استجابة جسمك الفعلية."}},
+    {"@type":"Question","name":"ما الفرق بين BMR وTDEE؟","acceptedAnswer":{"@type":"Answer","text":"BMR هو عدد السعرات التي يحرقها جسمك وأنت في راحة تامة للحفاظ على وظائفه الأساسية فقط. أما TDEE فهو إجمالي ما تحرقه خلال اليوم كاملاً مع احتساب نشاطك وحركتك، وهو الرقم الذي يجب الاعتماد عليه عند تنظيم الطعام."}},
+    {"@type":"Question","name":"كم سعرة يجب أن أنقص لخسارة الوزن بأمان؟","acceptedAnswer":{"@type":"Answer","text":"يُنصح عادة بعجز يتراوح بين 300 إلى 500 سعرة حرارية يومياً عن احتياجك الكلي، وهو ما يعادل خسارة نصف كيلوجرام تقريباً أسبوعياً بشكل صحي ومستدام دون فقدان الكتلة العضلية."}}
+  ]
+}
+</script>
+
+<style>
+/* ══════════════════════════════════════════════════════════════
+   حاسبة السعرات الحرارية — التصميم
+   نظام الألوان: أخضر عميق (ثقة/صحة) + كهرماني (طاقة) على أبيض عاجي دافئ
+   الخط: Reem Kufi (عناوين) / IBM Plex Sans Arabic (نصوص) / Space Grotesk (أرقام)
+   ══════════════════════════════════════════════════════════════ */
+
+:root{
+  --ink:#16221F;
+  --muted:#5B6864;
+  --paper:#F7F4EC;
+  --card:#FFFFFF;
+  --deep:#123832;
+  --deep-2:#0D2B26;
+  --deep-tint:#E4EEEC;
+  --line:rgba(18,56,50,.14);
+  --amber:#E8A33D;
+  --amber-deep:#C97F1E;
+  --brick:#B33F35;
+  --green-ok:#2F7A5C;
+
+  --font-display:'Reem Kufi', system-ui, sans-serif;
+  --font-body:'IBM Plex Sans Arabic', system-ui, sans-serif;
+  --font-num:'Space Grotesk', system-ui, sans-serif;
+
+  --radius-lg:22px;
+  --radius-md:14px;
+  --radius-sm:9px;
+  --shadow-card:0 20px 45px -25px rgba(13,43,38,.35);
+  --ease:cubic-bezier(.22,1,.36,1);
+}
+
+*,*::before,*::after{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0;
+  background:var(--paper);
+  color:var(--ink);
+  font-family:var(--font-body);
+  font-size:16px;
+  line-height:1.7;
+  -webkit-font-smoothing:antialiased;
+}
+img,svg{display:block;max-width:100%}
+a{color:inherit}
+h1,h2,h3{font-family:var(--font-display);font-weight:700;line-height:1.25;margin:0 0 .5em}
+p{margin:0 0 1em}
+ul{margin:0;padding:0}
+
+.wrap{max-width:1120px;margin-inline:auto;padding-inline:24px}
+
+.skip-link{
+  position:absolute;inset-inline-end:12px;top:-60px;background:var(--deep);color:#fff;
+  padding:10px 18px;border-radius:0 0 10px 10px;z-index:200;transition:top .2s var(--ease);
+}
+.skip-link:focus{top:0}
+
+:focus-visible{outline:3px solid var(--amber);outline-offset:2px}
+
+/* ─────────── Header ─────────── */
+.site-header{
+  position:sticky;top:0;z-index:100;
+  background:var(--deep);
+  color:#fff;
+  border-bottom:1px solid rgba(255,255,255,.08);
+}
+.header-inner{display:flex;align-items:center;justify-content:space-between;gap:16px;padding-block:14px;flex-wrap:wrap}
+.brand{display:flex;align-items:center;gap:10px;text-decoration:none;color:#fff}
+.brand-mark{width:34px;height:34px;flex:none}
+.brand-mark svg{width:100%;height:100%}
+.brand-mark__track{fill:none;stroke:rgba(255,255,255,.25);stroke-width:4}
+.brand-mark__fill{fill:none;stroke:var(--amber);stroke-width:4;stroke-linecap:round;
+  stroke-dasharray:113;stroke-dashoffset:34;transform-origin:center;transform:rotate(-90deg)}
+.brand-text{font-family:var(--font-display);font-size:1.15rem;font-weight:700;letter-spacing:.2px}
+.brand-text em{font-style:normal;color:var(--amber)}
+.brand-text--footer{color:var(--ink);font-size:1.3rem}
+.brand-text--footer em{color:var(--amber-deep)}
+
+.header-controls{display:flex;align-items:center;gap:18px;flex-wrap:wrap}
+.site-nav{display:flex;gap:26px;font-size:.95rem}
+.site-nav a{text-decoration:none;opacity:.85;padding-block:4px;border-bottom:2px solid transparent;transition:opacity .2s,border-color .2s}
+.site-nav a:hover{opacity:1;border-color:var(--amber)}
+
+.lang-toggle{
+  display:inline-flex;align-items:center;gap:6px;
+  background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.28);
+  color:#fff;font-family:var(--font-body);font-weight:600;font-size:.86rem;
+  padding:8px 16px;border-radius:999px;cursor:pointer;transition:background .18s,border-color .18s;
+}
+.lang-toggle:hover{background:var(--amber);border-color:var(--amber);color:var(--deep-2)}
+.lang-toggle svg{width:15px;height:15px;fill:none;stroke:currentColor;stroke-width:1.8}
+
+/* ─────────── Buttons ─────────── */
+.btn{
+  display:inline-flex;align-items:center;justify-content:center;gap:8px;
+  font-family:var(--font-body);font-weight:600;font-size:1rem;
+  padding:14px 28px;border-radius:999px;border:1px solid transparent;
+  text-decoration:none;cursor:pointer;transition:transform .18s var(--ease),box-shadow .18s var(--ease),background .18s;
+}
+.btn--primary{background:var(--amber);color:var(--deep-2);box-shadow:0 14px 28px -14px rgba(232,163,61,.7)}
+.btn--primary:hover{transform:translateY(-2px);background:var(--amber-deep);color:#fff}
+.btn--ghost{background:transparent;border-color:var(--line);color:var(--deep)}
+.btn--ghost:hover{background:var(--deep-tint)}
+.btn--block{width:100%;padding:16px}
+
+/* ─────────── Ad slots ─────────── */
+.ad-slot{
+  display:flex;align-items:center;justify-content:center;
+  background:repeating-linear-gradient(135deg, rgba(18,56,50,.05) 0 10px, rgba(18,56,50,.02) 10px 20px);
+  border:1.5px dashed var(--line);
+  border-radius:var(--radius-sm);
+  color:var(--muted);
+  margin-block:36px;
+  min-height:90px;
+}
+.ad-slot__tag{font-size:.78rem;letter-spacing:.06em;text-transform:uppercase;opacity:.65}
+.ad-slot--leaderboard{max-width:970px;margin-inline:auto;min-height:90px}
+.ad-slot--rectangle{max-width:336px;margin-inline:auto;min-height:280px}
+.ad-slot--in-article{min-height:250px}
+.ad-slot--sidebar{min-height:600px;position:sticky;top:96px}
+
+/* ─────────── Hero ─────────── */
+.hero{padding-block:64px 30px}
+.hero-grid{display:grid;grid-template-columns:1.15fr .85fr;gap:56px;align-items:center}
+.eyebrow{
+  display:inline-block;font-size:.82rem;font-weight:600;letter-spacing:.04em;
+  color:var(--deep);background:var(--deep-tint);padding:6px 14px;border-radius:999px;margin-bottom:18px;
+}
+.hero h1{font-size:clamp(2rem,4.2vw,3rem);color:var(--deep-2);margin-bottom:.4em}
+.hero h1 em{font-style:normal;color:var(--amber-deep)}
+.hero-lede{font-size:1.08rem;color:var(--muted);max-width:52ch}
+.hero-actions{display:flex;gap:14px;flex-wrap:wrap;margin-block:22px 16px}
+.hero-note{font-size:.86rem;color:var(--muted)}
+.hero-note a{color:var(--deep);text-decoration:underline}
+
+.hero-gauge{position:relative;width:min(320px,80vw);margin-inline:auto;aspect-ratio:1}
+.gauge-svg{width:100%;height:100%;transform:rotate(-90deg)}
+.gauge-track{fill:none;stroke:var(--line);stroke-width:14}
+.gauge-fill{fill:none;stroke:var(--amber);stroke-width:14;stroke-linecap:round;
+  stroke-dasharray:553;stroke-dashoffset:553;transition:stroke-dashoffset 1.1s var(--ease)}
+.gauge-fill--idle{stroke:var(--amber);stroke-dashoffset:415;animation:pulse-idle 3.4s ease-in-out infinite}
+@keyframes pulse-idle{0%,100%{opacity:.55}50%{opacity:.95}}
+.gauge-center{
+  position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:4px;
+}
+.gauge-number{font-family:var(--font-num);font-weight:700;font-size:clamp(2.1rem,6vw,2.7rem);color:var(--deep-2)}
+.gauge-unit{font-size:.82rem;color:var(--muted);max-width:14ch}
+
+/* ─────────── Calculator ─────────── */
+.calc-section{padding-block:20px 10px}
+.calc-card{
+  background:var(--card);border-radius:var(--radius-lg);box-shadow:var(--shadow-card);
+  padding:clamp(24px,4vw,44px);max-width:760px;margin-inline:auto;border:1px solid var(--line);
+}
+.calc-card__head{text-align:center;margin-bottom:28px}
+.calc-card__head h2{color:var(--deep-2);font-size:1.6rem}
+.calc-card__head p{color:var(--muted);margin:0}
+
+.field{margin-bottom:22px}
+.field legend{padding:0;font-weight:600;margin-bottom:10px;font-family:var(--font-body)}
+.field label{display:block;font-weight:600;margin-bottom:8px}
+.field label .unit{font-weight:400;color:var(--muted);font-size:.88rem}
+.field input,.field select{
+  width:100%;padding:13px 16px;border-radius:var(--radius-sm);border:1.5px solid var(--line);
+  background:var(--paper);color:var(--ink);font-family:var(--font-body);font-size:1rem;
+  transition:border-color .18s,background .18s;
+}
+.field input:focus,.field select:focus{border-color:var(--amber);background:#fff}
+.field select{appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3E%3Cpath fill='%235B6864' d='M5 7l5 5 5-5z'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:left 14px center;padding-left:38px}
+[dir="ltr"] .field select{background-position:right 14px center;padding-left:16px;padding-right:38px}
+.field-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.field-error{color:var(--brick);font-size:.85rem;margin:8px 0 0;min-height:1.2em}
+
+.gender-toggle{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.gender-toggle input{position:absolute;opacity:0;width:0;height:0}
+.gender-toggle label{
+  display:flex;align-items:center;justify-content:center;gap:10px;
+  border:1.5px solid var(--line);border-radius:var(--radius-sm);padding:16px;cursor:pointer;
+  font-weight:600;color:var(--muted);transition:all .18s var(--ease);
+}
+.gender-toggle label svg{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:1.8}
+.gender-toggle input:checked + label{border-color:var(--amber);background:var(--deep-tint);color:var(--deep-2)}
+.gender-toggle input:focus-visible + label{outline:3px solid var(--amber);outline-offset:2px}
+
+/* ─────────── Results ─────────── */
+.result-card{
+  max-width:760px;margin:34px auto 0;background:var(--deep);color:#fff;
+  border-radius:var(--radius-lg);padding:clamp(28px,4vw,48px);text-align:center;
+  box-shadow:0 30px 60px -30px rgba(13,43,38,.55);
+}
+.result-card[hidden]{display:none}
+.result-gauge{position:relative;width:min(260px,70vw);margin-inline:auto 6px}
+.result-gauge .gauge-track{stroke:rgba(255,255,255,.14)}
+.result-gauge .gauge-unit{color:rgba(255,255,255,.75)}
+.result-gauge .gauge-number{color:#fff}
+.result-scale{font-size:.8rem;color:rgba(255,255,255,.55);margin-top:2px}
+.result-bmr{color:rgba(255,255,255,.85)}
+.result-bmr strong{font-family:var(--font-num);color:var(--amber)}
+
+.result-goals{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-block:22px}
+.goal-chip{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.14);border-radius:var(--radius-sm);padding:16px 10px}
+.goal-chip__label{display:block;font-size:.82rem;color:rgba(255,255,255,.7);margin-bottom:6px}
+.goal-chip__value{display:block;font-family:var(--font-num);font-weight:700;font-size:1.35rem}
+.goal-chip--down .goal-chip__value{color:#8FD3B0}
+.goal-chip--flat .goal-chip__value{color:var(--amber)}
+.goal-chip--up .goal-chip__value{color:#F0B37E}
+
+.disclaimer{font-size:.82rem;color:rgba(255,255,255,.6);max-width:56ch;margin-inline:auto}
+
+/* ─────────── Article ─────────── */
+.content-section{padding-block:50px}
+.content-grid{display:grid;grid-template-columns:1fr 300px;gap:48px;align-items:start}
+.article h2{color:var(--deep-2);font-size:1.7rem}
+.article h3{color:var(--deep-2);font-size:1.2rem;margin-top:1.6em}
+.article p,.article li{color:var(--ink)}
+.formula-box{
+  background:var(--deep-tint);border-inline-start:4px solid var(--amber);
+  border-start-end-radius:var(--radius-sm);border-end-end-radius:var(--radius-sm);
+  padding:16px 20px;margin:16px 0;
+}
+.formula-box p{margin:.35em 0;font-family:var(--font-num);font-size:.98rem}
+.table-wrap{overflow-x:auto;margin:16px 0}
+table{width:100%;border-collapse:collapse;font-size:.95rem}
+th,td{padding:12px 14px;text-align:start;border-bottom:1px solid var(--line)}
+thead th{color:var(--deep-2);font-family:var(--font-body);font-weight:700}
+td:last-child,th:last-child{font-family:var(--font-num)}
+.tick-list{list-style:none;display:flex;flex-direction:column;gap:12px}
+.tick-list li{padding-inline-start:28px;position:relative}
+.tick-list li::before{
+  content:"";position:absolute;inset-inline-start:0;top:.4em;width:16px;height:16px;border-radius:50%;
+  background:var(--amber);
+}
+.sidebar{position:sticky;top:96px}
+@media (max-width:900px){
+  .sidebar{display:none}
+  .content-grid{grid-template-columns:1fr}
+}
+
+/* ─────────── FAQ ─────────── */
+.faq-section{padding-block:10px 60px}
+.faq-section h2{color:var(--deep-2);text-align:center;font-size:1.7rem;margin-bottom:26px}
+.faq-list{max-width:800px;margin-inline:auto;display:flex;flex-direction:column;gap:12px}
+details{
+  background:var(--card);border:1px solid var(--line);border-radius:var(--radius-sm);
+  padding:6px 20px;
+}
+summary{
+  cursor:pointer;font-weight:600;padding:14px 0;list-style:none;
+  display:flex;align-items:center;justify-content:space-between;gap:12px;
+}
+summary::-webkit-details-marker{display:none}
+summary::after{
+  content:"+";font-family:var(--font-num);font-size:1.3rem;color:var(--amber-deep);flex:none;
+  transition:transform .2s var(--ease);
+}
+details[open] summary::after{transform:rotate(45deg)}
+details p{color:var(--muted);padding-bottom:16px;margin:0}
+
+/* ─────────── Source note ─────────── */
+.source-note{padding-block:10px 10px}
+.source-note p{
+  max-width:900px;margin-inline:auto;text-align:center;font-size:.88rem;color:var(--muted);
+  background:var(--deep-tint);padding:16px 22px;border-radius:var(--radius-sm);
+}
+.source-note a{color:var(--deep);font-weight:600;text-decoration:underline}
+
+/* ─────────── Footer ─────────── */
+.site-footer{background:var(--deep-2);color:rgba(255,255,255,.8);margin-top:20px}
+.footer-inner{display:flex;justify-content:space-between;gap:32px;flex-wrap:wrap;padding-block:44px 24px}
+.footer-desc{max-width:38ch;color:rgba(255,255,255,.6);font-size:.92rem}
+.footer-links{display:flex;gap:22px;flex-wrap:wrap;align-items:flex-start}
+.footer-links a{text-decoration:none;color:rgba(255,255,255,.75);font-size:.94rem}
+.footer-links a:hover{color:var(--amber)}
+.footer-bottom{border-top:1px solid rgba(255,255,255,.1);padding-block:18px 28px}
+.footer-bottom p{margin:0;font-size:.82rem;color:rgba(255,255,255,.5);text-align:center}
+
+/* ─────────── Responsive ─────────── */
+@media (max-width:860px){
+  .hero-grid{grid-template-columns:1fr;text-align:center}
+  .hero-lede{margin-inline:auto}
+  .hero-actions{justify-content:center}
+  .field-grid{grid-template-columns:1fr}
+  .result-goals{grid-template-columns:1fr}
+}
+@media (max-width:560px){
+  .header-inner{justify-content:center;text-align:center}
+  .header-controls{justify-content:center;width:100%}
+  .site-nav{gap:16px;font-size:.88rem;width:100%;justify-content:center}
+}
+
+/* ─────────── Reduced motion ─────────── */
+@media (prefers-reduced-motion: reduce){
+  html{scroll-behavior:auto}
+  *{animation-duration:.001ms !important;animation-iteration-count:1 !important;transition-duration:.001ms !important}
+}
+</style>
+</head>
+<body>
+
+<a class="skip-link" href="#calculator" data-i18n="skip_link">تخطَّ إلى الحاسبة</a>
+
+<header class="site-header">
+  <div class="wrap header-inner">
+    <a href="#top" class="brand">
+      <span class="brand-mark" aria-hidden="true">
+        <svg viewBox="0 0 44 44"><circle cx="22" cy="22" r="18" class="brand-mark__track"/><circle cx="22" cy="22" r="18" class="brand-mark__fill"/></svg>
+      </span>
+      <span class="brand-text" data-i18n-html="brand">حاسبة<em>السعرات</em></span>
+    </a>
+    <div class="header-controls">
+      <nav class="site-nav" aria-label="التنقل الرئيسي">
+        <a href="#calculator" data-i18n="nav.calculator">الحاسبة</a>
+        <a href="#about" data-i18n="nav.about">عن المعادلة</a>
+        <a href="#faq" data-i18n="nav.faq">الأسئلة الشائعة</a>
+      </nav>
+      <button type="button" id="lang-toggle" class="lang-toggle" aria-label="Switch language / تبديل اللغة">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5h9M8 3v2M11 5c-.6 3-2.3 5.4-5 7M6 9c1.2 1.3 3 2.3 5 2.7M13 21l4-9 4 9M14.5 18h5"/></svg>
+        <span id="lang-toggle-text">English</span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<!-- ════════════════════ AD SLOT #1 — لافتة أعلى الصفحة (Leaderboard) ════════════════════ -->
+<div class="ad-slot ad-slot--leaderboard" aria-hidden="true">
+  <span class="ad-slot__tag" data-i18n="ad_label">مساحة إعلانية</span>
+  <!-- الصق هنا كود <ins class="adsbygoogle">...</ins> الخاص بوحدة الإعلان -->
+</div>
+
+<main id="top">
+
+  <!-- ═══════════════════ Hero ═══════════════════ -->
+  <section class="hero">
+    <div class="wrap hero-grid">
+      <div class="hero-copy">
+        <p class="eyebrow" data-i18n="hero.eyebrow">أداة مجانية · نتيجة فورية</p>
+        <h1 data-i18n-html="hero.title">كم سعرة حرارية يحتاج <em>جسمك</em> فعلياً كل يوم؟</h1>
+        <p class="hero-lede" data-i18n="hero.lede">أدخل وزنك وطولك وعمرك ومستوى نشاطك، واحصل خلال ثوانٍ على احتياجك اليومي الدقيق من الطاقة، بنفس المعادلة العلمية المعتمدة في الحاسبات الصحية الرسمية.</p>
+        <div class="hero-actions">
+          <a href="#calculator" class="btn btn--primary" data-i18n="hero.cta_primary">ابدأ الحساب الآن</a>
+          <a href="#about" class="btn btn--ghost" data-i18n="hero.cta_ghost">كيف تُحسب السعرات؟</a>
+        </div>
+        <p class="hero-note" data-i18n-html="hero.note">مبني على معادلة ميفلين-سانت جيور المعتمدة علمياً · للمقارنة يمكنك أيضاً مراجعة <a href="https://www.moh.gov.sa/healthawareness/medicaltools/pages/caloriecalculate.aspx" target="_blank" rel="noopener noreferrer">حاسبة وزارة الصحة السعودية</a></p>
+      </div>
+      <div class="hero-gauge" aria-hidden="true">
+        <svg viewBox="0 0 200 200" class="gauge-svg gauge-svg--hero">
+          <circle cx="100" cy="100" r="88" class="gauge-track"/>
+          <circle cx="100" cy="100" r="88" class="gauge-fill gauge-fill--idle"/>
+        </svg>
+        <div class="gauge-center">
+          <span class="gauge-number">—</span>
+          <span class="gauge-unit" data-i18n="hero.gauge_unit">سعرة / اليوم</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════ Calculator ═══════════════════ -->
+  <section class="calc-section" id="calculator">
+    <div class="wrap">
+      <div class="calc-card">
+        <div class="calc-card__head">
+          <h2 data-i18n="calc.title">حاسبة السعرات الحرارية</h2>
+          <p data-i18n="calc.subtitle">عبّئ البيانات التالية بدقة للحصول على نتيجة موثوقة</p>
+        </div>
+
+        <form id="calorie-form" novalidate>
+          <fieldset class="field field--gender">
+            <legend data-i18n="calc.gender_label">الجنس</legend>
+            <div class="gender-toggle">
+              <input type="radio" name="gender" id="gender-male" value="male">
+              <label for="gender-male">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10" cy="14" r="6"/><path d="M14.5 9.5 20 4M15 4h5v5"/></svg>
+                <span data-i18n="calc.gender_male">ذكر</span>
+              </label>
+              <input type="radio" name="gender" id="gender-female" value="female">
+              <label for="gender-female">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="9" r="6"/><path d="M12 15v7M8.5 19h7"/></svg>
+                <span data-i18n="calc.gender_female">أنثى</span>
+              </label>
+            </div>
+            <p class="field-error" id="err-gender" role="alert"></p>
+          </fieldset>
+
+          <div class="field-grid">
+            <div class="field">
+              <label for="weight" data-i18n-html="calc.weight_label">الوزن <span class="unit">(كجم)</span></label>
+              <input type="number" inputmode="decimal" id="weight" name="weight" min="20" max="300" step="0.1" data-i18n-placeholder="calc.weight_placeholder" placeholder="مثال: 70" required>
+              <p class="field-error" id="err-weight" role="alert"></p>
+            </div>
+            <div class="field">
+              <label for="height" data-i18n-html="calc.height_label">الطول <span class="unit">(سم)</span></label>
+              <input type="number" inputmode="decimal" id="height" name="height" min="90" max="250" step="1" data-i18n-placeholder="calc.height_placeholder" placeholder="مثال: 170" required>
+              <p class="field-error" id="err-height" role="alert"></p>
+            </div>
+            <div class="field">
+              <label for="age" data-i18n-html="calc.age_label">العمر <span class="unit">(سنة)</span></label>
+              <input type="number" inputmode="numeric" id="age" name="age" min="10" max="100" step="1" data-i18n-placeholder="calc.age_placeholder" placeholder="مثال: 28" required>
+              <p class="field-error" id="err-age" role="alert"></p>
+            </div>
+          </div>
+
+          <div class="field">
+            <label for="activity" data-i18n="calc.activity_label">مستوى النشاط</label>
+            <select id="activity" name="activity" required>
+              <option value="" selected data-i18n="calc.activity_placeholder">اختر مستوى نشاطك</option>
+              <option value="1.2" data-i18n="calc.activity_1">خامل أو كثير الجلوس</option>
+              <option value="1.375" data-i18n="calc.activity_2">نشاط خفيف — 1 إلى 3 مرات أسبوعياً</option>
+              <option value="1.55" data-i18n="calc.activity_3">نشاط متوسط الشدة — 3 إلى 5 مرات أسبوعياً</option>
+              <option value="1.725" data-i18n="calc.activity_4">نشاط عالٍ جداً — 6 إلى 7 مرات أسبوعياً</option>
+              <option value="1.9" data-i18n="calc.activity_5">نشاط عالٍ للغاية أو رياضة يومية مجهدة</option>
+            </select>
+            <p class="field-error" id="err-activity" role="alert"></p>
+          </div>
+
+          <button type="submit" class="btn btn--primary btn--block" data-i18n="calc.submit">احسب السعرات الحرارية</button>
+        </form>
+      </div>
+
+      <!-- ═══════════════════ Results ═══════════════════ -->
+      <div class="result-card" id="result-card" hidden>
+        <div class="result-gauge">
+          <svg viewBox="0 0 200 200" class="gauge-svg" id="result-gauge-svg">
+            <circle cx="100" cy="100" r="88" class="gauge-track"/>
+            <circle cx="100" cy="100" r="88" class="gauge-fill" id="result-gauge-fill"/>
+          </svg>
+          <div class="gauge-center">
+            <span class="gauge-number" id="result-tdee">0</span>
+            <span class="gauge-unit" data-i18n="results.gauge_unit">سعرة / اليوم للحفاظ على وزنك</span>
+          </div>
+        </div>
+
+        <p class="result-scale" data-i18n="results.scale">النطاق المرجعي للعداد: 1200 – 4000 سعرة يومياً</p>
+        <p class="result-bmr"><span data-i18n="results.bmr_prefix">معدل الأيض الأساسي (BMR):</span> <strong id="result-bmr">0</strong> <span data-i18n="results.bmr_suffix">سعرة/اليوم — وهو ما يحرقه جسمك في الراحة التامة</span></p>
+
+        <div class="result-goals">
+          <div class="goal-chip goal-chip--down">
+            <span class="goal-chip__label" data-i18n="results.goal_loss">لخسارة الوزن</span>
+            <span class="goal-chip__value" id="result-loss">0</span>
+          </div>
+          <div class="goal-chip goal-chip--flat">
+            <span class="goal-chip__label" data-i18n="results.goal_maintain">للحفاظ على الوزن</span>
+            <span class="goal-chip__value" id="result-maintain">0</span>
+          </div>
+          <div class="goal-chip goal-chip--up">
+            <span class="goal-chip__label" data-i18n="results.goal_gain">لزيادة الوزن</span>
+            <span class="goal-chip__value" id="result-gain">0</span>
+          </div>
+        </div>
+        <p class="disclaimer" data-i18n="results.disclaimer">هذه النتائج تقديرية لأغراض عامة، ولا تُغني عن استشارة طبيب أو أخصائي تغذية، خصوصاً في حال الحمل أو الإرضاع أو وجود حالة صحية مزمنة.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ════════════════════ AD SLOT #2 — مستطيل بعد النتائج ════════════════════ -->
+  <div class="wrap">
+    <div class="ad-slot ad-slot--rectangle" aria-hidden="true">
+      <span class="ad-slot__tag" data-i18n="ad_label">مساحة إعلانية</span>
+    </div>
+  </div>
+
+  <!-- ═══════════════════ Article + sidebar ad ═══════════════════ -->
+  <section class="content-section" id="about">
+    <div class="wrap content-grid">
+      <article class="article">
+        <h2 data-i18n="about.h2_1">ما هي السعرات الحرارية، وكيف تُحسب؟</h2>
+        <p data-i18n="about.p1">السعرة الحرارية هي وحدة قياس للطاقة التي يحصل عليها الجسم من الطعام والشراب، ويستهلكها في كل شيء: من التنفس ونبض القلب، إلى المشي والتمرين. معرفة احتياجك اليومي منها هي نقطة الانطلاق لأي هدف يخص الوزن، سواء كان إنقاصه أو الحفاظ عليه أو زيادته بشكل صحي.</p>
+
+        <h3 data-i18n="about.h3_1">معادلة ميفلين-سانت جيور (Mifflin-St Jeor)</h3>
+        <p data-i18n="about.p2">تعتمد هذه الحاسبة على معادلة ميفلين-سانت جيور، وهي من أكثر المعادلات دقة واعتماداً في الأوساط الطبية والتغذوية لحساب معدل الأيض الأساسي (BMR):</p>
+        <div class="formula-box">
+          <p data-i18n-html="about.formula_men"><strong>للرجال:</strong> BMR = (10 × الوزن كجم) + (6.25 × الطول سم) − (5 × العمر) + 5</p>
+          <p data-i18n-html="about.formula_women"><strong>للنساء:</strong> BMR = (10 × الوزن كجم) + (6.25 × الطول سم) − (5 × العمر) − 161</p>
+        </div>
+        <p data-i18n="about.p3">بعد ذلك يُضرب معدل الأيض الأساسي في معامل مستوى النشاط للحصول على إجمالي الطاقة اليومية المستهلكة (TDEE)، وهو الرقم الفعلي الذي يجب الاعتماد عليه عند التخطيط لنظامك الغذائي.</p>
+
+        <h3 data-i18n="about.h3_2">معاملات مستوى النشاط</h3>
+        <div class="table-wrap">
+          <table>
+            <thead><tr>
+              <th data-i18n="about.table_h1">مستوى النشاط</th>
+              <th data-i18n="about.table_h2">الوصف</th>
+              <th data-i18n="about.table_h3">المعامل</th>
+            </tr></thead>
+            <tbody>
+              <tr><td data-i18n="about.row1_a">خامل</td><td data-i18n="about.row1_b">قليل الحركة أو عمل مكتبي بلا رياضة</td><td>1.2</td></tr>
+              <tr><td data-i18n="about.row2_a">خفيف</td><td data-i18n="about.row2_b">رياضة خفيفة 1–3 مرات أسبوعياً</td><td>1.375</td></tr>
+              <tr><td data-i18n="about.row3_a">متوسط</td><td data-i18n="about.row3_b">رياضة متوسطة الشدة 3–5 مرات أسبوعياً</td><td>1.55</td></tr>
+              <tr><td data-i18n="about.row4_a">عالٍ</td><td data-i18n="about.row4_b">رياضة مكثفة 6–7 مرات أسبوعياً</td><td>1.725</td></tr>
+              <tr><td data-i18n="about.row5_a">عالٍ جداً</td><td data-i18n="about.row5_b">رياضة يومية مجهدة أو عمل بدني شاق</td><td>1.9</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- ═════════ AD SLOT #3 — داخل المقال ═════════ -->
+        <div class="ad-slot ad-slot--in-article" aria-hidden="true">
+          <span class="ad-slot__tag" data-i18n="ad_label">مساحة إعلانية</span>
+        </div>
+
+        <h3 data-i18n="about.h3_3">كيف تستخدم النتيجة؟</h3>
+        <ul class="tick-list">
+          <li data-i18n-html="about.li1">إذا كان هدفك <strong>الحفاظ على وزنك</strong>، تناول ما يقارب رقم TDEE يومياً.</li>
+          <li data-i18n-html="about.li2">لـ<strong>خسارة الوزن</strong> بأمان، اطرح 300–500 سعرة من TDEE — ما يعادل نصف كيلوجرام تقريباً أسبوعياً.</li>
+          <li data-i18n-html="about.li3">لـ<strong>زيادة الوزن</strong> أو بناء العضلات، أضف 300–500 سعرة مع الاهتمام بمصدر البروتين.</li>
+          <li data-i18n-html="about.li4">أعد الحساب كل 4–6 أسابيع، فوزنك ونشاطك يتغيران وتحتاج الأرقام لمتابعة ذلك.</li>
+        </ul>
+      </article>
+
+      <!-- ═════════ AD SLOT #4 — شريط جانبي، سطح المكتب فقط ═════════ -->
+      <aside class="sidebar">
+        <div class="ad-slot ad-slot--sidebar" aria-hidden="true">
+          <span class="ad-slot__tag" data-i18n="ad_label">مساحة إعلانية</span>
+        </div>
+      </aside>
+    </div>
+  </section>
+
+  <!-- ═══════════════════ FAQ ═══════════════════ -->
+  <section class="faq-section" id="faq">
+    <div class="wrap">
+      <h2 data-i18n="faq.title">الأسئلة الشائعة</h2>
+      <div class="faq-list">
+        <details>
+          <summary data-i18n="faq.q1">هل حاسبة السعرات الحرارية دقيقة بنسبة 100%؟</summary>
+          <p data-i18n="faq.a1">لا توجد حاسبة رقمية دقيقة بشكل كامل، لأن الجسم يختلف من شخص لآخر حسب التركيب العضلي والهرمونات ومعدل الأيض الفردي. النتيجة هنا تقدير علمي موثوق يصلح كنقطة بداية ممتازة، ويمكن تعديله لاحقاً حسب استجابة جسمك الفعلية على مدى أسابيع.</p>
+        </details>
+        <details>
+          <summary data-i18n="faq.q2">ما الفرق بين BMR وTDEE؟</summary>
+          <p data-i18n="faq.a2">BMR هو عدد السعرات التي يحرقها جسمك في حالة راحة تامة فقط لتشغيل وظائفه الحيوية. أما TDEE فهو إجمالي ما تحرقه في اليوم كاملاً بعد احتساب نشاطك وحركتك، وهو الرقم الذي يجب الاعتماد عليه فعلياً عند تنظيم وجباتك.</p>
+        </details>
+        <details>
+          <summary data-i18n="faq.q3">كم سعرة يجب أن أنقص لخسارة الوزن بأمان؟</summary>
+          <p data-i18n="faq.a3">يُنصح عادة بعجز يومي يتراوح بين 300 و500 سعرة حرارية عن احتياجك الكلي (TDEE)، وهو ما يعادل خسارة نصف كيلوجرام تقريباً أسبوعياً بشكل صحي ومستدام دون التأثير الحاد على الكتلة العضلية.</p>
+        </details>
+        <details>
+          <summary data-i18n="faq.q4">هل تتغير احتياجاتي من السعرات بمرور الوقت؟</summary>
+          <p data-i18n="faq.a4">نعم. كلما تغيّر وزنك أو مستوى نشاطك أو تقدمت في العمر، يتغيّر احتياجك الفعلي من السعرات. لهذا يُنصح بإعادة الحساب كل 4 إلى 6 أسابيع.</p>
+        </details>
+        <details>
+          <summary data-i18n="faq.q5">هل هذه الحاسبة مناسبة للحامل أو المرضع أو الأطفال؟</summary>
+          <p data-i18n="faq.a5">هذه الحاسبة مصممة للبالغين الأصحاء بشكل عام. أما الحوامل والمرضعات والأطفال والمراهقون فلديهم احتياجات خاصة تختلف عن هذه المعادلة، ويُفضّل استشارة طبيب أو أخصائي تغذية لتحديدها بدقة.</p>
+        </details>
+        <details>
+          <summary data-i18n="faq.q6">من أين مصدر معادلة الحساب المستخدمة هنا؟</summary>
+          <p data-i18n-html="faq.a6">تعتمد هذه الأداة على معادلة ميفلين-سانت جيور العلمية المعتمدة عالمياً، وهي نفس المنهجية المستخدمة في أغلب الحاسبات الصحية الموثوقة. لمرجع رسمي إضافي بالمملكة العربية السعودية، يمكنك مراجعة <a href="https://www.moh.gov.sa/healthawareness/medicaltools/pages/caloriecalculate.aspx" target="_blank" rel="noopener noreferrer">حاسبة السعرات الحرارية من وزارة الصحة السعودية</a>.</p>
+        </details>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════ Source note ═══════════════════ -->
+  <section class="source-note">
+    <div class="wrap">
+      <p data-i18n-html="source_note">هذا الموقع أداة مستقلة غير تابعة لوزارة الصحة السعودية ولا لأي جهة حكومية. لغرض المقارنة والتحقق، يمكنك دائماً استخدام <a href="https://www.moh.gov.sa/healthawareness/medicaltools/pages/caloriecalculate.aspx" target="_blank" rel="noopener noreferrer">الحاسبة الرسمية لوزارة الصحة</a> كمرجع إضافي.</p>
+    </div>
+  </section>
+
+  <!-- ════════════════════ AD SLOT #5 — لافتة قبل التذييل ════════════════════ -->
+  <div class="wrap">
+    <div class="ad-slot ad-slot--leaderboard" aria-hidden="true">
+      <span class="ad-slot__tag" data-i18n="ad_label">مساحة إعلانية</span>
+    </div>
+  </div>
+
+</main>
+
+<footer class="site-footer">
+  <div class="wrap footer-inner">
+    <div>
+      <span class="brand-text brand-text--footer" data-i18n-html="brand">حاسبة<em>السعرات</em></span>
+      <p class="footer-desc" data-i18n="footer.desc">أداة مجانية لحساب الاحتياج اليومي من السعرات الحرارية، مبنية على معادلات علمية موثوقة.</p>
+    </div>
+    <nav class="footer-links" aria-label="روابط التذييل">
+      <a href="#calculator" data-i18n="nav.calculator">الحاسبة</a>
+      <a href="#about" data-i18n="nav.about">عن المعادلة</a>
+      <a href="#faq" data-i18n="nav.faq">الأسئلة الشائعة</a>
+      <a href="privacy.html" data-i18n="nav.privacy">سياسة الخصوصية</a>
+    </nav>
+  </div>
+  <div class="wrap footer-bottom">
+    <p>© <span id="year"></span> <span data-i18n="footer.rights">جميع الحقوق محفوظة. هذه الأداة لأغراض تعليمية عامة ولا تُغني عن استشارة طبية متخصصة.</span></p>
+  </div>
+</footer>
+
+<script>
+/* ══════════════════════════════════════════════════════════════
+   حاسبة السعرات الحرارية — منطق الحساب والتفاعل وتبديل اللغة
+   المعادلة: Mifflin-St Jeor
+   ══════════════════════════════════════════════════════════════ */
+(function () {
+  "use strict";
+
+  /* ---------------------------------------------------------------
+     1) قاموس الترجمة
+     --------------------------------------------------------------- */
+  var translations = {
+    ar: {
+      "meta.title": "حاسبة السعرات الحرارية اليومية | احسب احتياجك من الطاقة مجاناً",
+      "meta.description": "احسب احتياجك اليومي من السعرات الحرارية بدقة باستخدام معادلة ميفلين-سانت جيور العلمية، بناءً على الوزن والطول والعمر ومستوى النشاط. أداة مجانية وسريعة.",
+      "skip_link": "تخطَّ إلى الحاسبة",
+      "brand": "حاسبة<em>السعرات</em>",
+      "nav.calculator": "الحاسبة",
+      "nav.about": "عن المعادلة",
+      "nav.faq": "الأسئلة الشائعة",
+      "nav.privacy": "سياسة الخصوصية",
+      "ad_label": "مساحة إعلانية",
+      "hero.eyebrow": "أداة مجانية · نتيجة فورية",
+      "hero.title": "كم سعرة حرارية يحتاج <em>جسمك</em> فعلياً كل يوم؟",
+      "hero.lede": "أدخل وزنك وطولك وعمرك ومستوى نشاطك، واحصل خلال ثوانٍ على احتياجك اليومي الدقيق من الطاقة، بنفس المعادلة العلمية المعتمدة في الحاسبات الصحية الرسمية.",
+      "hero.cta_primary": "ابدأ الحساب الآن",
+      "hero.cta_ghost": "كيف تُحسب السعرات؟",
+      "hero.note": "مبني على معادلة ميفلين-سانت جيور المعتمدة علمياً · للمقارنة يمكنك أيضاً مراجعة <a href=\"https://www.moh.gov.sa/healthawareness/medicaltools/pages/caloriecalculate.aspx\" target=\"_blank\" rel=\"noopener noreferrer\">حاسبة وزارة الصحة السعودية</a>",
+      "hero.gauge_unit": "سعرة / اليوم",
+      "calc.title": "حاسبة السعرات الحرارية",
+      "calc.subtitle": "عبّئ البيانات التالية بدقة للحصول على نتيجة موثوقة",
+      "calc.gender_label": "الجنس",
+      "calc.gender_male": "ذكر",
+      "calc.gender_female": "أنثى",
+      "calc.weight_label": "الوزن <span class=\"unit\">(كجم)</span>",
+      "calc.weight_placeholder": "مثال: 70",
+      "calc.height_label": "الطول <span class=\"unit\">(سم)</span>",
+      "calc.height_placeholder": "مثال: 170",
+      "calc.age_label": "العمر <span class=\"unit\">(سنة)</span>",
+      "calc.age_placeholder": "مثال: 28",
+      "calc.activity_label": "مستوى النشاط",
+      "calc.activity_placeholder": "اختر مستوى نشاطك",
+      "calc.activity_1": "خامل أو كثير الجلوس",
+      "calc.activity_2": "نشاط خفيف — 1 إلى 3 مرات أسبوعياً",
+      "calc.activity_3": "نشاط متوسط الشدة — 3 إلى 5 مرات أسبوعياً",
+      "calc.activity_4": "نشاط عالٍ جداً — 6 إلى 7 مرات أسبوعياً",
+      "calc.activity_5": "نشاط عالٍ للغاية أو رياضة يومية مجهدة",
+      "calc.submit": "احسب السعرات الحرارية",
+      "errors.gender": "من فضلك اختر الجنس",
+      "errors.weight": "الرجاء إدخال وزن صحيح بين 20 و300 كجم، لا يُسمح بإدخال الرموز",
+      "errors.height": "الرجاء إدخال طول صحيح بين 90 و250 سم، لا يُسمح بإدخال الرموز",
+      "errors.age": "الرجاء إدخال عمر صحيح بين 10 و100 سنة، لا يُسمح بإدخال الرموز",
+      "errors.activity": "الرجاء اختيار مستوى النشاط",
+      "results.gauge_unit": "سعرة / اليوم للحفاظ على وزنك",
+      "results.scale": "النطاق المرجعي للعداد: 1200 – 4000 سعرة يومياً",
+      "results.bmr_prefix": "معدل الأيض الأساسي (BMR):",
+      "results.bmr_suffix": "سعرة/اليوم — وهو ما يحرقه جسمك في الراحة التامة",
+      "results.goal_loss": "لخسارة الوزن",
+      "results.goal_maintain": "للحفاظ على الوزن",
+      "results.goal_gain": "لزيادة الوزن",
+      "results.disclaimer": "هذه النتائج تقديرية لأغراض عامة، ولا تُغني عن استشارة طبيب أو أخصائي تغذية، خصوصاً في حال الحمل أو الإرضاع أو وجود حالة صحية مزمنة.",
+      "about.h2_1": "ما هي السعرات الحرارية، وكيف تُحسب؟",
+      "about.p1": "السعرة الحرارية هي وحدة قياس للطاقة التي يحصل عليها الجسم من الطعام والشراب، ويستهلكها في كل شيء: من التنفس ونبض القلب، إلى المشي والتمرين. معرفة احتياجك اليومي منها هي نقطة الانطلاق لأي هدف يخص الوزن، سواء كان إنقاصه أو الحفاظ عليه أو زيادته بشكل صحي.",
+      "about.h3_1": "معادلة ميفلين-سانت جيور (Mifflin-St Jeor)",
+      "about.p2": "تعتمد هذه الحاسبة على معادلة ميفلين-سانت جيور، وهي من أكثر المعادلات دقة واعتماداً في الأوساط الطبية والتغذوية لحساب معدل الأيض الأساسي (BMR):",
+      "about.formula_men": "<strong>للرجال:</strong> BMR = (10 × الوزن كجم) + (6.25 × الطول سم) − (5 × العمر) + 5",
+      "about.formula_women": "<strong>للنساء:</strong> BMR = (10 × الوزن كجم) + (6.25 × الطول سم) − (5 × العمر) − 161",
+      "about.p3": "بعد ذلك يُضرب معدل الأيض الأساسي في معامل مستوى النشاط للحصول على إجمالي الطاقة اليومية المستهلكة (TDEE)، وهو الرقم الفعلي الذي يجب الاعتماد عليه عند التخطيط لنظامك الغذائي.",
+      "about.h3_2": "معاملات مستوى النشاط",
+      "about.table_h1": "مستوى النشاط",
+      "about.table_h2": "الوصف",
+      "about.table_h3": "المعامل",
+      "about.row1_a": "خامل", "about.row1_b": "قليل الحركة أو عمل مكتبي بلا رياضة",
+      "about.row2_a": "خفيف", "about.row2_b": "رياضة خفيفة 1–3 مرات أسبوعياً",
+      "about.row3_a": "متوسط", "about.row3_b": "رياضة متوسطة الشدة 3–5 مرات أسبوعياً",
+      "about.row4_a": "عالٍ", "about.row4_b": "رياضة مكثفة 6–7 مرات أسبوعياً",
+      "about.row5_a": "عالٍ جداً", "about.row5_b": "رياضة يومية مجهدة أو عمل بدني شاق",
+      "about.h3_3": "كيف تستخدم النتيجة؟",
+      "about.li1": "إذا كان هدفك <strong>الحفاظ على وزنك</strong>، تناول ما يقارب رقم TDEE يومياً.",
+      "about.li2": "لـ<strong>خسارة الوزن</strong> بأمان، اطرح 300–500 سعرة من TDEE — ما يعادل نصف كيلوجرام تقريباً أسبوعياً.",
+      "about.li3": "لـ<strong>زيادة الوزن</strong> أو بناء العضلات، أضف 300–500 سعرة مع الاهتمام بمصدر البروتين.",
+      "about.li4": "أعد الحساب كل 4–6 أسابيع، فوزنك ونشاطك يتغيران وتحتاج الأرقام لمتابعة ذلك.",
+      "faq.title": "الأسئلة الشائعة",
+      "faq.q1": "هل حاسبة السعرات الحرارية دقيقة بنسبة 100%؟",
+      "faq.a1": "لا توجد حاسبة رقمية دقيقة بشكل كامل، لأن الجسم يختلف من شخص لآخر حسب التركيب العضلي والهرمونات ومعدل الأيض الفردي. النتيجة هنا تقدير علمي موثوق يصلح كنقطة بداية ممتازة، ويمكن تعديله لاحقاً حسب استجابة جسمك الفعلية على مدى أسابيع.",
+      "faq.q2": "ما الفرق بين BMR وTDEE؟",
+      "faq.a2": "BMR هو عدد السعرات التي يحرقها جسمك في حالة راحة تامة فقط لتشغيل وظائفه الحيوية. أما TDEE فهو إجمالي ما تحرقه في اليوم كاملاً بعد احتساب نشاطك وحركتك، وهو الرقم الذي يجب الاعتماد عليه فعلياً عند تنظيم وجباتك.",
+      "faq.q3": "كم سعرة يجب أن أنقص لخسارة الوزن بأمان؟",
+      "faq.a3": "يُنصح عادة بعجز يومي يتراوح بين 300 و500 سعرة حرارية عن احتياجك الكلي (TDEE)، وهو ما يعادل خسارة نصف كيلوجرام تقريباً أسبوعياً بشكل صحي ومستدام دون التأثير الحاد على الكتلة العضلية.",
+      "faq.q4": "هل تتغير احتياجاتي من السعرات بمرور الوقت؟",
+      "faq.a4": "نعم. كلما تغيّر وزنك أو مستوى نشاطك أو تقدمت في العمر، يتغيّر احتياجك الفعلي من السعرات. لهذا يُنصح بإعادة الحساب كل 4 إلى 6 أسابيع.",
+      "faq.q5": "هل هذه الحاسبة مناسبة للحامل أو المرضع أو الأطفال؟",
+      "faq.a5": "هذه الحاسبة مصممة للبالغين الأصحاء بشكل عام. أما الحوامل والمرضعات والأطفال والمراهقون فلديهم احتياجات خاصة تختلف عن هذه المعادلة، ويُفضّل استشارة طبيب أو أخصائي تغذية لتحديدها بدقة.",
+      "faq.q6": "من أين مصدر معادلة الحساب المستخدمة هنا؟",
+      "faq.a6": "تعتمد هذه الأداة على معادلة ميفلين-سانت جيور العلمية المعتمدة عالمياً، وهي نفس المنهجية المستخدمة في أغلب الحاسبات الصحية الموثوقة. لمرجع رسمي إضافي بالمملكة العربية السعودية، يمكنك مراجعة <a href=\"https://www.moh.gov.sa/healthawareness/medicaltools/pages/caloriecalculate.aspx\" target=\"_blank\" rel=\"noopener noreferrer\">حاسبة السعرات الحرارية من وزارة الصحة السعودية</a>.",
+      "source_note": "<strong>ملاحظة حول المصدر:</strong> هذا الموقع أداة مستقلة غير تابعة لوزارة الصحة السعودية ولا لأي جهة حكومية. لغرض المقارنة والتحقق، يمكنك دائماً استخدام <a href=\"https://www.moh.gov.sa/healthawareness/medicaltools/pages/caloriecalculate.aspx\" target=\"_blank\" rel=\"noopener noreferrer\">الحاسبة الرسمية لوزارة الصحة</a> كمرجع إضافي.",
+      "footer.desc": "أداة مجانية لحساب الاحتياج اليومي من السعرات الحرارية، مبنية على معادلات علمية موثوقة.",
+      "footer.rights": "جميع الحقوق محفوظة. هذه الأداة لأغراض تعليمية عامة ولا تُغني عن استشارة طبية متخصصة.",
+      "lang_toggle_target": "English"
+    },
+    en: {
+      "meta.title": "Daily Calorie Calculator | Calculate Your Energy Needs Free",
+      "meta.description": "Calculate your daily calorie needs accurately using the scientific Mifflin-St Jeor equation, based on weight, height, age, and activity level. Free and fast.",
+      "skip_link": "Skip to calculator",
+      "brand": "Calorie<em>Calc</em>",
+      "nav.calculator": "Calculator",
+      "nav.about": "About the Formula",
+      "nav.faq": "FAQ",
+      "nav.privacy": "Privacy Policy",
+      "ad_label": "Advertisement",
+      "hero.eyebrow": "Free Tool · Instant Result",
+      "hero.title": "How many calories does <em>your body</em> really need each day?",
+      "hero.lede": "Enter your weight, height, age, and activity level, and get your precise daily energy needs in seconds — using the same scientific formula trusted by official health calculators.",
+      "hero.cta_primary": "Start Calculating",
+      "hero.cta_ghost": "How are calories calculated?",
+      "hero.note": "Based on the scientifically validated Mifflin-St Jeor equation · For comparison, you can also check <a href=\"https://www.moh.gov.sa/healthawareness/medicaltools/pages/caloriecalculate.aspx\" target=\"_blank\" rel=\"noopener noreferrer\">Saudi MOH's official calculator</a>",
+      "hero.gauge_unit": "cal / day",
+      "calc.title": "Calorie Calculator",
+      "calc.subtitle": "Fill in the details below accurately for a reliable result",
+      "calc.gender_label": "Gender",
+      "calc.gender_male": "Male",
+      "calc.gender_female": "Female",
+      "calc.weight_label": "Weight <span class=\"unit\">(kg)</span>",
+      "calc.weight_placeholder": "e.g. 70",
+      "calc.height_label": "Height <span class=\"unit\">(cm)</span>",
+      "calc.height_placeholder": "e.g. 170",
+      "calc.age_label": "Age <span class=\"unit\">(years)</span>",
+      "calc.age_placeholder": "e.g. 28",
+      "calc.activity_label": "Activity Level",
+      "calc.activity_placeholder": "Select your activity level",
+      "calc.activity_1": "Sedentary (little or no exercise)",
+      "calc.activity_2": "Light activity — 1 to 3 times/week",
+      "calc.activity_3": "Moderate activity — 3 to 5 times/week",
+      "calc.activity_4": "Very active — 6 to 7 times/week",
+      "calc.activity_5": "Extra active — intense daily exercise",
+      "calc.submit": "Calculate Calories",
+      "errors.gender": "Please select your gender",
+      "errors.weight": "Please enter a valid weight between 20–300 kg, numbers only",
+      "errors.height": "Please enter a valid height between 90–250 cm, numbers only",
+      "errors.age": "Please enter a valid age between 10–100 years, numbers only",
+      "errors.activity": "Please select your activity level",
+      "results.gauge_unit": "cal / day to maintain weight",
+      "results.scale": "Gauge reference range: 1200 – 4000 calories/day",
+      "results.bmr_prefix": "Basal Metabolic Rate (BMR):",
+      "results.bmr_suffix": "cal/day — what your body burns at complete rest",
+      "results.goal_loss": "To Lose Weight",
+      "results.goal_maintain": "To Maintain Weight",
+      "results.goal_gain": "To Gain Weight",
+      "results.disclaimer": "These results are general estimates and do not replace advice from a doctor or dietitian, especially during pregnancy, breastfeeding, or with a chronic health condition.",
+      "about.h2_1": "What Are Calories, and How Are They Calculated?",
+      "about.p1": "A calorie is a unit of energy your body gets from food and drink, and spends on everything: breathing, your heartbeat, walking, and exercise. Knowing your daily need is the starting point for any weight goal — whether losing, maintaining, or gaining weight healthily.",
+      "about.h3_1": "The Mifflin-St Jeor Equation",
+      "about.p2": "This calculator uses the Mifflin-St Jeor equation, one of the most accurate and widely trusted formulas in medical and nutrition practice for calculating Basal Metabolic Rate (BMR):",
+      "about.formula_men": "<strong>Men:</strong> BMR = (10 × weight kg) + (6.25 × height cm) − (5 × age) + 5",
+      "about.formula_women": "<strong>Women:</strong> BMR = (10 × weight kg) + (6.25 × height cm) − (5 × age) − 161",
+      "about.p3": "BMR is then multiplied by an activity factor to get Total Daily Energy Expenditure (TDEE) — the real number to use when planning your diet.",
+      "about.h3_2": "Activity Level Factors",
+      "about.table_h1": "Activity Level",
+      "about.table_h2": "Description",
+      "about.table_h3": "Factor",
+      "about.row1_a": "Sedentary", "about.row1_b": "Little movement or desk job with no exercise",
+      "about.row2_a": "Light", "about.row2_b": "Light exercise 1–3 times/week",
+      "about.row3_a": "Moderate", "about.row3_b": "Moderate exercise 3–5 times/week",
+      "about.row4_a": "High", "about.row4_b": "Intense exercise 6–7 times/week",
+      "about.row5_a": "Very High", "about.row5_b": "Daily strenuous exercise or hard physical labor",
+      "about.h3_3": "How to Use Your Result",
+      "about.li1": "If your goal is <strong>maintaining your weight</strong>, eat roughly your TDEE number daily.",
+      "about.li2": "To <strong>lose weight</strong> safely, subtract 300–500 calories from your TDEE — about half a kilogram per week.",
+      "about.li3": "To <strong>gain weight</strong> or build muscle, add 300–500 calories and pay attention to protein sources.",
+      "about.li4": "Recalculate every 4–6 weeks, since your weight and activity change and the numbers should keep up.",
+      "faq.title": "Frequently Asked Questions",
+      "faq.q1": "Is the calorie calculator 100% accurate?",
+      "faq.a1": "No digital calculator is perfectly accurate, since bodies differ by muscle composition, hormones, and individual metabolism. This result is a reliable scientific estimate that works as an excellent starting point, which you can adjust later based on how your body actually responds over a few weeks.",
+      "faq.q2": "What's the difference between BMR and TDEE?",
+      "faq.a2": "BMR is the number of calories your body burns at complete rest just to run its vital functions. TDEE is your total burn for the whole day once your activity and movement are factored in — that's the number to actually rely on when planning your meals.",
+      "faq.q3": "How many calories should I cut to lose weight safely?",
+      "faq.a3": "A daily deficit of 300–500 calories below your total need (TDEE) is generally recommended, equal to roughly half a kilogram of weight loss per week — healthy and sustainable without heavily impacting muscle mass.",
+      "faq.q4": "Do my calorie needs change over time?",
+      "faq.a4": "Yes. As your weight, activity level, or age changes, your actual calorie needs change too. That's why it's recommended to recalculate every 4 to 6 weeks.",
+      "faq.q5": "Is this calculator suitable for pregnant women, nursing mothers, or children?",
+      "faq.a5": "This calculator is designed for healthy adults in general. Pregnant women, nursing mothers, children, and teenagers have special needs that differ from this formula, and it's best to consult a doctor or dietitian for accurate guidance.",
+      "faq.q6": "What's the source of the formula used here?",
+      "faq.a6": "This tool uses the globally recognized Mifflin-St Jeor scientific equation, the same methodology used by most trusted health calculators. For an additional official reference in Saudi Arabia, you can check <a href=\"https://www.moh.gov.sa/healthawareness/medicaltools/pages/caloriecalculate.aspx\" target=\"_blank\" rel=\"noopener noreferrer\">the Saudi Ministry of Health's calorie calculator</a>.",
+      "source_note": "<strong>About the source:</strong> This site is an independent tool, not affiliated with the Saudi Ministry of Health or any government body. For comparison and verification, you can always use <a href=\"https://www.moh.gov.sa/healthawareness/medicaltools/pages/caloriecalculate.aspx\" target=\"_blank\" rel=\"noopener noreferrer\">the Ministry of Health's official calculator</a> as an additional reference.",
+      "footer.desc": "A free tool for calculating your daily calorie needs, built on trusted scientific formulas.",
+      "footer.rights": "All rights reserved. This tool is for general educational purposes and does not replace specialized medical advice.",
+      "lang_toggle_target": "العربية"
+    }
+  };
+
+  var currentLang = "ar";
+
+  function applyLanguage(lang) {
+    var dict = translations[lang];
+    document.documentElement.lang = lang;
+    document.documentElement.dir = lang === "ar" ? "rtl" : "ltr";
+
+    document.querySelectorAll("[data-i18n]").forEach(function (el) {
+      var key = el.getAttribute("data-i18n");
+      if (dict[key] != null) el.textContent = dict[key];
+    });
+    document.querySelectorAll("[data-i18n-html]").forEach(function (el) {
+      var key = el.getAttribute("data-i18n-html");
+      if (dict[key] != null) el.innerHTML = dict[key];
+    });
+    document.querySelectorAll("[data-i18n-placeholder]").forEach(function (el) {
+      var key = el.getAttribute("data-i18n-placeholder");
+      if (dict[key] != null) el.setAttribute("placeholder", dict[key]);
+    });
+    document.querySelectorAll("[data-i18n-attr]").forEach(function (el) {
+      var key = el.getAttribute("data-i18n-attr");
+      if (dict[key] != null) el.setAttribute("content", dict[key]);
+    });
+
+    // إعادة عرض رسائل الخطأ الظاهرة حالياً (إن وجدت) بلغة جديدة
+    document.querySelectorAll(".field-error[data-err-key]").forEach(function (el) {
+      var field = el.getAttribute("data-err-key");
+      if (dict["errors." + field] != null) el.textContent = dict["errors." + field];
+    });
+
+    var toggleText = document.getElementById("lang-toggle-text");
+    if (toggleText) toggleText.textContent = dict["lang_toggle_target"];
+
+    currentLang = lang;
+  }
+
+  var langToggleBtn = document.getElementById("lang-toggle");
+  if (langToggleBtn) {
+    langToggleBtn.addEventListener("click", function () {
+      applyLanguage(currentLang === "ar" ? "en" : "ar");
+    });
+  }
+
+  /* ---------------------------------------------------------------
+     2) منطق الحاسبة
+     --------------------------------------------------------------- */
+  var GAUGE_RADIUS = 88;
+  var GAUGE_CIRCUMFERENCE = 2 * Math.PI * GAUGE_RADIUS;
+  var SCALE_MIN = 1200;
+  var SCALE_MAX = 4000;
+
+  var form = document.getElementById("calorie-form");
+  var resultCard = document.getElementById("result-card");
+  var resultGaugeFill = document.getElementById("result-gauge-fill");
+
+  var errorFields = ["gender", "weight", "height", "age", "activity"];
+
+  function setError(field, show) {
+    var el = document.getElementById("err-" + field);
+    if (!el) return;
+    if (show) {
+      el.setAttribute("data-err-key", field);
+      el.textContent = translations[currentLang]["errors." + field];
+    } else {
+      el.removeAttribute("data-err-key");
+      el.textContent = "";
+    }
+  }
+
+  function clearErrors() {
+    errorFields.forEach(function (f) { setError(f, false); });
+  }
+
+  function clamp(value, min, max) {
+    return Math.min(Math.max(value, min), max);
+  }
+
+  function animateNumber(el, target) {
+    var start = 0;
+    var duration = 700;
+    var startTime = null;
+
+    function step(ts) {
+      if (!startTime) startTime = ts;
+      var progress = Math.min((ts - startTime) / duration, 1);
+      var eased = 1 - Math.pow(1 - progress, 3);
+      el.textContent = Math.round(start + (target - start) * eased).toLocaleString("en-US");
+      if (progress < 1) requestAnimationFrame(step);
+    }
+    requestAnimationFrame(step);
+  }
+
+  function setGaugeFill(svgFillEl, value) {
+    var pct = clamp((value - SCALE_MIN) / (SCALE_MAX - SCALE_MIN), 0, 1);
+    var offset = GAUGE_CIRCUMFERENCE - pct * GAUGE_CIRCUMFERENCE;
+    svgFillEl.style.strokeDasharray = GAUGE_CIRCUMFERENCE;
+    svgFillEl.getBoundingClientRect();
+    svgFillEl.style.strokeDashoffset = offset;
+  }
+
+  function calculateBMR(gender, weight, height, age) {
+    var base = 10 * weight + 6.25 * height - 5 * age;
+    return gender === "male" ? base + 5 : base - 161;
+  }
+
+  function handleSubmit(e) {
+    e.preventDefault();
+    clearErrors();
+
+    var genderInput = form.querySelector('input[name="gender"]:checked');
+    var gender = genderInput ? genderInput.value : "";
+    var weight = parseFloat(form.weight.value);
+    var height = parseFloat(form.height.value);
+    var age = parseInt(form.age.value, 10);
+    var activity = parseFloat(form.activity.value);
+
+    var valid = true;
+
+    if (!gender) { setError("gender", true); valid = false; }
+    if (!weight || weight < 20 || weight > 300) { setError("weight", true); valid = false; }
+    if (!height || height < 90 || height > 250) { setError("height", true); valid = false; }
+    if (!age || age < 10 || age > 100) { setError("age", true); valid = false; }
+    if (!activity) { setError("activity", true); valid = false; }
+
+    if (!valid) {
+      var firstError = form.querySelector(".field-error[data-err-key]");
+      if (firstError) firstError.closest(".field, fieldset").scrollIntoView({ behavior: "smooth", block: "center" });
+      return;
+    }
+
+    var bmr = calculateBMR(gender, weight, height, age);
+    var tdee = bmr * activity;
+    var loss = Math.max(tdee - 500, 1000);
+    var gain = tdee + 500;
+
+    resultCard.hidden = false;
+
+    animateNumber(document.getElementById("result-tdee"), Math.round(tdee));
+    animateNumber(document.getElementById("result-bmr"), Math.round(bmr));
+    animateNumber(document.getElementById("result-loss"), Math.round(loss));
+    animateNumber(document.getElementById("result-maintain"), Math.round(tdee));
+    animateNumber(document.getElementById("result-gain"), Math.round(gain));
+
+    requestAnimationFrame(function () {
+      setGaugeFill(resultGaugeFill, tdee);
+    });
+
+    resultCard.scrollIntoView({ behavior: "smooth", block: "start" });
+  }
+
+  ["weight", "height", "age"].forEach(function (id) {
+    var input = document.getElementById(id);
+    input.addEventListener("keydown", function (e) {
+      var allowed = ["Backspace", "Delete", "ArrowLeft", "ArrowRight", "Tab", "."];
+      if (allowed.indexOf(e.key) !== -1) return;
+      if (!/^[0-9]$/.test(e.key)) e.preventDefault();
+    });
+  });
+
+  if (form) form.addEventListener("submit", handleSubmit);
+
+  var yearEl = document.getElementById("year");
+  if (yearEl) yearEl.textContent = new Date().getFullYear();
+
+  // تهيئة أولية للتأكد من تطابق كل شيء مع القاموس
+  applyLanguage("ar");
+})();
+</script>
+</body>
+</html>

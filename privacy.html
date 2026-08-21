@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title data-i18n="title">سياسة الخصوصية | حاسبة السعرات الحرارية</title>
+<meta name="robots" content="index, follow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Reem+Kufi:wght@400;500;600;700&family=IBM+Plex+Sans+Arabic:wght@300;400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#16221F; --muted:#5B6864; --paper:#F7F4EC; --card:#FFFFFF;
+  --deep:#123832; --deep-2:#0D2B26; --deep-tint:#E4EEEC; --line:rgba(18,56,50,.14);
+  --amber:#E8A33D; --amber-deep:#C97F1E;
+  --font-display:'Reem Kufi', system-ui, sans-serif;
+  --font-body:'IBM Plex Sans Arabic', system-ui, sans-serif;
+  --radius-lg:22px; --radius-sm:9px; --ease:cubic-bezier(.22,1,.36,1);
+}
+*,*::before,*::after{box-sizing:border-box}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--font-body);font-size:16px;line-height:1.7;-webkit-font-smoothing:antialiased}
+a{color:inherit}
+.wrap{max-width:1120px;margin-inline:auto;padding-inline:24px}
+:focus-visible{outline:3px solid var(--amber);outline-offset:2px}
+
+.site-header{position:sticky;top:0;z-index:100;background:var(--deep);color:#fff;border-bottom:1px solid rgba(255,255,255,.08)}
+.header-inner{display:flex;align-items:center;justify-content:space-between;gap:16px;padding-block:14px;flex-wrap:wrap}
+.brand{display:flex;align-items:center;gap:10px;text-decoration:none;color:#fff}
+.brand-mark{width:34px;height:34px;flex:none}
+.brand-mark svg{width:100%;height:100%}
+.brand-mark__track{fill:none;stroke:rgba(255,255,255,.25);stroke-width:4}
+.brand-mark__fill{fill:none;stroke:var(--amber);stroke-width:4;stroke-linecap:round;stroke-dasharray:113;stroke-dashoffset:34;transform-origin:center;transform:rotate(-90deg)}
+.brand-text{font-family:var(--font-display);font-size:1.15rem;font-weight:700}
+.brand-text em{font-style:normal;color:var(--amber)}
+.header-controls{display:flex;align-items:center;gap:18px;flex-wrap:wrap}
+.site-nav{display:flex;gap:26px;font-size:.95rem}
+.site-nav a{text-decoration:none;opacity:.85;padding-block:4px;border-bottom:2px solid transparent;transition:opacity .2s,border-color .2s}
+.site-nav a:hover{opacity:1;border-color:var(--amber)}
+.lang-toggle{display:inline-flex;align-items:center;gap:6px;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.28);color:#fff;font-family:var(--font-body);font-weight:600;font-size:.86rem;padding:8px 16px;border-radius:999px;cursor:pointer;transition:background .18s,border-color .18s}
+.lang-toggle:hover{background:var(--amber);border-color:var(--amber);color:var(--deep-2)}
+.lang-toggle svg{width:15px;height:15px;fill:none;stroke:currentColor;stroke-width:1.8}
+
+.legal{padding-block:56px 80px}
+.legal .wrap{max-width:820px}
+.legal h1{font-family:var(--font-display);color:var(--deep-2);font-size:2rem;margin:0 0 .3em}
+.legal h2{font-family:var(--font-display);color:var(--deep-2);font-size:1.2rem;margin-top:1.8em}
+.legal p,.legal li{color:var(--ink)}
+.legal ul{list-style:none;display:flex;flex-direction:column;gap:10px;margin:1em 0;padding:0}
+.legal ul li{padding-inline-start:24px;position:relative}
+.legal ul li::before{content:"";position:absolute;inset-inline-start:0;top:.55em;width:8px;height:8px;border-radius:50%;background:var(--amber)}
+.legal .updated{color:var(--muted);font-size:.9rem}
+.legal a{color:var(--deep);text-decoration:underline}
+.todo{background:var(--deep-tint);border-inline-start:4px solid var(--amber);padding:14px 18px;border-start-end-radius:var(--radius-sm);border-end-end-radius:var(--radius-sm);font-size:.92rem;color:var(--deep-2)}
+
+.site-footer{background:var(--deep-2);color:rgba(255,255,255,.8);margin-top:20px}
+.footer-bottom{padding-block:18px 28px}
+.footer-bottom p{margin:0;font-size:.82rem;color:rgba(255,255,255,.5);text-align:center}
+
+@media (max-width:560px){
+  .header-inner{justify-content:center;text-align:center}
+  .header-controls{justify-content:center;width:100%}
+  .site-nav{gap:16px;font-size:.88rem;width:100%;justify-content:center}
+}
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="wrap header-inner">
+    <a href="index.html" class="brand">
+      <span class="brand-mark" aria-hidden="true">
+        <svg viewBox="0 0 44 44"><circle cx="22" cy="22" r="18" class="brand-mark__track"/><circle cx="22" cy="22" r="18" class="brand-mark__fill"/></svg>
+      </span>
+      <span class="brand-text" data-i18n-html="brand">حاسبة<em>السعرات</em></span>
+    </a>
+    <div class="header-controls">
+      <nav class="site-nav" aria-label="التنقل الرئيسي">
+        <a href="index.html" data-i18n="nav.home">الرئيسية</a>
+        <a href="index.html#calculator" data-i18n="nav.calculator">الحاسبة</a>
+      </nav>
+      <button type="button" id="lang-toggle" class="lang-toggle" aria-label="Switch language / تبديل اللغة">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5h9M8 3v2M11 5c-.6 3-2.3 5.4-5 7M6 9c1.2 1.3 3 2.3 5 2.7M13 21l4-9 4 9M14.5 18h5"/></svg>
+        <span id="lang-toggle-text">English</span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<main class="legal">
+  <div class="wrap">
+    <h1 data-i18n="h1">سياسة الخصوصية</h1>
+    <p class="updated" data-i18n="updated">آخر تحديث: [ضع التاريخ هنا]</p>
+
+    <p class="todo" data-i18n="todo">هذه مسودة جاهزة لتوضيح سياسة الخصوصية لموقعك، وهي مطلوبة عادة لقبول حسابك في Google AdSense. راجع كل قسم واستبدل النصوص بين الأقواس ببيانات موقعك الحقيقية قبل النشر.</p>
+
+    <h2 data-i18n="s1_h">من نحن</h2>
+    <p data-i18n="s1_p">هذا الموقع أداة مجانية مستقلة لحساب الاحتياج اليومي التقديري من السعرات الحرارية. للتواصل معنا، يمكنك مراسلتنا عبر البريد الإلكتروني: [ضع بريدك الإلكتروني هنا].</p>
+
+    <h2 data-i18n="s2_h">البيانات التي يعالجها الموقع</h2>
+    <p data-i18n="s2_p">القيم التي تُدخلها في الحاسبة (الوزن، الطول، العمر، مستوى النشاط) تُعالَج بالكامل داخل متصفحك، ولا تُرسَل أو تُخزَّن على أي خادم تابع لنا.</p>
+
+    <h2 data-i18n="s3_h">ملفات تعريف الارتباط والإعلانات</h2>
+    <p data-i18n="s3_p">يستخدم هذا الموقع خدمة Google AdSense لعرض الإعلانات. تستخدم Google ومورّدوها ملفات تعريف الارتباط (Cookies) لعرض إعلانات مبنية على زياراتك السابقة لهذا الموقع أو مواقع أخرى.</p>
+    <ul>
+      <li data-i18n-html="s3_li1">يمكنك تعطيل الإعلانات المخصصة من خلال <a href="https://adssettings.google.com/" target="_blank" rel="noopener noreferrer">إعدادات إعلانات Google</a>.</li>
+      <li data-i18n-html="s3_li2">يمكنك أيضاً زيارة <a href="https://www.aboutads.info/choices/" target="_blank" rel="noopener noreferrer">aboutads.info</a> لتعطيل استخدام ملفات تعريف الارتباط الخاصة بالإعلانات من قِبل موردين آخرين.</li>
+      <li data-i18n="s3_li3">يمكنك تعطيل ملفات تعريف الارتباط بالكامل من إعدادات متصفحك، مع العلم أن ذلك قد يؤثر على بعض وظائف المواقع الإلكترونية بشكل عام.</li>
+    </ul>
+
+    <h2 data-i18n="s4_h">روابط خارجية</h2>
+    <p data-i18n="s4_p">قد يحتوي هذا الموقع على روابط لمواقع خارجية، مثل حاسبة وزارة الصحة السعودية، لغرض المرجعية والمقارنة فقط. نحن غير مسؤولين عن سياسات الخصوصية أو المحتوى الخاص بتلك المواقع.</p>
+
+    <h2 data-i18n="s5_h">إخلاء مسؤولية طبي</h2>
+    <p data-i18n="s5_p">المعلومات والنتائج المعروضة في هذا الموقع لأغراض تعليمية وتقديرية عامة فقط، ولا تُعد استشارة طبية أو تغذوية. يُرجى استشارة طبيب أو أخصائي تغذية مختص قبل اتخاذ أي قرار يتعلق بصحتك أو نظامك الغذائي.</p>
+
+    <h2 data-i18n="s6_h">التعديلات على هذه السياسة</h2>
+    <p data-i18n="s6_p">قد يتم تحديث هذه السياسة من وقت لآخر. يُنصح بمراجعة هذه الصفحة بشكل دوري للاطلاع على أي تغييرات.</p>
+
+    <h2 data-i18n="s7_h">التواصل</h2>
+    <p data-i18n="s7_p">لأي استفسار حول هذه السياسة، يمكنك التواصل عبر: [ضع بريدك الإلكتروني أو نموذج التواصل هنا].</p>
+  </div>
+</main>
+
+<footer class="site-footer">
+  <div class="wrap footer-bottom">
+    <p>© <span id="year"></span> <span data-i18n="rights">جميع الحقوق محفوظة.</span></p>
+  </div>
+</footer>
+
+<script>
+(function () {
+  "use strict";
+  var translations = {
+    ar: {
+      "title": "سياسة الخصوصية | حاسبة السعرات الحرارية",
+      "brand": "حاسبة<em>السعرات</em>",
+      "nav.home": "الرئيسية",
+      "nav.calculator": "الحاسبة",
+      "h1": "سياسة الخصوصية",
+      "updated": "آخر تحديث: [ضع التاريخ هنا]",
+      "todo": "هذه مسودة جاهزة لتوضيح سياسة الخصوصية لموقعك، وهي مطلوبة عادة لقبول حسابك في Google AdSense. راجع كل قسم واستبدل النصوص بين الأقواس ببيانات موقعك الحقيقية قبل النشر.",
+      "s1_h": "من نحن",
+      "s1_p": "هذا الموقع أداة مجانية مستقلة لحساب الاحتياج اليومي التقديري من السعرات الحرارية. للتواصل معنا، يمكنك مراسلتنا عبر البريد الإلكتروني: [ضع بريدك الإلكتروني هنا].",
+      "s2_h": "البيانات التي يعالجها الموقع",
+      "s2_p": "القيم التي تُدخلها في الحاسبة (الوزن، الطول، العمر، مستوى النشاط) تُعالَج بالكامل داخل متصفحك، ولا تُرسَل أو تُخزَّن على أي خادم تابع لنا.",
+      "s3_h": "ملفات تعريف الارتباط والإعلانات",
+      "s3_p": "يستخدم هذا الموقع خدمة Google AdSense لعرض الإعلانات. تستخدم Google ومورّدوها ملفات تعريف الارتباط (Cookies) لعرض إعلانات مبنية على زياراتك السابقة لهذا الموقع أو مواقع أخرى.",
+      "s3_li1": "يمكنك تعطيل الإعلانات المخصصة من خلال <a href=\"https://adssettings.google.com/\" target=\"_blank\" rel=\"noopener noreferrer\">إعدادات إعلانات Google</a>.",
+      "s3_li2": "يمكنك أيضاً زيارة <a href=\"https://www.aboutads.info/choices/\" target=\"_blank\" rel=\"noopener noreferrer\">aboutads.info</a> لتعطيل استخدام ملفات تعريف الارتباط الخاصة بالإعلانات من قِبل موردين آخرين.",
+      "s3_li3": "يمكنك تعطيل ملفات تعريف الارتباط بالكامل من إعدادات متصفحك، مع العلم أن ذلك قد يؤثر على بعض وظائف المواقع الإلكترونية بشكل عام.",
+      "s4_h": "روابط خارجية",
+      "s4_p": "قد يحتوي هذا الموقع على روابط لمواقع خارجية، مثل حاسبة وزارة الصحة السعودية، لغرض المرجعية والمقارنة فقط. نحن غير مسؤولين عن سياسات الخصوصية أو المحتوى الخاص بتلك المواقع.",
+      "s5_h": "إخلاء مسؤولية طبي",
+      "s5_p": "المعلومات والنتائج المعروضة في هذا الموقع لأغراض تعليمية وتقديرية عامة فقط، ولا تُعد استشارة طبية أو تغذوية. يُرجى استشارة طبيب أو أخصائي تغذية مختص قبل اتخاذ أي قرار يتعلق بصحتك أو نظامك الغذائي.",
+      "s6_h": "التعديلات على هذه السياسة",
+      "s6_p": "قد يتم تحديث هذه السياسة من وقت لآخر. يُنصح بمراجعة هذه الصفحة بشكل دوري للاطلاع على أي تغييرات.",
+      "s7_h": "التواصل",
+      "s7_p": "لأي استفسار حول هذه السياسة، يمكنك التواصل عبر: [ضع بريدك الإلكتروني أو نموذج التواصل هنا].",
+      "rights": "جميع الحقوق محفوظة.",
+      "lang_toggle_target": "English"
+    },
+    en: {
+      "title": "Privacy Policy | Calorie Calculator",
+      "brand": "Calorie<em>Calc</em>",
+      "nav.home": "Home",
+      "nav.calculator": "Calculator",
+      "h1": "Privacy Policy",
+      "updated": "Last updated: [add date here]",
+      "todo": "This is a ready-made draft privacy policy for your site, typically required for Google AdSense approval. Review each section and replace the bracketed text with your real site details before publishing.",
+      "s1_h": "About Us",
+      "s1_p": "This site is a free, independent tool for estimating your daily calorie needs. To contact us, email: [add your email here].",
+      "s2_h": "Data Processed by This Site",
+      "s2_p": "The values you enter into the calculator (weight, height, age, activity level) are processed entirely inside your browser and are never sent to or stored on any server of ours.",
+      "s3_h": "Cookies and Advertising",
+      "s3_p": "This site uses Google AdSense to display ads. Google and its vendors use cookies to serve ads based on your prior visits to this site or other sites.",
+      "s3_li1": "You can opt out of personalized ads via <a href=\"https://adssettings.google.com/\" target=\"_blank\" rel=\"noopener noreferrer\">Google Ads Settings</a>.",
+      "s3_li2": "You can also visit <a href=\"https://www.aboutads.info/choices/\" target=\"_blank\" rel=\"noopener noreferrer\">aboutads.info</a> to opt out of ad cookies from other vendors.",
+      "s3_li3": "You can disable cookies entirely from your browser settings, though this may affect some website functionality in general.",
+      "s4_h": "External Links",
+      "s4_p": "This site may contain links to external sites, such as the Saudi Ministry of Health's calculator, for reference and comparison only. We are not responsible for the privacy policies or content of those sites.",
+      "s5_h": "Medical Disclaimer",
+      "s5_p": "The information and results shown on this site are for general educational and estimation purposes only, and do not constitute medical or nutritional advice. Please consult a doctor or qualified dietitian before making any decision about your health or diet.",
+      "s6_h": "Changes to This Policy",
+      "s6_p": "This policy may be updated from time to time. You're encouraged to review this page periodically for any changes.",
+      "s7_h": "Contact",
+      "s7_p": "For any question about this policy, you can reach us at: [add your email or contact form here].",
+      "rights": "All rights reserved.",
+      "lang_toggle_target": "العربية"
+    }
+  };
+
+  var currentLang = "ar";
+
+  function applyLanguage(lang) {
+    var dict = translations[lang];
+    document.documentElement.lang = lang;
+    document.documentElement.dir = lang === "ar" ? "rtl" : "ltr";
+    document.querySelectorAll("[data-i18n]").forEach(function (el) {
+      var key = el.getAttribute("data-i18n");
+      if (dict[key] != null) el.textContent = dict[key];
+    });
+    document.querySelectorAll("[data-i18n-html]").forEach(function (el) {
+      var key = el.getAttribute("data-i18n-html");
+      if (dict[key] != null) el.innerHTML = dict[key];
+    });
+    var toggleText = document.getElementById("lang-toggle-text");
+    if (toggleText) toggleText.textContent = dict["lang_toggle_target"];
+    currentLang = lang;
+  }
+
+  var langToggleBtn = document.getElementById("lang-toggle");
+  if (langToggleBtn) {
+    langToggleBtn.addEventListener("click", function () {
+      applyLanguage(currentLang === "ar" ? "en" : "ar");
+    });
+  }
+
+  var yearEl = document.getElementById("year");
+  if (yearEl) yearEl.textContent = new Date().getFullYear();
+
+  applyLanguage("ar");
+})();
+</script>
+</body>
+</html>
