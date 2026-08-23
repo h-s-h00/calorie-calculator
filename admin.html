@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>نشر مقال | لوحة خاصة</title>
+<meta name="robots" content="noindex, nofollow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Reem+Kufi:wght@400;500;600;700&family=IBM+Plex+Sans+Arabic:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#16221F; --muted:#5B6864; --paper:#F7F4EC; --card:#FFFFFF;
+  --deep:#123832; --deep-2:#0D2B26; --deep-tint:#E4EEEC; --line:rgba(18,56,50,.14);
+  --amber:#E8A33D; --amber-deep:#C97F1E; --brick:#B33F35; --green-ok:#2F7A5C;
+  --font-display:'Reem Kufi', system-ui, sans-serif;
+  --font-body:'IBM Plex Sans Arabic', system-ui, sans-serif;
+  --radius-lg:18px; --radius-sm:9px; --ease:cubic-bezier(.22,1,.36,1);
+}
+*,*::before,*::after{box-sizing:border-box}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--font-body);font-size:16px;line-height:1.7;-webkit-font-smoothing:antialiased}
+.wrap{max-width:680px;margin-inline:auto;padding:24px}
+:focus-visible{outline:3px solid var(--amber);outline-offset:2px}
+a{color:var(--deep)}
+
+.header{background:var(--deep);color:#fff;padding:18px 24px}
+.header .wrap{padding:0;display:flex;align-items:center;justify-content:space-between;gap:12px}
+.header h1{font-family:var(--font-display);font-size:1.15rem;margin:0}
+.header a.back{color:rgba(255,255,255,.7);text-decoration:none;font-size:.88rem}
+.private-badge{display:inline-block;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.25);color:#fff;font-size:.75rem;padding:3px 10px;border-radius:999px;margin-inline-start:8px}
+
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius-lg);padding:24px;margin-block:20px}
+.card h2{font-family:var(--font-display);color:var(--deep-2);font-size:1.15rem;margin:0 0 6px}
+.card p{color:var(--muted);margin:0 0 16px;font-size:.92rem}
+
+.steps{list-style:none;margin:0 0 18px;padding:0;display:flex;flex-direction:column;gap:10px}
+.steps li{display:flex;gap:10px;font-size:.92rem;color:var(--ink)}
+.steps li b{flex:none;width:22px;height:22px;background:var(--deep-tint);color:var(--deep-2);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.78rem;font-weight:700}
+
+.field{margin-bottom:16px}
+.field label{display:block;font-weight:600;margin-bottom:6px;font-size:.92rem}
+.field .hint{color:var(--muted);font-size:.8rem;margin-top:4px}
+.field input,.field textarea{
+  width:100%;padding:12px 14px;border-radius:var(--radius-sm);border:1.5px solid var(--line);
+  background:var(--paper);color:var(--ink);font-family:var(--font-body);font-size:.96rem;
+}
+.field input:focus,.field textarea:focus{border-color:var(--amber);background:#fff}
+.field textarea{resize:vertical;min-height:70px}
+.field textarea.content{min-height:180px;font-size:.94rem}
+
+.btn{
+  display:inline-flex;align-items:center;justify-content:center;gap:8px;font-weight:600;font-size:1rem;
+  padding:13px 26px;border-radius:999px;border:none;cursor:pointer;width:100%;
+  background:var(--amber);color:var(--deep-2);transition:background .18s,opacity .18s;
+}
+.btn:hover{background:var(--amber-deep);color:#fff}
+.btn:disabled{opacity:.6;cursor:not-allowed}
+.btn-link{background:none;border:none;color:var(--muted);text-decoration:underline;font-size:.85rem;cursor:pointer;padding:0}
+.btn-secondary{background:var(--deep-tint);color:var(--deep-2)}
+
+.status{margin-top:14px;padding:14px 16px;border-radius:var(--radius-sm);font-size:.9rem;display:none}
+.status--success{background:#E4F3EB;color:var(--green-ok);display:block}
+.status--error{background:#FBE7E5;color:var(--brick);display:block}
+.status--loading{background:var(--deep-tint);color:var(--deep-2);display:block}
+.status a{font-weight:700;text-decoration:underline}
+
+.connected-bar{display:flex;align-items:center;justify-content:space-between;gap:10px;background:var(--deep-tint);padding:10px 16px;border-radius:var(--radius-sm);margin-bottom:18px;font-size:.85rem;color:var(--deep-2)}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="wrap">
+    <h1>نشر مقال جديد <span class="private-badge">🔒 خاص</span></h1>
+    <a href="blog.html" class="back">عرض المقالات ←</a>
+  </div>
+</div>
+
+<div class="wrap">
+
+  <!-- ═══════════ إعداد لمرة واحدة ═══════════ -->
+  <div class="card" id="setup-card">
+    <h2>الإعداد الأول (مرة وحدة فقط)</h2>
+    <p>عشان تنشر بضغطة زر بدون الرجوع لـ GitHub، محتاج تربط الصفحة بمفتاح دخول خاص بحسابك. يستخدم فقط من متصفحك، ولا يُرسل لأي جهة غير GitHub.</p>
+
+    <ol class="steps">
+      <li><b>١</b> اضغط الزر بالأسفل، بيوديك لصفحة إنشاء مفتاح بـ GitHub</li>
+      <li><b>٢</b> بخانة Token name اكتب اسم أي شي، مثلاً: نشر المقالات</li>
+      <li><b>٣</b> بخانة Repository access اختر: Only select repositories ← ثم اختر calorie-calculator</li>
+      <li><b>٤</b> انزل لـ Permissions ← Repository permissions ← دوّر "Contents" ← غيّرها لـ Read and write</li>
+      <li><b>٥</b> انزل تحت واضغط Generate token</li>
+      <li><b>٦</b> انسخ المفتاح اللي يبدأ بـ github_pat_... (يظهر مرة وحدة بس)</li>
+      <li><b>٧</b> ارجع هنا والصقه بالخانة تحت</li>
+    </ol>
+
+    <a href="https://github.com/settings/personal-access-tokens/new" target="_blank" rel="noopener noreferrer" class="btn btn-secondary" style="text-decoration:none;margin-bottom:18px;">فتح صفحة إنشاء المفتاح ←</a>
+
+    <div class="field">
+      <label for="token-input">مفتاح GitHub (Token)</label>
+      <input type="password" id="token-input" placeholder="github_pat_...">
+      <p class="hint">يُحفظ فقط بمتصفحك أنت، ولا يصل لنا أو لأي طرف ثالث.</p>
+    </div>
+    <button type="button" class="btn" id="save-token-btn">حفظ الاتصال</button>
+    <div class="status" id="setup-status"></div>
+  </div>
+
+  <!-- ═══════════ نموذج النشر ═══════════ -->
+  <div class="card" id="publish-card" style="display:none">
+    <div class="connected-bar">
+      <span>🔑 متصل بحسابك بنجاح</span>
+      <button type="button" class="btn-link" id="disconnect-btn">تغيير المفتاح</button>
+    </div>
+
+    <h2>مقال جديد</h2>
+    <p>عبّي الحقول واضغط نشر — يوصل مباشرة لموقعك خلال ثوانٍ.</p>
+
+    <div class="field">
+      <label for="title-input">عنوان المقال</label>
+      <input type="text" id="title-input" placeholder="مثال: أفضل ٥ عادات لتثبيت الوزن">
+    </div>
+
+    <div class="field">
+      <label for="excerpt-input">وصف قصير</label>
+      <textarea id="excerpt-input" rows="2" placeholder="سطر أو سطرين يظهرون بصفحة المقالات"></textarea>
+    </div>
+
+    <div class="field">
+      <label for="readtime-input">مدة القراءة</label>
+      <input type="text" id="readtime-input" value="٣ دقائق">
+    </div>
+
+    <div class="field">
+      <label for="date-input">تاريخ النشر</label>
+      <input type="date" id="date-input">
+    </div>
+
+    <div class="field">
+      <label for="content-input">محتوى المقال</label>
+      <textarea id="content-input" class="content" placeholder="اكتب فقراتك بشكل طبيعي.
+
+اترك سطر فارغ بين كل فقرة وأخرى — بهذا الشكل بالضبط.
+
+لعنوان فرعي، ابدأ السطر بـ ## مثل: ## نصيحة مهمة
+
+ولخط عريض داخل الجملة، حط النص بين نجمتين: **كذا مهم جداً**"></textarea>
+      <p class="hint">سطر فارغ = فقرة جديدة · ## نص = عنوان فرعي · **نص** = خط عريض</p>
+    </div>
+
+    <button type="button" class="btn" id="publish-btn">نشر المقال 🚀</button>
+    <div class="status" id="publish-status"></div>
+  </div>
+
+</div>
+
+<script>
+(function () {
+  "use strict";
+
+  var OWNER = "h-s-h00";
+  var REPO = "calorie-calculator";
+  var BRANCH = "main";
+  var FILE_PATH = "articles-data.js";
+  var TOKEN_KEY = "calorie_site_gh_token";
+
+  var setupCard = document.getElementById("setup-card");
+  var publishCard = document.getElementById("publish-card");
+  var setupStatus = document.getElementById("setup-status");
+  var publishStatus = document.getElementById("publish-status");
+
+  function showStatus(el, type, html) {
+    el.className = "status status--" + type;
+    el.innerHTML = html;
+  }
+  function hideStatus(el) {
+    el.className = "status";
+    el.innerHTML = "";
+  }
+
+  function getToken() {
+    return localStorage.getItem(TOKEN_KEY);
+  }
+
+  function refreshView() {
+    if (getToken()) {
+      setupCard.style.display = "none";
+      publishCard.style.display = "block";
+      if (!document.getElementById("date-input").value) {
+        document.getElementById("date-input").value = new Date().toISOString().slice(0, 10);
+      }
+    } else {
+      setupCard.style.display = "block";
+      publishCard.style.display = "none";
+    }
+  }
+
+  document.getElementById("save-token-btn").addEventListener("click", async function () {
+    var val = document.getElementById("token-input").value.trim();
+    if (!val) {
+      showStatus(setupStatus, "error", "الصق المفتاح أول.");
+      return;
+    }
+    showStatus(setupStatus, "loading", "جاري التحقق من المفتاح...");
+    try {
+      await getFile(val);
+      localStorage.setItem(TOKEN_KEY, val);
+      hideStatus(setupStatus);
+      refreshView();
+    } catch (err) {
+      showStatus(setupStatus, "error", "المفتاح ما اشتغل: " + err.message + "<br>تأكد إنك أعطيته صلاحية Contents: Read and write على مستودع " + REPO + ".");
+    }
+  });
+
+  document.getElementById("disconnect-btn").addEventListener("click", function () {
+    localStorage.removeItem(TOKEN_KEY);
+    document.getElementById("token-input").value = "";
+    hideStatus(setupStatus);
+    refreshView();
+  });
+
+  /* ---------------- GitHub API helpers ---------------- */
+
+  function utf8ToBase64(str) {
+    var bytes = new TextEncoder().encode(str);
+    var binary = "";
+    bytes.forEach(function (b) { binary += String.fromCharCode(b); });
+    return btoa(binary);
+  }
+  function base64ToUtf8(b64) {
+    var binary = atob(b64.replace(/\n/g, ""));
+    var bytes = new Uint8Array(binary.length);
+    for (var i = 0; i < binary.length; i++) bytes[i] = binary.charCodeAt(i);
+    return new TextDecoder().decode(bytes);
+  }
+
+  async function getFile(token) {
+    var url = "https://api.github.com/repos/" + OWNER + "/" + REPO + "/contents/" + FILE_PATH + "?ref=" + BRANCH;
+    var res = await fetch(url, {
+      headers: {
+        "Authorization": "Bearer " + token,
+        "Accept": "application/vnd.github+json"
+      }
+    });
+    if (!res.ok) throw new Error("HTTP " + res.status);
+    return res.json();
+  }
+
+  async function putFile(token, contentB64, sha, message) {
+    var url = "https://api.github.com/repos/" + OWNER + "/" + REPO + "/contents/" + FILE_PATH;
+    var res = await fetch(url, {
+      method: "PUT",
+      headers: {
+        "Authorization": "Bearer " + token,
+        "Accept": "application/vnd.github+json",
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({ message: message, content: contentB64, sha: sha, branch: BRANCH })
+    });
+    if (!res.ok) {
+      var errBody = await res.text();
+      throw new Error("HTTP " + res.status + " — " + errBody.slice(0, 200));
+    }
+    return res.json();
+  }
+
+  /* ---------------- Content formatting ---------------- */
+
+  function escapeHtml(str) {
+    return str.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+  }
+  function inlineFormat(str) {
+    return escapeHtml(str).replace(/\*\*(.+?)\*\*/g, "<strong>$1</strong>");
+  }
+  function contentToHtml(raw) {
+    var blocks = raw.split(/\n\s*\n/).map(function (b) { return b.trim(); }).filter(Boolean);
+    return blocks.map(function (b) {
+      if (b.indexOf("## ") === 0) {
+        return "      <h2>" + inlineFormat(b.slice(3).trim()) + "</h2>";
+      }
+      return "      <p>" + inlineFormat(b).replace(/\n/g, "<br>") + "</p>";
+    }).join("\n");
+  }
+  function jsStringEscape(str) {
+    return String(str).replace(/\\/g, "\\\\").replace(/"/g, '\\"').replace(/\n/g, " ");
+  }
+  function templateEscape(str) {
+    return str.replace(/\\/g, "\\\\").replace(/`/g, "\\`").replace(/\$\{/g, "\\${");
+  }
+
+  function slugify() {
+    return "article-" + Date.now().toString(36);
+  }
+
+  function buildArticleBlock(data) {
+    var contentHtml = templateEscape(contentToHtml(data.content));
+    return [
+      "  {",
+      '    slug: "' + slugify() + '",',
+      '    title: "' + jsStringEscape(data.title) + '",',
+      '    excerpt: "' + jsStringEscape(data.excerpt) + '",',
+      '    date: "' + data.date + '",',
+      '    readTime: "' + jsStringEscape(data.readTime) + '",',
+      "    contentHtml: `",
+      contentHtml,
+      "    `",
+      "  },"
+    ].join("\n");
+  }
+
+  /* ---------------- Publish flow ---------------- */
+
+  document.getElementById("publish-btn").addEventListener("click", async function () {
+    var token = getToken();
+    var data = {
+      title: document.getElementById("title-input").value.trim(),
+      excerpt: document.getElementById("excerpt-input").value.trim(),
+      readTime: document.getElementById("readtime-input").value.trim() || "٣ دقائق",
+      date: document.getElementById("date-input").value || new Date().toISOString().slice(0, 10),
+      content: document.getElementById("content-input").value.trim()
+    };
+
+    if (!data.title || !data.content) {
+      showStatus(publishStatus, "error", "لازم تكتب عنوان ومحتوى للمقال على الأقل.");
+      return;
+    }
+
+    var btn = document.getElementById("publish-btn");
+    btn.disabled = true;
+    showStatus(publishStatus, "loading", "جاري النشر...");
+
+    try {
+      var file = await getFile(token);
+      var currentContent = base64ToUtf8(file.content);
+      var anchor = "window.ARTICLES = [";
+      var idx = currentContent.indexOf(anchor);
+      if (idx === -1) throw new Error("ما لقيت مكان الإدراج بالملف — تأكد إن articles-data.js ما تغيّر شكله.");
+
+      var insertPos = idx + anchor.length;
+      var block = buildArticleBlock(data);
+      var newContent = currentContent.slice(0, insertPos) + "\n" + block + currentContent.slice(insertPos);
+      var newContentB64 = utf8ToBase64(newContent);
+
+      await putFile(token, newContentB64, file.sha, "إضافة مقال: " + data.title);
+
+      showStatus(publishStatus, "success", "تم النشر بنجاح 🎉 خله دقيقة ثم افتح <a href=\"blog.html\" target=\"_blank\">صفحة المقالات</a>.");
+
+      document.getElementById("title-input").value = "";
+      document.getElementById("excerpt-input").value = "";
+      document.getElementById("content-input").value = "";
+      document.getElementById("readtime-input").value = "٣ دقائق";
+      document.getElementById("date-input").value = new Date().toISOString().slice(0, 10);
+    } catch (err) {
+      showStatus(publishStatus, "error", "صار خطأ: " + err.message + "<br>جرّب مرة ثانية، ولو استمر الخطأ تأكد إن المفتاح لسا فعّال.");
+    } finally {
+      btn.disabled = false;
+    }
+  });
+
+  refreshView();
+})();
+</script>
+</body>
+</html>
