@@ -21,6 +21,30 @@
 
 <div class="admin-wrap">
 
+  <!-- ═══════════ شاشة تسجيل الدخول ═══════════ -->
+  <div class="card" id="login-screen" style="max-width:420px;margin-inline:auto;">
+    <h2 id="login-title">تسجيل الدخول</h2>
+    <p id="login-desc">أدخل كلمة السر للوصول للوحة النشر.</p>
+
+    <div class="field">
+      <label for="password-input">كلمة السر</label>
+      <input type="password" id="password-input" autocomplete="current-password">
+    </div>
+    <div class="field" id="confirm-field" style="display:none">
+      <label for="password-confirm-input">تأكيد كلمة السر</label>
+      <input type="password" id="password-confirm-input" autocomplete="new-password">
+    </div>
+
+    <button type="button" class="btn" id="login-btn">دخول</button>
+    <div class="status" id="login-status"></div>
+    <p class="hint" style="margin-top:14px">
+      <button type="button" class="btn-link" id="forgot-btn">نسيت كلمة السر؟</button>
+    </p>
+  </div>
+
+  <!-- ═══════════ محتوى اللوحة (يظهر بعد تسجيل الدخول) ═══════════ -->
+  <div id="admin-content" style="display:none">
+
   <!-- ═══════════ إعداد لمرة واحدة ═══════════ -->
   <div class="card" id="setup-card">
     <h2>الإعداد الأول (مرة وحدة فقط)</h2>
@@ -49,6 +73,13 @@
 
   <!-- ═══════════ نموذج النشر ═══════════ -->
   <div class="card" id="publish-card" style="display:none">
+    <div class="connected-bar" style="margin-bottom:8px">
+      <span>👤 مسجّل دخولك</span>
+      <span>
+        <button type="button" class="btn-link" id="change-pass-btn">تغيير كلمة السر</button>
+        · <button type="button" class="btn-link" id="logout-btn">تسجيل خروج</button>
+      </span>
+    </div>
     <div class="connected-bar">
       <span>🔑 متصل بحسابك بنجاح</span>
       <button type="button" class="btn-link" id="disconnect-btn">تغيير المفتاح</button>
@@ -93,6 +124,8 @@
     <div class="status" id="publish-status"></div>
   </div>
 
+  </div><!-- /#admin-content -->
+
 </div>
 
 <script>
@@ -104,6 +137,8 @@
   var BRANCH = "main";
   var FILE_PATH = "articles-data.js";
   var TOKEN_KEY = "calorie_site_gh_token";
+  var PASS_HASH_KEY = "calorie_site_admin_pass_hash";
+  var AUTHED_KEY = "calorie_site_admin_authed";
 
   var setupCard = document.getElementById("setup-card");
   var publishCard = document.getElementById("publish-card");
@@ -118,6 +153,125 @@
     el.className = "status";
     el.innerHTML = "";
   }
+
+  /* ==================== طبقة تسجيل الدخول ====================
+     ملاحظة أمانية بصراحة: هذي كلمة سر محلية تُفحص داخل المتصفح فقط،
+     وهي طبقة راحة/خصوصية تمنع أي زائر عادي يعرف رابط هذي الصفحة من
+     فتحها والعبث فيها. الحماية الحقيقية للموقع تبقى مفتاح GitHub —
+     بدونه محد يقدر ينشر أي شي حتى لو تجاوز شاشة الدخول هذي.
+     ==================================================== */
+
+  var loginScreen = document.getElementById("login-screen");
+  var adminContent = document.getElementById("admin-content");
+  var loginTitle = document.getElementById("login-title");
+  var loginDesc = document.getElementById("login-desc");
+  var confirmField = document.getElementById("confirm-field");
+  var passwordInput = document.getElementById("password-input");
+  var passwordConfirmInput = document.getElementById("password-confirm-input");
+  var loginStatus = document.getElementById("login-status");
+  var loginBtn = document.getElementById("login-btn");
+
+  async function sha256Hex(text) {
+    var enc = new TextEncoder().encode(text);
+    var buf = await crypto.subtle.digest("SHA-256", enc);
+    return Array.from(new Uint8Array(buf)).map(function (b) {
+      return b.toString(16).padStart(2, "0");
+    }).join("");
+  }
+
+  function hasPasswordSet() { return !!localStorage.getItem(PASS_HASH_KEY); }
+  function isAuthed() { return localStorage.getItem(AUTHED_KEY) === "1"; }
+
+  function renderLoginMode() {
+    if (hasPasswordSet()) {
+      loginTitle.textContent = "تسجيل الدخول";
+      loginDesc.textContent = "أدخل كلمة السر للوصول للوحة النشر.";
+      confirmField.style.display = "none";
+      loginBtn.textContent = "دخول";
+    } else {
+      loginTitle.textContent = "أنشئ كلمة سر للوحة";
+      loginDesc.textContent = "أول مرة تفتح هذي الصفحة؟ اختر كلمة سر تحفظها لك وتستخدمها كل مرة تجي فيها من نفس الجهاز.";
+      confirmField.style.display = "block";
+      loginBtn.textContent = "إنشاء وتسجيل الدخول";
+    }
+  }
+
+  function showAdmin() {
+    loginScreen.style.display = "none";
+    adminContent.style.display = "block";
+  }
+  function showLogin() {
+    adminContent.style.display = "none";
+    loginScreen.style.display = "block";
+    passwordInput.value = "";
+    if (passwordConfirmInput) passwordConfirmInput.value = "";
+    hideStatus(loginStatus);
+    renderLoginMode();
+  }
+
+  loginBtn.addEventListener("click", async function () {
+    var pass = passwordInput.value;
+    if (!pass || pass.length < 4) {
+      showStatus(loginStatus, "error", "كلمة السر لازم تكون ٤ خانات على الأقل.");
+      return;
+    }
+    var hash = await sha256Hex(pass);
+
+    if (!hasPasswordSet()) {
+      var confirmPass = passwordConfirmInput.value;
+      if (pass !== confirmPass) {
+        showStatus(loginStatus, "error", "كلمة السر وتأكيدها غير متطابقين.");
+        return;
+      }
+      localStorage.setItem(PASS_HASH_KEY, hash);
+      localStorage.setItem(AUTHED_KEY, "1");
+      hideStatus(loginStatus);
+      showAdmin();
+      refreshView();
+    } else {
+      var storedHash = localStorage.getItem(PASS_HASH_KEY);
+      if (hash === storedHash) {
+        localStorage.setItem(AUTHED_KEY, "1");
+        hideStatus(loginStatus);
+        showAdmin();
+        refreshView();
+      } else {
+        showStatus(loginStatus, "error", "كلمة السر غير صحيحة.");
+      }
+    }
+  });
+
+  document.getElementById("forgot-btn").addEventListener("click", function () {
+    showStatus(loginStatus, "error",
+      "لو نسيت كلمة السر: امسح بيانات الموقع من إعدادات المتصفح (Site Data / Clear Cookies لهذا الموقع فقط)، وبتقدر تنشئ كلمة سر جديدة — بس بتحتاج تلصق مفتاح GitHub مرة ثانية بعدها.");
+  });
+
+  document.getElementById("logout-btn").addEventListener("click", function () {
+    localStorage.removeItem(AUTHED_KEY);
+    showLogin();
+  });
+
+  document.getElementById("change-pass-btn").addEventListener("click", function () {
+    var current = prompt("اكتب كلمة السر الحالية للتأكيد:");
+    if (current === null) return;
+    sha256Hex(current).then(function (hash) {
+      if (hash !== localStorage.getItem(PASS_HASH_KEY)) {
+        alert("كلمة السر الحالية غير صحيحة.");
+        return;
+      }
+      var next = prompt("اكتب كلمة السر الجديدة (٤ خانات على الأقل):");
+      if (!next || next.length < 4) {
+        if (next !== null) alert("كلمة السر قصيرة جداً.");
+        return;
+      }
+      sha256Hex(next).then(function (newHash) {
+        localStorage.setItem(PASS_HASH_KEY, newHash);
+        alert("تم تغيير كلمة السر بنجاح.");
+      });
+    });
+  });
+
+  /* ==================== نهاية طبقة تسجيل الدخول ==================== */
 
   function getToken() {
     return localStorage.getItem(TOKEN_KEY);
@@ -298,6 +452,11 @@
     }
   });
 
+  if (isAuthed() && hasPasswordSet()) {
+    showAdmin();
+  } else {
+    showLogin();
+  }
   refreshView();
 })();
 </script>
