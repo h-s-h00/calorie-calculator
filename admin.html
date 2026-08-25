@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>نشر مقال | لوحة خاصة</title>
+<title>لوحة التحكم | خاص</title>
 <meta name="robots" content="noindex, nofollow">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -14,7 +14,7 @@
 
 <div class="admin-header">
   <div class="wrap">
-    <h1>نشر مقال جديد <span class="private-badge">🔒 خاص</span></h1>
+    <h1>لوحة التحكم <span class="private-badge">🔒 خاص</span></h1>
     <a href="blog.html" class="back">عرض المقالات ←</a>
   </div>
 </div>
@@ -24,7 +24,7 @@
   <!-- ═══════════ شاشة تسجيل الدخول ═══════════ -->
   <div class="card" id="login-screen" style="max-width:420px;margin-inline:auto;">
     <h2 id="login-title">تسجيل الدخول</h2>
-    <p id="login-desc">أدخل كلمة السر للوصول للوحة النشر.</p>
+    <p id="login-desc">أدخل كلمة السر للوصول للوحة التحكم.</p>
 
     <div class="field">
       <label for="password-input">كلمة السر</label>
@@ -45,84 +45,106 @@
   <!-- ═══════════ محتوى اللوحة (يظهر بعد تسجيل الدخول) ═══════════ -->
   <div id="admin-content" style="display:none">
 
-  <!-- ═══════════ إعداد لمرة واحدة ═══════════ -->
-  <div class="card" id="setup-card">
-    <h2>الإعداد الأول (مرة وحدة فقط)</h2>
-    <p>عشان تنشر بضغطة زر بدون الرجوع لـ GitHub، محتاج تربط الصفحة بمفتاح دخول خاص بحسابك. يستخدم فقط من متصفحك، ولا يُرسل لأي جهة غير GitHub.</p>
-
-    <ol class="steps">
-      <li><b>١</b> اضغط الزر بالأسفل، بيوديك لصفحة إنشاء مفتاح بـ GitHub</li>
-      <li><b>٢</b> بخانة Token name اكتب اسم أي شي، مثلاً: نشر المقالات</li>
-      <li><b>٣</b> بخانة Repository access اختر: Only select repositories ← ثم اختر calorie-calculator</li>
-      <li><b>٤</b> انزل لـ Permissions ← Repository permissions ← دوّر "Contents" ← غيّرها لـ Read and write</li>
-      <li><b>٥</b> انزل تحت واضغط Generate token</li>
-      <li><b>٦</b> انسخ المفتاح اللي يبدأ بـ github_pat_... (يظهر مرة وحدة بس)</li>
-      <li><b>٧</b> ارجع هنا والصقه بالخانة تحت</li>
-    </ol>
-
-    <a href="https://github.com/settings/personal-access-tokens/new" target="_blank" rel="noopener noreferrer" class="btn btn-secondary" style="text-decoration:none;margin-bottom:18px;">فتح صفحة إنشاء المفتاح ←</a>
-
-    <div class="field">
-      <label for="token-input">مفتاح GitHub (Token)</label>
-      <input type="password" id="token-input" placeholder="github_pat_...">
-      <p class="hint">يُحفظ فقط بمتصفحك أنت، ولا يصل لنا أو لأي طرف ثالث.</p>
-    </div>
-    <button type="button" class="btn" id="save-token-btn">حفظ الاتصال</button>
-    <div class="status" id="setup-status"></div>
-  </div>
-
-  <!-- ═══════════ نموذج النشر ═══════════ -->
-  <div class="card" id="publish-card" style="display:none">
-    <div class="connected-bar" style="margin-bottom:8px">
-      <span>👤 مسجّل دخولك</span>
-      <span>
-        <button type="button" class="btn-link" id="change-pass-btn">تغيير كلمة السر</button>
-        · <button type="button" class="btn-link" id="logout-btn">تسجيل خروج</button>
-      </span>
-    </div>
-    <div class="connected-bar">
-      <span>🔑 متصل بحسابك بنجاح</span>
-      <button type="button" class="btn-link" id="disconnect-btn">تغيير المفتاح</button>
+    <div class="tabs">
+      <button type="button" class="tab-btn active" data-tab="articles">المقالات</button>
+      <button type="button" class="tab-btn" data-tab="new">مقال جديد</button>
+      <button type="button" class="tab-btn" data-tab="settings">الإعدادات</button>
     </div>
 
-    <h2>مقال جديد</h2>
-    <p>عبّي الحقول واضغط نشر — يوصل مباشرة لموقعك خلال ثوانٍ.</p>
+    <!-- ───────── تبويب: المقالات ───────── -->
+    <div class="tab-panel" id="tab-articles">
 
-    <div class="field">
-      <label for="title-input">عنوان المقال</label>
-      <input type="text" id="title-input" placeholder="مثال: أفضل ٥ عادات لتثبيت الوزن">
+      <!-- يظهر فقط لو ما فيه اتصال بـ GitHub بعد -->
+      <div class="card" id="setup-card" style="display:none">
+        <h2>الإعداد الأول (مرة وحدة فقط)</h2>
+        <p>عشان تدير موقعك بضغطة زر بدون الرجوع لـ GitHub، محتاج تربط اللوحة بمفتاح دخول خاص بحسابك. يستخدم فقط من متصفحك، ولا يُرسل لأي جهة غير GitHub.</p>
+
+        <ol class="steps">
+          <li><b>١</b> اضغط الزر بالأسفل، بيوديك لصفحة إنشاء مفتاح بـ GitHub</li>
+          <li><b>٢</b> بخانة Token name اكتب اسم أي شي، مثلاً: لوحة التحكم</li>
+          <li><b>٣</b> بخانة Repository access اختر: Only select repositories ← ثم اختر calorie-calculator</li>
+          <li><b>٤</b> انزل لـ Permissions ← Repository permissions ← دوّر "Contents" ← غيّرها لـ Read and write</li>
+          <li><b>٥</b> انزل تحت واضغط Generate token</li>
+          <li><b>٦</b> انسخ المفتاح اللي يبدأ بـ github_pat_... (يظهر مرة وحدة بس)</li>
+          <li><b>٧</b> ارجع هنا والصقه بالخانة تحت</li>
+        </ol>
+
+        <a href="https://github.com/settings/personal-access-tokens/new" target="_blank" rel="noopener noreferrer" class="btn btn-secondary" style="text-decoration:none;margin-bottom:18px;">فتح صفحة إنشاء المفتاح ←</a>
+
+        <div class="field">
+          <label for="token-input">مفتاح GitHub (Token)</label>
+          <input type="password" id="token-input" placeholder="github_pat_...">
+          <p class="hint">يُحفظ فقط بمتصفحك أنت، ولا يصل لنا أو لأي طرف ثالث.</p>
+        </div>
+        <button type="button" class="btn" id="save-token-btn">حفظ الاتصال</button>
+        <div class="status" id="setup-status"></div>
+      </div>
+
+      <!-- قائمة المقالات -->
+      <div id="articles-list-wrap">
+        <div class="status" id="articles-list-status"></div>
+        <div id="articles-list"></div>
+      </div>
     </div>
 
-    <div class="field">
-      <label for="excerpt-input">وصف قصير</label>
-      <textarea id="excerpt-input" rows="2" placeholder="سطر أو سطرين يظهرون بصفحة المقالات"></textarea>
-    </div>
+    <!-- ───────── تبويب: مقال جديد / تعديل ───────── -->
+    <div class="tab-panel" id="tab-new" style="display:none">
+      <div class="card" id="form-card">
+        <h2 id="form-heading">مقال جديد</h2>
+        <p>عبّي الحقول واضغط نشر — يوصل مباشرة لموقعك خلال ثوانٍ.</p>
 
-    <div class="field">
-      <label for="readtime-input">مدة القراءة</label>
-      <input type="text" id="readtime-input" value="٣ دقائق">
-    </div>
+        <div class="field">
+          <label for="title-input">عنوان المقال</label>
+          <input type="text" id="title-input" placeholder="مثال: أفضل ٥ عادات لتثبيت الوزن">
+        </div>
 
-    <div class="field">
-      <label for="date-input">تاريخ النشر</label>
-      <input type="date" id="date-input">
-    </div>
+        <div class="field">
+          <label for="excerpt-input">وصف قصير</label>
+          <textarea id="excerpt-input" rows="2" placeholder="سطر أو سطرين يظهرون بصفحة المقالات"></textarea>
+        </div>
 
-    <div class="field">
-      <label for="content-input">محتوى المقال</label>
-      <textarea id="content-input" class="content" placeholder="اكتب فقراتك بشكل طبيعي.
+        <div class="field">
+          <label for="readtime-input">مدة القراءة</label>
+          <input type="text" id="readtime-input" value="٣ دقائق">
+        </div>
+
+        <div class="field">
+          <label for="date-input">تاريخ النشر</label>
+          <input type="date" id="date-input">
+        </div>
+
+        <div class="field">
+          <label for="content-input">محتوى المقال</label>
+          <textarea id="content-input" class="content" placeholder="اكتب فقراتك بشكل طبيعي.
 
 اترك سطر فارغ بين كل فقرة وأخرى — بهذا الشكل بالضبط.
 
 لعنوان فرعي، ابدأ السطر بـ ## مثل: ## نصيحة مهمة
 
 ولخط عريض داخل الجملة، حط النص بين نجمتين: **كذا مهم جداً**"></textarea>
-      <p class="hint">سطر فارغ = فقرة جديدة · ## نص = عنوان فرعي · **نص** = خط عريض</p>
+          <p class="hint">سطر فارغ = فقرة جديدة · ## نص = عنوان فرعي · **نص** = خط عريض</p>
+        </div>
+
+        <button type="button" class="btn" id="publish-btn">نشر المقال 🚀</button>
+        <button type="button" class="btn btn-secondary" id="cancel-edit-btn" style="display:none;margin-top:10px">إلغاء التعديل</button>
+        <div class="status" id="publish-status"></div>
+      </div>
     </div>
 
-    <button type="button" class="btn" id="publish-btn">نشر المقال 🚀</button>
-    <div class="status" id="publish-status"></div>
-  </div>
+    <!-- ───────── تبويب: الإعدادات ───────── -->
+    <div class="tab-panel" id="tab-settings" style="display:none">
+      <div class="card">
+        <h2>الحساب</h2>
+        <p>اللوحة متصلة حالياً بمستودع: <strong>h-s-h00/calorie-calculator</strong></p>
+        <button type="button" class="btn btn-secondary" id="disconnect-btn">تغيير مفتاح GitHub</button>
+      </div>
+      <div class="card">
+        <h2>الأمان</h2>
+        <p>كلمة السر وتسجيل الدخول خاصة بهذا الجهاز/المتصفح فقط.</p>
+        <button type="button" class="btn btn-secondary" id="change-pass-btn" style="margin-bottom:10px">تغيير كلمة السر</button>
+        <button type="button" class="btn btn-secondary" id="logout-btn">تسجيل خروج</button>
+      </div>
+    </div>
 
   </div><!-- /#admin-content -->
 
@@ -140,11 +162,6 @@
   var PASS_HASH_KEY = "calorie_site_admin_pass_hash";
   var AUTHED_KEY = "calorie_site_admin_authed";
 
-  var setupCard = document.getElementById("setup-card");
-  var publishCard = document.getElementById("publish-card");
-  var setupStatus = document.getElementById("setup-status");
-  var publishStatus = document.getElementById("publish-status");
-
   function showStatus(el, type, html) {
     el.className = "status status--" + type;
     el.innerHTML = html;
@@ -156,9 +173,9 @@
 
   /* ==================== طبقة تسجيل الدخول ====================
      ملاحظة أمانية بصراحة: هذي كلمة سر محلية تُفحص داخل المتصفح فقط،
-     وهي طبقة راحة/خصوصية تمنع أي زائر عادي يعرف رابط هذي الصفحة من
-     فتحها والعبث فيها. الحماية الحقيقية للموقع تبقى مفتاح GitHub —
-     بدونه محد يقدر ينشر أي شي حتى لو تجاوز شاشة الدخول هذي.
+     طبقة راحة/خصوصية تمنع أي زائر عادي يعرف رابط هذي الصفحة من فتحها
+     والعبث فيها. الحماية الحقيقية تبقى مفتاح GitHub — بدونه محد يقدر
+     يغيّر أي شي بالموقع الحقيقي حتى لو تجاوز شاشة الدخول هذي.
      ==================================================== */
 
   var loginScreen = document.getElementById("login-screen");
@@ -185,7 +202,7 @@
   function renderLoginMode() {
     if (hasPasswordSet()) {
       loginTitle.textContent = "تسجيل الدخول";
-      loginDesc.textContent = "أدخل كلمة السر للوصول للوحة النشر.";
+      loginDesc.textContent = "أدخل كلمة السر للوصول للوحة التحكم.";
       confirmField.style.display = "none";
       loginBtn.textContent = "دخول";
     } else {
@@ -199,6 +216,7 @@
   function showAdmin() {
     loginScreen.style.display = "none";
     adminContent.style.display = "block";
+    refreshConnectionView();
   }
   function showLogin() {
     adminContent.style.display = "none";
@@ -227,14 +245,12 @@
       localStorage.setItem(AUTHED_KEY, "1");
       hideStatus(loginStatus);
       showAdmin();
-      refreshView();
     } else {
       var storedHash = localStorage.getItem(PASS_HASH_KEY);
       if (hash === storedHash) {
         localStorage.setItem(AUTHED_KEY, "1");
         hideStatus(loginStatus);
         showAdmin();
-        refreshView();
       } else {
         showStatus(loginStatus, "error", "كلمة السر غير صحيحة.");
       }
@@ -273,48 +289,34 @@
 
   /* ==================== نهاية طبقة تسجيل الدخول ==================== */
 
-  function getToken() {
-    return localStorage.getItem(TOKEN_KEY);
+  /* ==================== تبويبات اللوحة ==================== */
+  var tabButtons = document.querySelectorAll(".tab-btn");
+  var tabPanels = {
+    articles: document.getElementById("tab-articles"),
+    "new": document.getElementById("tab-new"),
+    settings: document.getElementById("tab-settings")
+  };
+
+  function activateTab(name) {
+    tabButtons.forEach(function (btn) {
+      btn.classList.toggle("active", btn.getAttribute("data-tab") === name);
+    });
+    Object.keys(tabPanels).forEach(function (key) {
+      tabPanels[key].style.display = key === name ? "block" : "none";
+    });
+    if (name === "articles") loadArticlesList();
+    if (name === "new" && !editingSlug) resetForm();
   }
 
-  function refreshView() {
-    if (getToken()) {
-      setupCard.style.display = "none";
-      publishCard.style.display = "block";
-      if (!document.getElementById("date-input").value) {
-        document.getElementById("date-input").value = new Date().toISOString().slice(0, 10);
-      }
-    } else {
-      setupCard.style.display = "block";
-      publishCard.style.display = "none";
-    }
-  }
-
-  document.getElementById("save-token-btn").addEventListener("click", async function () {
-    var val = document.getElementById("token-input").value.trim();
-    if (!val) {
-      showStatus(setupStatus, "error", "الصق المفتاح أول.");
-      return;
-    }
-    showStatus(setupStatus, "loading", "جاري التحقق من المفتاح...");
-    try {
-      await getFile(val);
-      localStorage.setItem(TOKEN_KEY, val);
-      hideStatus(setupStatus);
-      refreshView();
-    } catch (err) {
-      showStatus(setupStatus, "error", "المفتاح ما اشتغل: " + err.message + "<br>تأكد إنك أعطيته صلاحية Contents: Read and write على مستودع " + REPO + ".");
-    }
+  tabButtons.forEach(function (btn) {
+    btn.addEventListener("click", function () {
+      activateTab(btn.getAttribute("data-tab"));
+    });
   });
 
-  document.getElementById("disconnect-btn").addEventListener("click", function () {
-    localStorage.removeItem(TOKEN_KEY);
-    document.getElementById("token-input").value = "";
-    hideStatus(setupStatus);
-    refreshView();
-  });
+  /* ==================== GitHub API ==================== */
 
-  /* ---------------- GitHub API helpers ---------------- */
+  function getToken() { return localStorage.getItem(TOKEN_KEY); }
 
   function utf8ToBase64(str) {
     var bytes = new TextEncoder().encode(str);
@@ -332,10 +334,7 @@
   async function getFile(token) {
     var url = "https://api.github.com/repos/" + OWNER + "/" + REPO + "/contents/" + FILE_PATH + "?ref=" + BRANCH;
     var res = await fetch(url, {
-      headers: {
-        "Authorization": "Bearer " + token,
-        "Accept": "application/vnd.github+json"
-      }
+      headers: { "Authorization": "Bearer " + token, "Accept": "application/vnd.github+json" }
     });
     if (!res.ok) throw new Error("HTTP " + res.status);
     return res.json();
@@ -359,7 +358,44 @@
     return res.json();
   }
 
-  /* ---------------- Content formatting ---------------- */
+  function refreshConnectionView() {
+    var setupCard = document.getElementById("setup-card");
+    if (getToken()) {
+      setupCard.style.display = "none";
+      loadArticlesList();
+    } else {
+      setupCard.style.display = "block";
+      document.getElementById("articles-list-wrap").style.display = "none";
+    }
+  }
+
+  document.getElementById("save-token-btn").addEventListener("click", async function () {
+    var val = document.getElementById("token-input").value.trim();
+    var setupStatus = document.getElementById("setup-status");
+    if (!val) {
+      showStatus(setupStatus, "error", "الصق المفتاح أول.");
+      return;
+    }
+    showStatus(setupStatus, "loading", "جاري التحقق من المفتاح...");
+    try {
+      await getFile(val);
+      localStorage.setItem(TOKEN_KEY, val);
+      hideStatus(setupStatus);
+      document.getElementById("articles-list-wrap").style.display = "block";
+      refreshConnectionView();
+    } catch (err) {
+      showStatus(setupStatus, "error", "المفتاح ما اشتغل: " + err.message + "<br>تأكد إنك أعطيته صلاحية Contents: Read and write على مستودع " + REPO + ".");
+    }
+  });
+
+  document.getElementById("disconnect-btn").addEventListener("click", function () {
+    if (!confirm("متأكد تبي تفصل مفتاح GitHub؟ بتحتاج تلصقه مرة ثانية للنشر.")) return;
+    localStorage.removeItem(TOKEN_KEY);
+    activateTab("articles");
+    refreshConnectionView();
+  });
+
+  /* ==================== تنسيق المحتوى (نص ⇄ HTML) ==================== */
 
   function escapeHtml(str) {
     return str.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
@@ -370,11 +406,18 @@
   function contentToHtml(raw) {
     var blocks = raw.split(/\n\s*\n/).map(function (b) { return b.trim(); }).filter(Boolean);
     return blocks.map(function (b) {
-      if (b.indexOf("## ") === 0) {
-        return "      <h2>" + inlineFormat(b.slice(3).trim()) + "</h2>";
-      }
+      if (b.indexOf("## ") === 0) return "      <h2>" + inlineFormat(b.slice(3).trim()) + "</h2>";
       return "      <p>" + inlineFormat(b).replace(/\n/g, "<br>") + "</p>";
     }).join("\n");
+  }
+  function htmlToContent(html) {
+    return html
+      .replace(/<h2>([\s\S]*?)<\/h2>/g, "## $1\n\n")
+      .replace(/<p>([\s\S]*?)<\/p>/g, "$1\n\n")
+      .replace(/<strong>([\s\S]*?)<\/strong>/g, "**$1**")
+      .replace(/<br\s*\/?>/g, "\n")
+      .replace(/&lt;/g, "<").replace(/&gt;/g, ">").replace(/&amp;/g, "&")
+      .trim();
   }
   function jsStringEscape(str) {
     return String(str).replace(/\\/g, "\\\\").replace(/"/g, '\\"').replace(/\n/g, " ");
@@ -382,16 +425,14 @@
   function templateEscape(str) {
     return str.replace(/\\/g, "\\\\").replace(/`/g, "\\`").replace(/\$\{/g, "\\${");
   }
+  function slugify() { return "article-" + Date.now().toString(36); }
 
-  function slugify() {
-    return "article-" + Date.now().toString(36);
-  }
-
-  function buildArticleBlock(data) {
+  function buildArticleBlock(data, existingSlug) {
+    var slug = existingSlug || slugify();
     var contentHtml = templateEscape(contentToHtml(data.content));
     return [
       "  {",
-      '    slug: "' + slugify() + '",',
+      '    slug: "' + slug + '",',
       '    title: "' + jsStringEscape(data.title) + '",',
       '    excerpt: "' + jsStringEscape(data.excerpt) + '",',
       '    date: "' + data.date + '",',
@@ -403,7 +444,148 @@
     ].join("\n");
   }
 
-  /* ---------------- Publish flow ---------------- */
+  /* ==================== قراءة/تعديل/حذف المقالات ==================== */
+
+  function getAllBlocks(fileText) {
+    return fileText.match(/  \{[\s\S]*?\n  \},?/g) || [];
+  }
+  function parseBlock(blockText) {
+    function grab(key) {
+      var m = blockText.match(new RegExp(key + ':\\s*"([^"]*)"'));
+      return m ? m[1] : "";
+    }
+    var contentMatch = blockText.match(/contentHtml:\s*`([\s\S]*?)`/);
+    return {
+      slug: grab("slug"),
+      title: grab("title"),
+      excerpt: grab("excerpt"),
+      date: grab("date"),
+      readTime: grab("readTime"),
+      contentHtml: contentMatch ? contentMatch[1] : ""
+    };
+  }
+
+  var editingSlug = null;
+
+  async function loadArticlesList() {
+    var listEl = document.getElementById("articles-list");
+    var statusEl = document.getElementById("articles-list-status");
+    var token = getToken();
+    if (!token) return;
+
+    showStatus(statusEl, "loading", "جاري تحميل المقالات...");
+    listEl.innerHTML = "";
+
+    try {
+      var file = await getFile(token);
+      var text = base64ToUtf8(file.content);
+      var blocks = getAllBlocks(text).map(parseBlock).sort(function (a, b) {
+        return new Date(b.date) - new Date(a.date);
+      });
+
+      hideStatus(statusEl);
+
+      if (blocks.length === 0) {
+        listEl.innerHTML = '<p class="empty-state">لا توجد مقالات بعد. اضغط تبويب "مقال جديد" لإضافة أول مقال.</p>';
+        return;
+      }
+
+      blocks.forEach(function (a) {
+        var row = document.createElement("div");
+        row.className = "article-row";
+        row.innerHTML =
+          '<div>' +
+            '<div class="article-row__title">' + escapeHtml(a.title) + '</div>' +
+            '<div class="article-row__meta">' + a.date + (a.readTime ? " · " + a.readTime : "") + '</div>' +
+          '</div>' +
+          '<div class="article-row__actions">' +
+            '<button type="button" data-action="edit" data-slug="' + a.slug + '">تعديل</button>' +
+            '<button type="button" class="danger" data-action="delete" data-slug="' + a.slug + '">حذف</button>' +
+          '</div>';
+        listEl.appendChild(row);
+      });
+
+      listEl.querySelectorAll('[data-action="edit"]').forEach(function (btn) {
+        btn.addEventListener("click", function () { startEdit(btn.getAttribute("data-slug")); });
+      });
+      listEl.querySelectorAll('[data-action="delete"]').forEach(function (btn) {
+        btn.addEventListener("click", function () { deleteArticle(btn.getAttribute("data-slug")); });
+      });
+    } catch (err) {
+      showStatus(statusEl, "error", "تعذّر تحميل المقالات: " + err.message);
+    }
+  }
+
+  function resetForm() {
+    editingSlug = null;
+    document.getElementById("form-heading").textContent = "مقال جديد";
+    document.getElementById("publish-btn").textContent = "نشر المقال 🚀";
+    document.getElementById("cancel-edit-btn").style.display = "none";
+    document.getElementById("title-input").value = "";
+    document.getElementById("excerpt-input").value = "";
+    document.getElementById("content-input").value = "";
+    document.getElementById("readtime-input").value = "٣ دقائق";
+    document.getElementById("date-input").value = new Date().toISOString().slice(0, 10);
+    hideStatus(document.getElementById("publish-status"));
+  }
+
+  async function startEdit(slug) {
+    var statusEl = document.getElementById("articles-list-status");
+    showStatus(statusEl, "loading", "جاري تحميل المقال...");
+    try {
+      var token = getToken();
+      var file = await getFile(token);
+      var text = base64ToUtf8(file.content);
+      var block = getAllBlocks(text).find(function (b) { return b.indexOf('slug: "' + slug + '"') !== -1; });
+      if (!block) throw new Error("المقال غير موجود");
+      var data = parseBlock(block);
+
+      editingSlug = data.slug;
+      document.getElementById("form-heading").textContent = "تعديل مقال";
+      document.getElementById("publish-btn").textContent = "حفظ التعديلات ✅";
+      document.getElementById("cancel-edit-btn").style.display = "block";
+      document.getElementById("title-input").value = data.title;
+      document.getElementById("excerpt-input").value = data.excerpt;
+      document.getElementById("readtime-input").value = data.readTime;
+      document.getElementById("date-input").value = data.date;
+      document.getElementById("content-input").value = htmlToContent(data.contentHtml);
+      hideStatus(document.getElementById("publish-status"));
+      hideStatus(statusEl);
+      activateTab("new");
+    } catch (err) {
+      showStatus(statusEl, "error", "تعذّر فتح المقال: " + err.message);
+    }
+  }
+
+  document.getElementById("cancel-edit-btn").addEventListener("click", function () {
+    resetForm();
+    activateTab("articles");
+  });
+
+  async function deleteArticle(slug) {
+    if (!confirm("متأكد تبي تحذف هذا المقال؟ هذا الإجراء ما يُرجع.")) return;
+    var statusEl = document.getElementById("articles-list-status");
+    showStatus(statusEl, "loading", "جاري الحذف...");
+    try {
+      var token = getToken();
+      var file = await getFile(token);
+      var text = base64ToUtf8(file.content);
+      var block = getAllBlocks(text).find(function (b) { return b.indexOf('slug: "' + slug + '"') !== -1; });
+      if (!block) throw new Error("المقال غير موجود أصلاً");
+
+      var idx = text.indexOf(block);
+      var newText = text.slice(0, idx) + text.slice(idx + block.length).replace(/^\n/, "");
+      var newB64 = utf8ToBase64(newText);
+
+      await putFile(token, newB64, file.sha, "حذف مقال");
+      showStatus(statusEl, "success", "تم الحذف ✅");
+      loadArticlesList();
+    } catch (err) {
+      showStatus(statusEl, "error", "تعذّر الحذف: " + err.message);
+    }
+  }
+
+  /* ==================== نشر / حفظ تعديل ==================== */
 
   document.getElementById("publish-btn").addEventListener("click", async function () {
     var token = getToken();
@@ -415,6 +597,8 @@
       content: document.getElementById("content-input").value.trim()
     };
 
+    var publishStatus = document.getElementById("publish-status");
+
     if (!data.title || !data.content) {
       showStatus(publishStatus, "error", "لازم تكتب عنوان ومحتوى للمقال على الأقل.");
       return;
@@ -422,29 +606,40 @@
 
     var btn = document.getElementById("publish-btn");
     btn.disabled = true;
-    showStatus(publishStatus, "loading", "جاري النشر...");
+    showStatus(publishStatus, "loading", editingSlug ? "جاري حفظ التعديلات..." : "جاري النشر...");
 
     try {
       var file = await getFile(token);
       var currentContent = base64ToUtf8(file.content);
-      var anchor = "window.ARTICLES = [";
-      var idx = currentContent.indexOf(anchor);
-      if (idx === -1) throw new Error("ما لقيت مكان الإدراج بالملف — تأكد إن articles-data.js ما تغيّر شكله.");
+      var newContent, commitMsg;
 
-      var insertPos = idx + anchor.length;
-      var block = buildArticleBlock(data);
-      var newContent = currentContent.slice(0, insertPos) + "\n" + block + currentContent.slice(insertPos);
+      if (editingSlug) {
+        var oldBlock = getAllBlocks(currentContent).find(function (b) {
+          return b.indexOf('slug: "' + editingSlug + '"') !== -1;
+        });
+        if (!oldBlock) throw new Error("تعذّر إيجاد المقال الأصلي للتعديل");
+        var newBlock = buildArticleBlock(data, editingSlug);
+        newContent = currentContent.replace(oldBlock, newBlock);
+        commitMsg = "تعديل مقال: " + data.title;
+      } else {
+        var anchor = "window.ARTICLES = [";
+        var idx = currentContent.indexOf(anchor);
+        if (idx === -1) throw new Error("ما لقيت مكان الإدراج بالملف.");
+        var insertPos = idx + anchor.length;
+        var block = buildArticleBlock(data);
+        newContent = currentContent.slice(0, insertPos) + "\n" + block + currentContent.slice(insertPos);
+        commitMsg = "إضافة مقال: " + data.title;
+      }
+
       var newContentB64 = utf8ToBase64(newContent);
+      await putFile(token, newContentB64, file.sha, commitMsg);
 
-      await putFile(token, newContentB64, file.sha, "إضافة مقال: " + data.title);
+      showStatus(publishStatus, "success",
+        (editingSlug ? "تم حفظ التعديلات بنجاح 🎉" : "تم النشر بنجاح 🎉") +
+        ' خله دقيقة ثم افتح <a href="blog.html" target="_blank">صفحة المقالات</a>.');
 
-      showStatus(publishStatus, "success", "تم النشر بنجاح 🎉 خله دقيقة ثم افتح <a href=\"blog.html\" target=\"_blank\">صفحة المقالات</a>.");
-
-      document.getElementById("title-input").value = "";
-      document.getElementById("excerpt-input").value = "";
-      document.getElementById("content-input").value = "";
-      document.getElementById("readtime-input").value = "٣ دقائق";
-      document.getElementById("date-input").value = new Date().toISOString().slice(0, 10);
+      resetForm();
+      activateTab("articles");
     } catch (err) {
       showStatus(publishStatus, "error", "صار خطأ: " + err.message + "<br>جرّب مرة ثانية، ولو استمر الخطأ تأكد إن المفتاح لسا فعّال.");
     } finally {
@@ -452,12 +647,15 @@
     }
   });
 
+  /* ==================== البداية ==================== */
+
+  document.getElementById("date-input").value = new Date().toISOString().slice(0, 10);
+
   if (isAuthed() && hasPasswordSet()) {
     showAdmin();
   } else {
     showLogin();
   }
-  refreshView();
 })();
 </script>
 </body>
