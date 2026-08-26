@@ -1,14 +1,14 @@
 <!DOCTYPE html>
-<html lang="ar" dir="rtl">
+<html lang="en" dir="ltr">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>المقالات | حاسبة السعرات الحرارية</title>
-<meta name="description" content="مقالات ونصائح موثوقة عن التغذية والسعرات الحرارية وبناء العادات الصحية.">
+<title>Articles | Calorie Calculator</title>
+<meta name="description" content="Trusted tips and guides on nutrition, calories, and building healthy habits.">
 <meta name="robots" content="index, follow">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='45' fill='%23123832'/%3E%3Ccircle cx='50' cy='50' r='45' fill='none' stroke='%23E8A33D' stroke-width='10' stroke-dasharray='180 300' stroke-linecap='round' transform='rotate(-90 50 50)'/%3E%3C/svg%3E">
 
-<!-- Google AdSense — كود التحقق من الملكية -->
+<!-- Google AdSense -->
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4777858178569282"
      crossorigin="anonymous"></script>
 
@@ -25,47 +25,47 @@
       <span class="brand-mark" aria-hidden="true">
         <svg viewBox="0 0 44 44"><circle cx="22" cy="22" r="18" class="brand-mark__track"/><circle cx="22" cy="22" r="18" class="brand-mark__fill"/></svg>
       </span>
-      <span class="brand-text">حاسبة<em>السعرات</em></span>
+      <span class="brand-text">Calorie<em>Calculator</em></span>
     </a>
-    <nav class="site-nav" aria-label="التنقل الرئيسي">
-      <a href="index.html">الرئيسية</a>
-      <a href="index.html#calculator">الحاسبة</a>
-      <a href="blog.html" aria-current="page">المقالات</a>
-      <a href="privacy.html">سياسة الخصوصية</a>
+    <nav class="site-nav" aria-label="Main Navigation">
+      <a href="index.html">Home</a>
+      <a href="index.html#calculator">Calculator</a>
+      <a href="blog.html" aria-current="page">Articles</a>
+      <a href="privacy.html">Privacy Policy</a>
     </nav>
   </div>
 </header>
 
-<!-- ════════════════════ AD SLOT — لافتة أعلى الصفحة ════════════════════ -->
+<!-- ════════════════════ AD SLOT — Leaderboard Top ════════════════════ -->
 <div class="wrap">
   <div class="ad-slot ad-slot--leaderboard" aria-hidden="true">
-    <span class="ad-slot__tag">مساحة إعلانية</span>
+    <span class="ad-slot__tag">Ad Space</span>
   </div>
 </div>
 
 <main>
   <div class="page-head wrap">
-    <h1>المقالات</h1>
-    <p>نصائح موثوقة عن التغذية والسعرات الحرارية، مبنية على أساس علمي وسهلة التطبيق.</p>
+    <h1>Articles</h1>
+    <p>Trusted tips on nutrition and calorie tracking, built on science and easy to apply.</p>
   </div>
 
   <div class="wrap">
     <div class="articles-grid" id="articles-grid">
-      <!-- تُملأ تلقائياً من articles-data.js -->
+      <!-- Automatically populated from articles-data.js -->
     </div>
   </div>
 
-  <!-- ════════════════════ AD SLOT — قبل التذييل ════════════════════ -->
+  <!-- ════════════════════ AD SLOT — Before Footer ════════════════════ -->
   <div class="wrap">
     <div class="ad-slot ad-slot--leaderboard" aria-hidden="true">
-      <span class="ad-slot__tag">مساحة إعلانية</span>
+      <span class="ad-slot__tag">Ad Space</span>
     </div>
   </div>
 </main>
 
 <footer class="site-footer">
   <div class="wrap footer-bottom">
-    <p>© <span id="year"></span> جميع الحقوق محفوظة.</p>
+    <p>© <span id="year"></span> All rights reserved.</p>
   </div>
 </footer>
 
@@ -79,7 +79,7 @@
   });
 
   if (articles.length === 0) {
-    grid.innerHTML = '<p class="empty-state">لا توجد مقالات منشورة بعد.</p>';
+    grid.innerHTML = '<p class="empty-state">No articles published yet.</p>';
   } else {
     articles.forEach(function (a) {
       var card = document.createElement("a");
@@ -98,7 +98,7 @@
 
       var cta = document.createElement("span");
       cta.className = "article-card__cta";
-      cta.textContent = "اقرأ المزيد ←";
+      cta.textContent = "Read More →";
 
       card.appendChild(meta);
       card.appendChild(title);
