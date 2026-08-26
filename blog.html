@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Articles | Calorie Calculator</title>
-<meta name="description" content="Trusted tips and guides on nutrition, calories, and building healthy habits.">
+<title>Calorie and Weight Calculation System: The Complete Guide | Calorie Calculator</title>
+<meta name="description" content="Learn how to calculate your exact daily calories and understand the Mifflin-St Jeor equation for effective weight management.">
 <meta name="robots" content="index, follow">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='45' fill='%23123832'/%3E%3Ccircle cx='50' cy='50' r='45' fill='none' stroke='%23E8A33D' stroke-width='10' stroke-dasharray='180 300' stroke-linecap='round' transform='rotate(-90 50 50)'/%3E%3C/svg%3E">
 
@@ -14,7 +14,7 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Reem+Kufi:wght@400;500;600;700&family=IBM+Plex+Sans+Arabic:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Reem+Kufi:wght@400;500;600;700&family=IBM+Plex+Sans+Arabic:wght@300;400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -28,39 +28,56 @@
       <span class="brand-text">Calorie<em>Calculator</em></span>
     </a>
     <nav class="site-nav" aria-label="Main Navigation">
-  <a href="index.html">Home</a>
-  <a href="index.html#calculator">Calculator</a>
-  <a href="blog.html" aria-current="page">Articles</a>
-  <a href="privacy.html">Privacy Policy</a>
-</nav>
-
+      <a href="index.html">Home</a>
+      <a href="index.html#calculator">Calculator</a>
+      <a href="blog.html" aria-current="page">Articles</a>
+      <a href="privacy.html">Privacy Policy</a>
+    </nav>
   </div>
 </header>
 
-<!-- ════════════════════ AD SLOT — Leaderboard Top ════════════════════ -->
+<!-- Ad Slot Top -->
 <div class="wrap">
   <div class="ad-slot ad-slot--leaderboard" aria-hidden="true">
     <span class="ad-slot__tag">Ad Space</span>
   </div>
 </div>
 
-<main>
-  <div class="page-head wrap">
-    <h1>Articles</h1>
-    <p>Trusted tips on nutrition and calorie tracking, built on science and easy to apply.</p>
-  </div>
-
-  <div class="wrap">
-    <div class="articles-grid" id="articles-grid">
-      <!-- Automatically populated from articles-data.js -->
+<main class="wrap" style="padding-top: 40px; padding-bottom: 40px;">
+  <article class="article-content" style="background: var(--bg-card, #fff); padding: 30px; border-radius: 12px; box-shadow: var(--shadow-sm);">
+    <div class="article-head" style="margin-bottom: 24px;">
+      <p class="article-head__meta" style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 8px;">2026-08-25 · 5 min read</p>
+      <h1 style="font-size: 2.2rem; color: var(--text-main); line-height: 1.3;">Calorie and Weight Calculation System: The Complete Guide</h1>
+      <p style="color: var(--text-muted); font-size: 0.95rem; margin-top: 6px;">Published by Calculator313.com Team</p>
     </div>
-  </div>
 
-  <!-- ════════════════════ AD SLOT — Before Footer ════════════════════ -->
-  <div class="wrap">
-    <div class="ad-slot ad-slot--leaderboard" aria-hidden="true">
-      <span class="ad-slot__tag">Ad Space</span>
+    <div class="article-body" style="line-height: 1.8; color: var(--text-main);">
+      <h2>1. Overview</h2>
+      <p>The calorie and weight calculation system is built to provide users with a reliable, scientifically backed estimation of their daily energy requirements. It serves as a foundational tool for achieving various health and fitness objectives, such as weight loss, weight maintenance, or muscle gain.</p>
+
+      <h2>2. Core Scientific Formula: Mifflin-St Jeor Equation</h2>
+      <p>The system utilizes the <strong>Mifflin-St Jeor equation</strong>, which is widely recognized by health professionals and dietitians as one of the most accurate formulas for calculating <strong>Basal Metabolic Rate (BMR)</strong>—the number of calories the body burns at complete rest to maintain vital functions.</p>
+      
+      <ul>
+        <li><strong>For Men:</strong> BMR = (10 × weight in kg) + (6.25 × height in cm) - (5 × age in years) + 5</li>
+        <li><strong>For Women:</strong> BMR = (10 × weight in kg) + (6.25 × height in cm) - (5 × age in years) - 161</li>
+      </ul>
+
+      <h2>3. Total Daily Energy Expenditure (TDEE)</h2>
+      <p>To account for daily movement and physical activity, the calculated BMR is multiplied by an <strong>Activity Factor</strong> to determine the Total Daily Energy Expenditure (TDEE):</p>
+      
+      <ul>
+        <li><strong>Sedentary (Little or no exercise):</strong> BMR × 1.2</li>
+        <li><strong>Lightly Active (Light exercise/sports 1-3 days/week):</strong> BMR × 1.375</li>
+        <li><strong>Moderately Active (Moderate exercise/sports 3-5 days/week):</strong> BMR × 1.55</li>
+        <li><strong>Very Active (Hard exercise/sports 6-7 days a week):</strong> BMR × 1.725</li>
+      </ul>
     </div>
+  </article>
+
+  <!-- Ad Slot In-Article -->
+  <div class="ad-slot ad-slot--in-article" aria-hidden="true" style="margin-top: 30px;">
+    <span class="ad-slot__tag">Ad Space</span>
   </div>
 </main>
 
@@ -70,48 +87,8 @@
   </div>
 </footer>
 
-<script src="articles-data.js"></script>
 <script>
-(function () {
-  "use strict";
-  var grid = document.getElementById("articles-grid");
-  var articles = (window.ARTICLES || []).slice().sort(function (a, b) {
-    return new Date(b.date) - new Date(a.date);
-  });
-
-  if (articles.length === 0) {
-    grid.innerHTML = '<p class="empty-state">No articles published yet.</p>';
-  } else {
-    articles.forEach(function (a) {
-      var card = document.createElement("a");
-      card.className = "article-card";
-      card.href = "article.html?slug=" + encodeURIComponent(a.slug);
-
-      var meta = document.createElement("span");
-      meta.className = "article-card__meta";
-      meta.textContent = a.date + (a.readTime ? " · " + a.readTime : "");
-
-      var title = document.createElement("h2");
-      title.textContent = a.title;
-
-      var excerpt = document.createElement("p");
-      excerpt.textContent = a.excerpt || "";
-
-      var cta = document.createElement("span");
-      cta.className = "article-card__cta";
-      cta.textContent = "Read More →";
-
-      card.appendChild(meta);
-      card.appendChild(title);
-      card.appendChild(excerpt);
-      card.appendChild(cta);
-      grid.appendChild(card);
-    });
-  }
-
-  var yearEl = document.getElementById("year");
-  if (yearEl) yearEl.textContent = new Date().getFullYear();
-})();
+  document.getElementById("year").textContent = new Date().getFullYear();
 </script>
 </body>
 </html>
