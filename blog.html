@@ -1,16 +1,77 @@
-window.ARTICLES = [
-  {
-    slug: "blog-calorie",
-    title: "Calorie and Weight Calculation System: The Complete Guide",
-    date: "2026-08-25",
-    readTime: "5 min read",
-    excerpt: "Learn how the calorie and weight calculation system works using the Mifflin-St Jeor equation."
-  },
-  {
-    slug: "blog-protein",
-    title: "The Ultimate Protein Guide: Muscle, Fat Loss, and the Real Cost Per Gram",
-    date: "2026-08-26",
-    readTime: "6 min read",
-    excerpt: "Discover everything you need to know about protein intake, muscle growth, fat loss, and cost per gram."
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Articles | Calorie Calculator</title>
+<meta name="description" content="Trusted tips on nutrition and calorie tracking, built on science and easy to apply.">
+<meta name="robots" content="index, follow">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='45' fill='%23123832'/%3E%3Ccircle cx='50' cy='50' r='45' fill='none' stroke='%23E8A33D' stroke-width='10' stroke-dasharray='180 300' stroke-linecap='round' transform='rotate(-90 50 50)'/%3E%3C/svg%3E">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Reem+Kufi:wght@400;500;600;700&family=IBM+Plex+Sans+Arabic:wght@300;400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header class="site-header">
+  <div class="wrap header-inner">
+    <a href="index.html" class="brand">
+      <span class="brand-mark" aria-hidden="true">
+        <svg viewBox="0 0 44 44"><circle cx="22" cy="22" r="18" class="brand-mark__track"/><circle cx="22" cy="22" r="18" class="brand-mark__fill"/></svg>
+      </span>
+      <span class="brand-text">Calorie<em>Calculator</em></span>
+    </a>
+    <nav class="site-nav" aria-label="Main Navigation">
+      <a href="index.html">Home</a>
+      <a href="index.html#calculator">Calculator</a>
+      <a href="blog.html" aria-current="page">Articles</a>
+      <a href="privacy.html">Privacy Policy</a>
+    </nav>
+  </div>
+</header>
+
+<main class="wrap" style="padding-top: 40px; padding-bottom: 40px;">
+  <h1 style="margin-bottom: 24px; font-size: 2rem; color: var(--text-main);">Articles & Guides</h1>
+  <p style="color: var(--text-muted); margin-bottom: 30px;">Trusted tips on nutrition and calorie tracking, built on science and easy to apply.</p>
+  
+  <!-- هنا ستظهر بطاقات المقالات تلقائياً -->
+  <div id="articles-grid"></div>
+</main>
+
+<footer class="site-footer">
+  <div class="wrap footer-bottom">
+    <p>© <span id="year"></span> All rights reserved.</p>
+  </div>
+</footer>
+
+<script>
+  document.getElementById("year").textContent = new Date().getFullYear();
+</script>
+
+<script src="articles-data.js"></script>
+<script>
+(function() {
+  var grid = document.getElementById("articles-grid");
+  var articles = window.ARTICLES || [];
+  
+  if (articles.length === 0) {
+    grid.innerHTML = "<p>No articles available yet.</p>";
+    return;
   }
-];
+
+  var html = "";
+  articles.forEach(function(article) {
+    html += '<a class="article-card" href="' + article.slug + '.html" style="display: block; background: var(--bg-card, #fff); padding: 24px; border-radius: 12px; text-decoration: none; box-shadow: var(--shadow-sm); margin-bottom: 20px; transition: transform 0.2s;">' +
+              '<p style="color: var(--text-muted); font-size: 0.85rem; margin-bottom: 6px;">' + article.date + (article.readTime ? " · " + article.readTime : "") + '</p>' +
+              '<h2 style="color: var(--text-main); font-size: 1.4rem; margin-bottom: 10px;">' + article.title + '</h2>' +
+              '<p style="color: var(--text-muted); font-size: 0.95rem; line-height: 1.6; margin-bottom: 16px;">' + article.excerpt + '</p>' +
+              '<span style="color: var(--primary, #123832); font-weight: 600;">Read More →</span>' +
+            '</a>';
+  });
+  grid.innerHTML = html;
+})();
+</script>
+</body>
+</html>
