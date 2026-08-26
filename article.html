@@ -1,128 +1,26 @@
-<!DOCTYPE html>
-<html lang="ar" dir="rtl">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title id="page-title">مقال | حاسبة السعرات الحرارية</title>
-<meta id="page-description" name="description" content="">
-<meta name="robots" content="index, follow">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='45' fill='%23123832'/%3E%3Ccircle cx='50' cy='50' r='45' fill='none' stroke='%23E8A33D' stroke-width='10' stroke-dasharray='180 300' stroke-linecap='round' transform='rotate(-90 50 50)'/%3E%3C/svg%3E">
+window.ARTICLES = [
+  {
+    slug: "blog-calorie",
+    title: "The Ultimate Guide to Calorie and Daily Intake",
+    date: "2026-08-25",
+    readTime: "5 min read",
+    excerpt: "Learn how to calculate your exact daily calories and understand the Mifflin-St Jeor equation for effective weight management.",
+    contentHtml: `
+      <p>Understanding your daily calorie intake is the foundation of any successful health, weight loss, or fitness journey. Without knowing how many calories your body burns versus how many you consume, progress becomes a guessing game.</p>
+      
+      <h2>What Are Calories?</h2>
+      <p>A calorie is a unit of energy. In nutrition, calories refer to the energy people get from the food and drink they consume, and the energy they use in physical activity.</p>
 
-<!-- Google AdSense — كود التحقق من الملكية -->
-<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4777858178569282"
-     crossorigin="anonymous"></script>
+      <h2>The Mifflin-St Jeor Equation</h2>
+      <p>The most accurate and widely accepted formula for calculating your Basal Metabolic Rate (BMR)—the number of calories your body burns at complete rest—is the Mifflin-St Jeor equation:</p>
+      
+      <ul>
+        <li><strong>For Men:</strong> BMR = (10 × weight in kg) + (6.25 × height in cm) - (5 × age in years) + 5</li>
+        <li><strong>For Women:</strong> BMR = (10 × weight in kg) + (6.25 × height in cm) - (5 × age in years) - 161</li>
+      </ul>
 
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Reem+Kufi:wght@400;500;600;700&family=IBM+Plex+Sans+Arabic:wght@300;400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css">
-</head>
-<body>
-
-<header class="site-header">
-  <div class="wrap header-inner">
-    <a href="index.html" class="brand">
-      <span class="brand-mark" aria-hidden="true">
-        <svg viewBox="0 0 44 44"><circle cx="22" cy="22" r="18" class="brand-mark__track"/><circle cx="22" cy="22" r="18" class="brand-mark__fill"/></svg>
-      </span>
-      <span class="brand-text">حاسبة<em>السعرات</em></span>
-    </a>
-    <nav class="site-nav" aria-label="التنقل الرئيسي">
-      <a href="index.html">الرئيسية</a>
-      <a href="index.html#calculator">الحاسبة</a>
-      <a href="blog.html" aria-current="page">المقالات</a>
-      <a href="privacy.html">سياسة الخصوصية</a>
-    </nav>
-  </div>
-</header>
-
-<!-- ════════════════════ AD SLOT — لافتة أعلى الصفحة ════════════════════ -->
-<div class="wrap">
-  <div class="ad-slot ad-slot--leaderboard" aria-hidden="true">
-    <span class="ad-slot__tag">مساحة إعلانية</span>
-  </div>
-</div>
-
-<main class="wrap">
-  <p class="breadcrumb"><a href="blog.html">المقالات</a> ← <span id="breadcrumb-title"></span></p>
-
-  <div id="article-container">
-    <!-- يُملأ تلقائياً بالجافاسكربت -->
-  </div>
-
-  <div id="not-found" class="not-found" hidden>
-    <h1>المقال غير موجود</h1>
-    <p>يبدو أن هذا المقال غير متوفر أو تم نقله.</p>
-    <a href="blog.html" class="btn">الرجوع لكل المقالات</a>
-  </div>
-</main>
-
-<footer class="site-footer">
-  <div class="wrap footer-bottom">
-    <p>© <span id="year"></span> جميع الحقوق محفوظة.</p>
-  </div>
-</footer>
-
-<script src="articles-data.js"></script>
-<script>
-(function () {
-  "use strict";
-
-  function getSlug() {
-    var params = new URLSearchParams(window.location.search);
-    return params.get("slug");
+      <h2>Total Daily Energy Expenditure (TDEE)</h2>
+      <p>Once you have your BMR, you multiply it by an activity factor ranging from 1.2 (sedentary) to 1.9 (very active) to find your TDEE. Eating at a deficit from this number leads to weight loss, while eating above it results in weight gain.</p>
+    `
   }
-
-  var slug = getSlug();
-  var articles = window.ARTICLES || [];
-  var article = articles.find(function (a) { return a.slug === slug; });
-
-  var container = document.getElementById("article-container");
-  var notFound = document.getElementById("not-found");
-
-  if (!article) {
-    container.hidden = true;
-    notFound.hidden = false;
-  } else {
-    document.getElementById("page-title").textContent = article.title + " | حاسبة السعرات الحرارية";
-    document.getElementById("page-description").setAttribute("content", article.excerpt || "");
-    document.getElementById("breadcrumb-title").textContent = article.title;
-
-    var head = document.createElement("div");
-    head.className = "article-head";
-    head.innerHTML =
-      '<p class="article-head__meta">' + article.date + (article.readTime ? " · " + article.readTime : "") + '</p>' +
-      '<h1>' + article.title + '</h1>';
-
-    var body = document.createElement("div");
-    body.className = "article-body";
-    body.innerHTML = article.contentHtml || "";
-
-    var adMid = document.createElement("div");
-    adMid.className = "ad-slot ad-slot--in-article";
-    adMid.setAttribute("aria-hidden", "true");
-    adMid.innerHTML = '<span class="ad-slot__tag">مساحة إعلانية</span>';
-
-    container.appendChild(head);
-    container.appendChild(body);
-    container.appendChild(adMid);
-
-    // مقالات ذات صلة (حتى ٣، غير المقال الحالي)
-    var others = articles.filter(function (a) { return a.slug !== article.slug; }).slice(0, 3);
-    if (others.length > 0) {
-      var related = document.createElement("div");
-      related.className = "related";
-      var list = others.map(function (a) {
-        return '<a href="article.html?slug=' + encodeURIComponent(a.slug) + '">' + a.title + "</a>";
-      }).join("");
-      related.innerHTML = "<h2>مقالات ذات صلة</h2><div class=\"related-list\">" + list + "</div>";
-      container.appendChild(related);
-    }
-  }
-
-  var yearEl = document.getElementById("year");
-  if (yearEl) yearEl.textContent = new Date().getFullYear();
-})();
-</script>
-</body>
-</html>
+];
