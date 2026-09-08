@@ -1,0 +1,450 @@
+<!DOCTYPE html><html lang="en" dir="ltr"><head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Daily Calorie Calculator | Calculate Your Energy Needs Free</title>
+<meta name="description" content="Calculate your daily calorie needs accurately using the scientific Mifflin-St Jeor equation, based on weight, height, age, and activity level. Free and fast.">
+<meta name="keywords" content="calorie calculator, BMR calculator, TDEE calculator, daily calorie needs, weight loss calculator">
+<meta name="robots" content="index, follow">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Daily Calorie Calculator | Calculate Your Energy Needs Free">
+<meta property="og:description" content="Calculate your daily calorie needs accurately using the scientific Mifflin-St Jeor equation, based on weight, height, age, and activity level. Free and fast.">
+<meta name="theme-color" content="#123832">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='45' fill='%23123832'/%3E%3Ccircle cx='50' cy='50' r='45' fill='none' stroke='%23E8A33D' stroke-width='10' stroke-dasharray='180 300' stroke-linecap='round' transform='rotate(-90 50 50)'/%3E%3C/svg%3E">
+
+<!-- Google AdSense — site verification code -->
+<script async="" src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4777858178569282" crossorigin="anonymous"></script>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&amp;family=IBM+Plex+Sans:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet">
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {"@type":"Question","name":"Is the calorie calculator 100% accurate?","acceptedAnswer":{"@type":"Answer","text":"No digital calculator is perfectly accurate, since bodies differ by muscle composition, hormones, and individual metabolism. This result is a reliable scientific estimate that works as an excellent starting point, adjustable later based on how your body responds."}},
+    {"@type":"Question","name":"What\u2019s the difference between BMR and TDEE?","acceptedAnswer":{"@type":"Answer","text":"BMR is the number of calories your body burns at complete rest just to run its vital functions. TDEE is your total burn for the whole day once activity is factored in \u2014 the number to rely on when planning meals."}},
+    {"@type":"Question","name":"How many calories should I cut to lose weight safely?","acceptedAnswer":{"@type":"Answer","text":"A daily deficit of 300\u2013500 calories below your total need is generally recommended, equal to roughly half a kilogram of weight loss per week \u2014 healthy and sustainable without heavily impacting muscle mass."}}
+  ]
+}
+</script>
+
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<a class="skip-link" href="#calculator">Skip to calculator</a>
+
+<header class="site-header">
+  <div class="wrap header-inner">
+    <a href="#top" class="brand">
+      <span class="brand-mark" aria-hidden="true">
+        <svg viewBox="0 0 44 44"><circle cx="22" cy="22" r="18" class="brand-mark__track"></circle><circle cx="22" cy="22" r="18" class="brand-mark__fill"></circle></svg>
+      </span>
+      <span class="brand-text">Calorie<em>Calc</em></span>
+    </a>
+    <div class="header-controls">
+      <nav class="site-nav" aria-label="Main navigation">
+        <a href="#calculator">Calculator</a>
+        <a href="#about">About the Formula</a>
+        <a href="#faq">FAQ</a>
+        <a href="blog.html">Articles</a>
+      </nav>
+      
+    </div>
+  </div>
+</header>
+
+<!-- ════════════════════ AD SLOT #1 — Top banner (Leaderboard) ════════════════════ -->
+<div class="ad-slot ad-slot--leaderboard" aria-hidden="true">
+  <span class="ad-slot__tag">Advertisement</span>
+  <!-- Paste your <ins class="adsbygoogle">...</ins> ad unit code here -->
+</div>
+
+<main id="top">
+
+  <!-- ═══════════════════ Hero ═══════════════════ -->
+  <section class="hero">
+    <div class="wrap hero-grid">
+      <div class="hero-copy">
+        <p class="eyebrow">Free Tool · Instant Result</p>
+        <h1>How many calories does <em>your body</em> really need each day?</h1>
+        <p class="hero-lede">Enter your weight, height, age, and activity level, and get your precise daily energy needs in seconds — using the same scientific formula trusted by official health calculators.</p>
+        <div class="hero-actions">
+          <a href="#calculator" class="btn btn--primary">Start Calculating</a>
+          <a href="#about" class="btn btn--ghost">How are calories calculated?</a>
+        </div>
+        <p class="hero-note">Based on the scientifically validated Mifflin-St Jeor equation · For comparison, you can also check <a href="https://www.moh.gov.sa/healthawareness/medicaltools/pages/caloriecalculate.aspx" target="_blank" rel="noopener noreferrer">Saudi MOH's official calculator</a></p>
+      </div>
+      <div class="hero-gauge" aria-hidden="true">
+        <svg viewBox="0 0 200 200" class="gauge-svg gauge-svg--hero">
+          <circle cx="100" cy="100" r="88" class="gauge-track"></circle>
+          <circle cx="100" cy="100" r="88" class="gauge-fill gauge-fill--idle"></circle>
+        </svg>
+        <div class="gauge-center">
+          <span class="gauge-number">—</span>
+          <span class="gauge-unit">cal / day</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════ Calculator ═══════════════════ -->
+  <section class="calc-section" id="calculator">
+    <div class="wrap">
+      <div class="calc-card">
+        <div class="calc-card__head">
+          <h2>Calorie Calculator</h2>
+          <p>Fill in the details below accurately for a reliable result</p>
+        </div>
+
+        <form id="calorie-form" novalidate="">
+          <fieldset class="field field--gender">
+            <legend>Gender</legend>
+            <div class="gender-toggle">
+              <input type="radio" name="gender" id="gender-male" value="male">
+              <label for="gender-male">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10" cy="14" r="6"></circle><path d="M14.5 9.5 20 4M15 4h5v5"></path></svg>
+                <span>Male</span>
+              </label>
+              <input type="radio" name="gender" id="gender-female" value="female">
+              <label for="gender-female">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="9" r="6"></circle><path d="M12 15v7M8.5 19h7"></path></svg>
+                <span>Female</span>
+              </label>
+            </div>
+            <p class="field-error" id="err-gender" role="alert"></p>
+          </fieldset>
+
+          <div class="field-grid">
+            <div class="field">
+              <label for="weight">Weight <span class="unit">(kg)</span></label>
+              <input type="number" inputmode="decimal" id="weight" name="weight" min="20" max="300" step="0.1" placeholder="e.g. 70" required="">
+              <p class="field-error" id="err-weight" role="alert"></p>
+            </div>
+            <div class="field">
+              <label for="height">Height <span class="unit">(cm)</span></label>
+              <input type="number" inputmode="decimal" id="height" name="height" min="90" max="250" step="1" placeholder="e.g. 170" required="">
+              <p class="field-error" id="err-height" role="alert"></p>
+            </div>
+            <div class="field">
+              <label for="age">Age <span class="unit">(years)</span></label>
+              <input type="number" inputmode="numeric" id="age" name="age" min="10" max="100" step="1" placeholder="e.g. 28" required="">
+              <p class="field-error" id="err-age" role="alert"></p>
+            </div>
+          </div>
+
+          <div class="field">
+            <label for="activity">Activity Level</label>
+            <select id="activity" name="activity" required="">
+              <option value="" selected="">Select your activity level</option>
+              <option value="1.2">Sedentary (little or no exercise)</option>
+              <option value="1.375">Light activity — 1 to 3 times/week</option>
+              <option value="1.55">Moderate activity — 3 to 5 times/week</option>
+              <option value="1.725">Very active — 6 to 7 times/week</option>
+              <option value="1.9">Extra active — intense daily exercise</option>
+            </select>
+            <p class="field-error" id="err-activity" role="alert"></p>
+          </div>
+
+          <button type="submit" class="btn btn--primary btn--block">Calculate Calories</button>
+        </form>
+      </div>
+
+      <!-- ═══════════════════ Results ═══════════════════ -->
+      <div class="result-card" id="result-card" hidden="">
+        <div class="result-gauge">
+          <svg viewBox="0 0 200 200" class="gauge-svg" id="result-gauge-svg">
+            <circle cx="100" cy="100" r="88" class="gauge-track"></circle>
+            <circle cx="100" cy="100" r="88" class="gauge-fill" id="result-gauge-fill"></circle>
+          </svg>
+          <div class="gauge-center">
+            <span class="gauge-number" id="result-tdee">0</span>
+            <span class="gauge-unit">cal / day to maintain weight</span>
+          </div>
+        </div>
+
+        <p class="result-scale">Gauge reference range: 1200 – 4000 calories/day</p>
+        <p class="result-bmr"><span>Basal Metabolic Rate (BMR):</span> <strong id="result-bmr">0</strong> <span>cal/day — what your body burns at complete rest</span></p>
+
+        <div class="result-goals">
+          <div class="goal-chip goal-chip--down">
+            <span class="goal-chip__label">To Lose Weight</span>
+            <span class="goal-chip__value" id="result-loss">0</span>
+          </div>
+          <div class="goal-chip goal-chip--flat">
+            <span class="goal-chip__label">To Maintain Weight</span>
+            <span class="goal-chip__value" id="result-maintain">0</span>
+          </div>
+          <div class="goal-chip goal-chip--up">
+            <span class="goal-chip__label">To Gain Weight</span>
+            <span class="goal-chip__value" id="result-gain">0</span>
+          </div>
+        </div>
+        <p class="disclaimer">These results are general estimates and do not replace advice from a doctor or dietitian, especially during pregnancy, breastfeeding, or with a chronic health condition.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ════════════════════ AD SLOT #2 — Rectangle after results ════════════════════ -->
+  <div class="wrap">
+    <div class="ad-slot ad-slot--rectangle" aria-hidden="true">
+      <span class="ad-slot__tag">Advertisement</span>
+    </div>
+  </div>
+
+  <!-- ═══════════════════ Article + sidebar ad ═══════════════════ -->
+  <section class="content-section" id="about">
+    <div class="wrap content-grid">
+      <article class="article">
+        <h2>What Are Calories, and How Are They Calculated?</h2>
+        <p>A calorie is a unit of energy your body gets from food and drink, and spends on everything: breathing, your heartbeat, walking, and exercise. Knowing your daily need is the starting point for any weight goal — whether losing, maintaining, or gaining weight healthily.</p>
+
+        <h3>The Mifflin-St Jeor Equation</h3>
+        <p>This calculator uses the Mifflin-St Jeor equation, one of the most accurate and widely trusted formulas in medical and nutrition practice for calculating Basal Metabolic Rate (BMR):</p>
+        <div class="formula-box">
+          <p><strong>Men:</strong> BMR = (10 × weight kg) + (6.25 × height cm) − (5 × age) + 5</p>
+          <p><strong>Women:</strong> BMR = (10 × weight kg) + (6.25 × height cm) − (5 × age) − 161</p>
+        </div>
+        <p>BMR is then multiplied by an activity factor to get Total Daily Energy Expenditure (TDEE) — the real number to use when planning your diet.</p>
+
+        <h3>Activity Level Factors</h3>
+        <div class="table-wrap">
+          <table>
+            <thead><tr>
+              <th>Activity Level</th>
+              <th>Description</th>
+              <th>Factor</th>
+            </tr></thead>
+            <tbody>
+              <tr><td>Sedentary</td><td>Little movement or desk job with no exercise</td><td>1.2</td></tr>
+              <tr><td>Light</td><td>Light exercise 1–3 times/week</td><td>1.375</td></tr>
+              <tr><td>Moderate</td><td>Moderate exercise 3–5 times/week</td><td>1.55</td></tr>
+              <tr><td>High</td><td>Intense exercise 6–7 times/week</td><td>1.725</td></tr>
+              <tr><td>Very High</td><td>Daily strenuous exercise or hard physical labor</td><td>1.9</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- ═════════ AD SLOT #3 — In-article ═════════ -->
+        <div class="ad-slot ad-slot--in-article" aria-hidden="true">
+          <span class="ad-slot__tag">Advertisement</span>
+        </div>
+
+        <h3>How to Use Your Result</h3>
+        <ul class="tick-list">
+          <li>If your goal is <strong>maintaining your weight</strong>, eat roughly your TDEE number daily.</li>
+          <li>To <strong>lose weight</strong> safely, subtract 300–500 calories from your TDEE — about half a kilogram per week.</li>
+          <li>To <strong>gain weight</strong> or build muscle, add 300–500 calories and pay attention to protein sources.</li>
+          <li>Recalculate every 4–6 weeks, since your weight and activity change and the numbers should keep up.</li>
+        </ul>
+      </article>
+
+      <!-- ═════════ AD SLOT #4 — Sidebar, desktop only ═════════ -->
+      <aside class="sidebar">
+        <div class="ad-slot ad-slot--sidebar" aria-hidden="true">
+          <span class="ad-slot__tag">Advertisement</span>
+        </div>
+      </aside>
+    </div>
+  </section>
+
+  <!-- ═══════════════════ FAQ ═══════════════════ -->
+  <section class="faq-section" id="faq">
+    <div class="wrap">
+      <h2>Frequently Asked Questions</h2>
+      <div class="faq-list">
+        <details>
+          <summary>Is the calorie calculator 100% accurate?</summary>
+          <p>No digital calculator is perfectly accurate, since bodies differ by muscle composition, hormones, and individual metabolism. This result is a reliable scientific estimate that works as an excellent starting point, which you can adjust later based on how your body actually responds over a few weeks.</p>
+        </details>
+        <details>
+          <summary>What's the difference between BMR and TDEE?</summary>
+          <p>BMR is the number of calories your body burns at complete rest just to run its vital functions. TDEE is your total burn for the whole day once your activity and movement are factored in — that's the number to actually rely on when planning your meals.</p>
+        </details>
+        <details>
+          <summary>How many calories should I cut to lose weight safely?</summary>
+          <p>A daily deficit of 300–500 calories below your total need (TDEE) is generally recommended, equal to roughly half a kilogram of weight loss per week — healthy and sustainable without heavily impacting muscle mass.</p>
+        </details>
+        <details>
+          <summary>Do my calorie needs change over time?</summary>
+          <p>Yes. As your weight, activity level, or age changes, your actual calorie needs change too. That's why it's recommended to recalculate every 4 to 6 weeks.</p>
+        </details>
+        <details>
+          <summary>Is this calculator suitable for pregnant women, nursing mothers, or children?</summary>
+          <p>This calculator is designed for healthy adults in general. Pregnant women, nursing mothers, children, and teenagers have special needs that differ from this formula, and it's best to consult a doctor or dietitian for accurate guidance.</p>
+        </details>
+        <details>
+          <summary>What's the source of the formula used here?</summary>
+          <p>This tool uses the globally recognized Mifflin-St Jeor scientific equation, the same methodology used by most trusted health calculators. For an additional official reference in Saudi Arabia, you can check <a href="https://www.moh.gov.sa/healthawareness/medicaltools/pages/caloriecalculate.aspx" target="_blank" rel="noopener noreferrer">the Saudi Ministry of Health's calorie calculator</a>.</p>
+        </details>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════ Source note ═══════════════════ -->
+  <section class="source-note">
+    <div class="wrap">
+      <p><strong>About the source:</strong> This site is an independent tool, not affiliated with the Saudi Ministry of Health or any government body. For comparison and verification, you can always use <a href="https://www.moh.gov.sa/healthawareness/medicaltools/pages/caloriecalculate.aspx" target="_blank" rel="noopener noreferrer">the Ministry of Health's official calculator</a> as an additional reference.</p>
+    </div>
+  </section>
+
+  <!-- ════════════════════ AD SLOT #5 — Banner before footer ════════════════════ -->
+  <div class="wrap">
+    <div class="ad-slot ad-slot--leaderboard" aria-hidden="true">
+      <span class="ad-slot__tag">Advertisement</span>
+    </div>
+  </div>
+
+</main>
+
+<footer class="site-footer">
+  <div class="wrap footer-inner">
+    <div>
+      <span class="brand-text brand-text--footer">Calorie<em>Calc</em></span>
+      <p class="footer-desc">A free tool for calculating your daily calorie needs, built on trusted scientific formulas.</p>
+    </div>
+    <nav class="footer-links" aria-label="Footer links">
+      <a href="#calculator">Calculator</a>
+      <a href="#about">About the Formula</a>
+      <a href="#faq">FAQ</a>
+      <a href="blog.html">Articles</a>
+      <a href="privacy.html">Privacy Policy</a>
+    </nav>
+  </div>
+  <div class="wrap footer-bottom">
+    <p>© <span id="year"></span> <span>All rights reserved. This tool is for general educational purposes and does not replace specialized medical advice.</span></p>
+  </div>
+</footer>
+
+<script>
+/* ══════════════════════════════════════════════════════════════
+   Calorie Calculator — calculation logic and interactions
+   Formula: Mifflin-St Jeor
+   ══════════════════════════════════════════════════════════════ */
+(function () {
+  "use strict";
+
+  var GAUGE_RADIUS = 88;
+  var GAUGE_CIRCUMFERENCE = 2 * Math.PI * GAUGE_RADIUS;
+  var SCALE_MIN = 1200;
+  var SCALE_MAX = 4000;
+
+  var form = document.getElementById("calorie-form");
+  var resultCard = document.getElementById("result-card");
+  var resultGaugeFill = document.getElementById("result-gauge-fill");
+
+  var errors = {
+    gender: "Please select your gender",
+    weight: "Please enter a valid weight between 20–300 kg, numbers only",
+    height: "Please enter a valid height between 90–250 cm, numbers only",
+    age: "Please enter a valid age between 10–100 years, numbers only",
+    activity: "Please select your activity level"
+  };
+
+  function setError(field, message) {
+    var el = document.getElementById("err-" + field);
+    if (el) el.textContent = message || "";
+  }
+
+  function clearErrors() {
+    Object.keys(errors).forEach(function (f) { setError(f, ""); });
+  }
+
+  function clamp(value, min, max) {
+    return Math.min(Math.max(value, min), max);
+  }
+
+  function animateNumber(el, target) {
+    var start = 0;
+    var duration = 700;
+    var startTime = null;
+
+    function step(ts) {
+      if (!startTime) startTime = ts;
+      var progress = Math.min((ts - startTime) / duration, 1);
+      var eased = 1 - Math.pow(1 - progress, 3);
+      el.textContent = Math.round(start + (target - start) * eased).toLocaleString("en-US");
+      if (progress < 1) requestAnimationFrame(step);
+    }
+    requestAnimationFrame(step);
+  }
+
+  function setGaugeFill(svgFillEl, value) {
+    var pct = clamp((value - SCALE_MIN) / (SCALE_MAX - SCALE_MIN), 0, 1);
+    var offset = GAUGE_CIRCUMFERENCE - pct * GAUGE_CIRCUMFERENCE;
+    svgFillEl.style.strokeDasharray = GAUGE_CIRCUMFERENCE;
+    svgFillEl.getBoundingClientRect();
+    svgFillEl.style.strokeDashoffset = offset;
+  }
+
+  function calculateBMR(gender, weight, height, age) {
+    var base = 10 * weight + 6.25 * height - 5 * age;
+    return gender === "male" ? base + 5 : base - 161;
+  }
+
+  function handleSubmit(e) {
+    e.preventDefault();
+    clearErrors();
+
+    var genderInput = form.querySelector('input[name="gender"]:checked');
+    var gender = genderInput ? genderInput.value : "";
+    var weight = parseFloat(form.weight.value);
+    var height = parseFloat(form.height.value);
+    var age = parseInt(form.age.value, 10);
+    var activity = parseFloat(form.activity.value);
+
+    var valid = true;
+
+    if (!gender) { setError("gender", errors.gender); valid = false; }
+    if (!weight || weight < 20 || weight > 300) { setError("weight", errors.weight); valid = false; }
+    if (!height || height < 90 || height > 250) { setError("height", errors.height); valid = false; }
+    if (!age || age < 10 || age > 100) { setError("age", errors.age); valid = false; }
+    if (!activity) { setError("activity", errors.activity); valid = false; }
+
+    if (!valid) {
+      var firstError = form.querySelector(".field-error:not(:empty)");
+      if (firstError) firstError.closest(".field, fieldset").scrollIntoView({ behavior: "smooth", block: "center" });
+      return;
+    }
+
+    var bmr = calculateBMR(gender, weight, height, age);
+    var tdee = bmr * activity;
+    var loss = Math.max(tdee - 500, 1000);
+    var gain = tdee + 500;
+
+    resultCard.hidden = false;
+
+    animateNumber(document.getElementById("result-tdee"), Math.round(tdee));
+    animateNumber(document.getElementById("result-bmr"), Math.round(bmr));
+    animateNumber(document.getElementById("result-loss"), Math.round(loss));
+    animateNumber(document.getElementById("result-maintain"), Math.round(tdee));
+    animateNumber(document.getElementById("result-gain"), Math.round(gain));
+
+    requestAnimationFrame(function () {
+      setGaugeFill(resultGaugeFill, tdee);
+    });
+
+    resultCard.scrollIntoView({ behavior: "smooth", block: "start" });
+  }
+
+  ["weight", "height", "age"].forEach(function (id) {
+    var input = document.getElementById(id);
+    input.addEventListener("keydown", function (e) {
+      var allowed = ["Backspace", "Delete", "ArrowLeft", "ArrowRight", "Tab", "."];
+      if (allowed.indexOf(e.key) !== -1) return;
+      if (!/^[0-9]$/.test(e.key)) e.preventDefault();
+    });
+  });
+
+  if (form) form.addEventListener("submit", handleSubmit);
+
+  var yearEl = document.getElementById("year");
+  if (yearEl) yearEl.textContent = new Date().getFullYear();
+})();
+
+</script>
+
+
+</body></html>

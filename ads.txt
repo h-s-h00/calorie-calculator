@@ -1,0 +1,6 @@
+# ads.txt file — required by Google AdSense to verify you're authorized to sell ads on your site.
+# Your Publisher ID is already added below.
+# This file must stay in the site's root folder, accessible at:
+# https://calculater313.com/ads.txt
+
+google.com, pub-4777858178569282, DIRECT, f08c47fec0942fa0

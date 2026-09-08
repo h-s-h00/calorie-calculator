@@ -1,0 +1,663 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dashboard | Private</title>
+<meta name="robots" content="noindex, nofollow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=IBM+Plex+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="admin-header">
+  <div class="wrap">
+    <h1>Dashboard <span class="private-badge">🔒 Private</span></h1>
+    <a href="blog.html" class="back">View Articles →</a>
+  </div>
+</div>
+
+<div class="admin-wrap">
+
+  <!-- ═══════════ Login screen ═══════════ -->
+  <div class="card" id="login-screen" style="max-width:420px;margin-inline:auto;">
+    <h2 id="login-title">Log In</h2>
+    <p id="login-desc">Enter your password to access the dashboard.</p>
+
+    <div class="field">
+      <label for="password-input">Password</label>
+      <input type="password" id="password-input" autocomplete="current-password">
+    </div>
+    <div class="field" id="confirm-field" style="display:none">
+      <label for="password-confirm-input">Confirm Password</label>
+      <input type="password" id="password-confirm-input" autocomplete="new-password">
+    </div>
+
+    <button type="button" class="btn" id="login-btn">Log In</button>
+    <div class="status" id="login-status"></div>
+    <p class="hint" style="margin-top:14px">
+      <button type="button" class="btn-link" id="forgot-btn">Forgot password?</button>
+    </p>
+  </div>
+
+  <!-- ═══════════ Dashboard content (shown after login) ═══════════ -->
+  <div id="admin-content" style="display:none">
+
+    <div class="tabs">
+      <button type="button" class="tab-btn active" data-tab="articles">Articles</button>
+      <button type="button" class="tab-btn" data-tab="new">New Article</button>
+      <button type="button" class="tab-btn" data-tab="settings">Settings</button>
+    </div>
+
+    <!-- ───────── Tab: Articles ───────── -->
+    <div class="tab-panel" id="tab-articles">
+
+      <!-- Shown only if not yet connected to GitHub -->
+      <div class="card" id="setup-card" style="display:none">
+        <h2>First-Time Setup (once only)</h2>
+        <p>To manage your site with one click, without going back to GitHub, you need to link the dashboard to a personal access key for your account. It's used only from your browser, and is never sent anywhere except GitHub.</p>
+
+        <ol class="steps">
+          <li><b>1</b> Click the button below — it takes you to the GitHub key creation page</li>
+          <li><b>2</b> In the Token name field, type any name, e.g.: Dashboard</li>
+          <li><b>3</b> In Repository access, choose: Only select repositories → then select calorie-calculator</li>
+          <li><b>4</b> Scroll to Permissions → Repository permissions → find "Contents" → set it to Read and write</li>
+          <li><b>5</b> Scroll down and click Generate token</li>
+          <li><b>6</b> Copy the key that starts with github_pat_... (shown only once)</li>
+          <li><b>7</b> Come back here and paste it in the field below</li>
+        </ol>
+
+        <a href="https://github.com/settings/personal-access-tokens/new" target="_blank" rel="noopener noreferrer" class="btn btn-secondary" style="text-decoration:none;margin-bottom:18px;">Open the key creation page →</a>
+
+        <div class="field">
+          <label for="token-input">GitHub Key (Token)</label>
+          <input type="password" id="token-input" placeholder="github_pat_...">
+          <p class="hint">Saved only in your own browser — never sent to us or any third party.</p>
+        </div>
+        <button type="button" class="btn" id="save-token-btn">Save Connection</button>
+        <div class="status" id="setup-status"></div>
+      </div>
+
+      <!-- Articles list -->
+      <div id="articles-list-wrap">
+        <div class="status" id="articles-list-status"></div>
+        <div id="articles-list"></div>
+      </div>
+    </div>
+
+    <!-- ───────── Tab: New Article / Edit ───────── -->
+    <div class="tab-panel" id="tab-new" style="display:none">
+      <div class="card" id="form-card">
+        <h2 id="form-heading">New Article</h2>
+        <p>Fill in the fields and click publish — it reaches your site directly within seconds.</p>
+
+        <div class="field">
+          <label for="title-input">Article Title</label>
+          <input type="text" id="title-input" placeholder="e.g. 5 Best Habits for Maintaining Your Weight">
+        </div>
+
+        <div class="field">
+          <label for="excerpt-input">Short Description</label>
+          <textarea id="excerpt-input" rows="2" placeholder="A line or two that will show on the articles page"></textarea>
+        </div>
+
+        <div class="field">
+          <label for="readtime-input">Read Time</label>
+          <input type="text" id="readtime-input" value="3 min read">
+        </div>
+
+        <div class="field">
+          <label for="date-input">Publish Date</label>
+          <input type="date" id="date-input">
+        </div>
+
+        <div class="field">
+          <label for="content-input">Article Content</label>
+          <textarea id="content-input" class="content" placeholder="Write your paragraphs naturally.
+
+Leave a blank line between each paragraph — exactly like this.
+
+For a subheading, start the line with ## like: ## An Important Tip
+
+For bold text within a sentence, put it between double asterisks: **this is important**"></textarea>
+          <p class="hint">Blank line = new paragraph · ## text = subheading · **text** = bold</p>
+        </div>
+
+        <button type="button" class="btn" id="publish-btn">Publish Article 🚀</button>
+        <button type="button" class="btn btn-secondary" id="cancel-edit-btn" style="display:none;margin-top:10px">Cancel Edit</button>
+        <div class="status" id="publish-status"></div>
+      </div>
+    </div>
+
+    <!-- ───────── Tab: Settings ───────── -->
+    <div class="tab-panel" id="tab-settings" style="display:none">
+      <div class="card">
+        <h2>Account</h2>
+        <p>The dashboard is currently connected to repository: <strong>h-s-h00/calorie-calculator</strong></p>
+        <button type="button" class="btn btn-secondary" id="disconnect-btn">Change GitHub Key</button>
+      </div>
+      <div class="card">
+        <h2>Security</h2>
+        <p>Your password and login are specific to this device/browser only.</p>
+        <button type="button" class="btn btn-secondary" id="change-pass-btn" style="margin-bottom:10px">Change Password</button>
+        <button type="button" class="btn btn-secondary" id="logout-btn">Log Out</button>
+      </div>
+    </div>
+
+  </div><!-- /#admin-content -->
+
+</div>
+
+<script>
+(function () {
+  "use strict";
+
+  var OWNER = "h-s-h00";
+  var REPO = "calorie-calculator";
+  var BRANCH = "main";
+  var FILE_PATH = "articles-data.js";
+  var TOKEN_KEY = "calorie_site_gh_token";
+  var PASS_HASH_KEY = "calorie_site_admin_pass_hash";
+  var AUTHED_KEY = "calorie_site_admin_authed";
+
+  function showStatus(el, type, html) {
+    el.className = "status status--" + type;
+    el.innerHTML = html;
+  }
+  function hideStatus(el) {
+    el.className = "status";
+    el.innerHTML = "";
+  }
+
+  /* ==================== Login layer ====================
+     Honest security note: this is a local password checked only inside
+     the browser — a convenience/privacy layer that keeps a casual visitor
+     who knows this page's URL from opening it and poking around. The real
+     protection remains the GitHub key — without it, nobody can change
+     anything on the live site even if they get past this login screen.
+     ==================================================== */
+
+  var loginScreen = document.getElementById("login-screen");
+  var adminContent = document.getElementById("admin-content");
+  var loginTitle = document.getElementById("login-title");
+  var loginDesc = document.getElementById("login-desc");
+  var confirmField = document.getElementById("confirm-field");
+  var passwordInput = document.getElementById("password-input");
+  var passwordConfirmInput = document.getElementById("password-confirm-input");
+  var loginStatus = document.getElementById("login-status");
+  var loginBtn = document.getElementById("login-btn");
+
+  async function sha256Hex(text) {
+    var enc = new TextEncoder().encode(text);
+    var buf = await crypto.subtle.digest("SHA-256", enc);
+    return Array.from(new Uint8Array(buf)).map(function (b) {
+      return b.toString(16).padStart(2, "0");
+    }).join("");
+  }
+
+  function hasPasswordSet() { return !!localStorage.getItem(PASS_HASH_KEY); }
+  function isAuthed() { return localStorage.getItem(AUTHED_KEY) === "1"; }
+
+  function renderLoginMode() {
+    if (hasPasswordSet()) {
+      loginTitle.textContent = "Log In";
+      loginDesc.textContent = "Enter your password to access the dashboard.";
+      confirmField.style.display = "none";
+      loginBtn.textContent = "Log In";
+    } else {
+      loginTitle.textContent = "Create a Dashboard Password";
+      loginDesc.textContent = "First time opening this page? Choose a password to save, and use it every time you visit from this device.";
+      confirmField.style.display = "block";
+      loginBtn.textContent = "Create and Log In";
+    }
+  }
+
+  function showAdmin() {
+    loginScreen.style.display = "none";
+    adminContent.style.display = "block";
+    refreshConnectionView();
+  }
+  function showLogin() {
+    adminContent.style.display = "none";
+    loginScreen.style.display = "block";
+    passwordInput.value = "";
+    if (passwordConfirmInput) passwordConfirmInput.value = "";
+    hideStatus(loginStatus);
+    renderLoginMode();
+  }
+
+  loginBtn.addEventListener("click", async function () {
+    var pass = passwordInput.value;
+    if (!pass || pass.length < 4) {
+      showStatus(loginStatus, "error", "Password must be at least 4 characters.");
+      return;
+    }
+    var hash = await sha256Hex(pass);
+
+    if (!hasPasswordSet()) {
+      var confirmPass = passwordConfirmInput.value;
+      if (pass !== confirmPass) {
+        showStatus(loginStatus, "error", "Password and confirmation don't match.");
+        return;
+      }
+      localStorage.setItem(PASS_HASH_KEY, hash);
+      localStorage.setItem(AUTHED_KEY, "1");
+      hideStatus(loginStatus);
+      showAdmin();
+    } else {
+      var storedHash = localStorage.getItem(PASS_HASH_KEY);
+      if (hash === storedHash) {
+        localStorage.setItem(AUTHED_KEY, "1");
+        hideStatus(loginStatus);
+        showAdmin();
+      } else {
+        showStatus(loginStatus, "error", "Incorrect password.");
+      }
+    }
+  });
+
+  document.getElementById("forgot-btn").addEventListener("click", function () {
+    showStatus(loginStatus, "error",
+      "If you forgot your password: clear this site's data from your browser settings (Site Data / Clear Cookies for this site only), and you'll be able to create a new password — but you'll need to paste your GitHub key again afterward.");
+  });
+
+  document.getElementById("logout-btn").addEventListener("click", function () {
+    localStorage.removeItem(AUTHED_KEY);
+    showLogin();
+  });
+
+  document.getElementById("change-pass-btn").addEventListener("click", function () {
+    var current = prompt("Enter your current password to confirm:");
+    if (current === null) return;
+    sha256Hex(current).then(function (hash) {
+      if (hash !== localStorage.getItem(PASS_HASH_KEY)) {
+        alert("Current password is incorrect.");
+        return;
+      }
+      var next = prompt("Enter your new password (at least 4 characters):");
+      if (!next || next.length < 4) {
+        if (next !== null) alert("Password is too short.");
+        return;
+      }
+      sha256Hex(next).then(function (newHash) {
+        localStorage.setItem(PASS_HASH_KEY, newHash);
+        alert("Password changed successfully.");
+      });
+    });
+  });
+
+  /* ==================== End of login layer ==================== */
+
+  /* ==================== Dashboard tabs ==================== */
+  var tabButtons = document.querySelectorAll(".tab-btn");
+  var tabPanels = {
+    articles: document.getElementById("tab-articles"),
+    "new": document.getElementById("tab-new"),
+    settings: document.getElementById("tab-settings")
+  };
+
+  function activateTab(name) {
+    tabButtons.forEach(function (btn) {
+      btn.classList.toggle("active", btn.getAttribute("data-tab") === name);
+    });
+    Object.keys(tabPanels).forEach(function (key) {
+      tabPanels[key].style.display = key === name ? "block" : "none";
+    });
+    if (name === "articles") loadArticlesList();
+    if (name === "new" && !editingSlug) resetForm();
+  }
+
+  tabButtons.forEach(function (btn) {
+    btn.addEventListener("click", function () {
+      activateTab(btn.getAttribute("data-tab"));
+    });
+  });
+
+  /* ==================== GitHub API ==================== */
+
+  function getToken() { return localStorage.getItem(TOKEN_KEY); }
+
+  function utf8ToBase64(str) {
+    var bytes = new TextEncoder().encode(str);
+    var binary = "";
+    bytes.forEach(function (b) { binary += String.fromCharCode(b); });
+    return btoa(binary);
+  }
+  function base64ToUtf8(b64) {
+    var binary = atob(b64.replace(/\n/g, ""));
+    var bytes = new Uint8Array(binary.length);
+    for (var i = 0; i < binary.length; i++) bytes[i] = binary.charCodeAt(i);
+    return new TextDecoder().decode(bytes);
+  }
+
+  async function getFile(token) {
+    var url = "https://api.github.com/repos/" + OWNER + "/" + REPO + "/contents/" + FILE_PATH + "?ref=" + BRANCH;
+    var res = await fetch(url, {
+      headers: { "Authorization": "Bearer " + token, "Accept": "application/vnd.github+json" }
+    });
+    if (!res.ok) throw new Error("HTTP " + res.status);
+    return res.json();
+  }
+
+  async function putFile(token, contentB64, sha, message) {
+    var url = "https://api.github.com/repos/" + OWNER + "/" + REPO + "/contents/" + FILE_PATH;
+    var res = await fetch(url, {
+      method: "PUT",
+      headers: {
+        "Authorization": "Bearer " + token,
+        "Accept": "application/vnd.github+json",
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({ message: message, content: contentB64, sha: sha, branch: BRANCH })
+    });
+    if (!res.ok) {
+      var errBody = await res.text();
+      throw new Error("HTTP " + res.status + " — " + errBody.slice(0, 200));
+    }
+    return res.json();
+  }
+
+  function refreshConnectionView() {
+    var setupCard = document.getElementById("setup-card");
+    if (getToken()) {
+      setupCard.style.display = "none";
+      loadArticlesList();
+    } else {
+      setupCard.style.display = "block";
+      document.getElementById("articles-list-wrap").style.display = "none";
+    }
+  }
+
+  document.getElementById("save-token-btn").addEventListener("click", async function () {
+    var val = document.getElementById("token-input").value.trim();
+    var setupStatus = document.getElementById("setup-status");
+    if (!val) {
+      showStatus(setupStatus, "error", "Paste the key first.");
+      return;
+    }
+    showStatus(setupStatus, "loading", "Verifying the key...");
+    try {
+      await getFile(val);
+      localStorage.setItem(TOKEN_KEY, val);
+      hideStatus(setupStatus);
+      document.getElementById("articles-list-wrap").style.display = "block";
+      refreshConnectionView();
+    } catch (err) {
+      showStatus(setupStatus, "error", "That key didn't work: " + err.message + "<br>Make sure you gave it Contents: Read and write permission on the " + REPO + " repository.");
+    }
+  });
+
+  document.getElementById("disconnect-btn").addEventListener("click", function () {
+    if (!confirm("Are you sure you want to disconnect the GitHub key? You'll need to paste it again to publish.")) return;
+    localStorage.removeItem(TOKEN_KEY);
+    activateTab("articles");
+    refreshConnectionView();
+  });
+
+  /* ==================== Content formatting (text ⇄ HTML) ==================== */
+
+  function escapeHtml(str) {
+    return str.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+  }
+  function inlineFormat(str) {
+    return escapeHtml(str).replace(/\*\*(.+?)\*\*/g, "<strong>$1</strong>");
+  }
+  function contentToHtml(raw) {
+    var blocks = raw.split(/\n\s*\n/).map(function (b) { return b.trim(); }).filter(Boolean);
+    return blocks.map(function (b) {
+      if (b.indexOf("## ") === 0) return "      <h2>" + inlineFormat(b.slice(3).trim()) + "</h2>";
+      return "      <p>" + inlineFormat(b).replace(/\n/g, "<br>") + "</p>";
+    }).join("\n");
+  }
+  function htmlToContent(html) {
+    return html
+      .replace(/<h2>([\s\S]*?)<\/h2>/g, "## $1\n\n")
+      .replace(/<p>([\s\S]*?)<\/p>/g, "$1\n\n")
+      .replace(/<strong>([\s\S]*?)<\/strong>/g, "**$1**")
+      .replace(/<br\s*\/?>/g, "\n")
+      .replace(/&lt;/g, "<").replace(/&gt;/g, ">").replace(/&amp;/g, "&")
+      .trim();
+  }
+  function jsStringEscape(str) {
+    return String(str).replace(/\\/g, "\\\\").replace(/"/g, '\\"').replace(/\n/g, " ");
+  }
+  function templateEscape(str) {
+    return str.replace(/\\/g, "\\\\").replace(/`/g, "\\`").replace(/\$\{/g, "\\${");
+  }
+  function slugify() { return "article-" + Date.now().toString(36); }
+
+  function buildArticleBlock(data, existingSlug) {
+    var slug = existingSlug || slugify();
+    var contentHtml = templateEscape(contentToHtml(data.content));
+    return [
+      "  {",
+      '    slug: "' + slug + '",',
+      '    title: "' + jsStringEscape(data.title) + '",',
+      '    excerpt: "' + jsStringEscape(data.excerpt) + '",',
+      '    date: "' + data.date + '",',
+      '    readTime: "' + jsStringEscape(data.readTime) + '",',
+      "    contentHtml: `",
+      contentHtml,
+      "    `",
+      "  },"
+    ].join("\n");
+  }
+
+  /* ==================== Read/edit/delete articles ==================== */
+
+  function getAllBlocks(fileText) {
+    return fileText.match(/  \{[\s\S]*?\n  \},?/g) || [];
+  }
+  function parseBlock(blockText) {
+    function grab(key) {
+      var m = blockText.match(new RegExp(key + ':\\s*"([^"]*)"'));
+      return m ? m[1] : "";
+    }
+    var contentMatch = blockText.match(/contentHtml:\s*`([\s\S]*?)`/);
+    return {
+      slug: grab("slug"),
+      title: grab("title"),
+      excerpt: grab("excerpt"),
+      date: grab("date"),
+      readTime: grab("readTime"),
+      contentHtml: contentMatch ? contentMatch[1] : ""
+    };
+  }
+
+  var editingSlug = null;
+
+  async function loadArticlesList() {
+    var listEl = document.getElementById("articles-list");
+    var statusEl = document.getElementById("articles-list-status");
+    var token = getToken();
+    if (!token) return;
+
+    showStatus(statusEl, "loading", "Loading articles...");
+    listEl.innerHTML = "";
+
+    try {
+      var file = await getFile(token);
+      var text = base64ToUtf8(file.content);
+      var blocks = getAllBlocks(text).map(parseBlock).sort(function (a, b) {
+        return new Date(b.date) - new Date(a.date);
+      });
+
+      hideStatus(statusEl);
+
+      if (blocks.length === 0) {
+        listEl.innerHTML = '<p class="empty-state">No articles yet. Click the "New Article" tab to add your first one.</p>';
+        return;
+      }
+
+      blocks.forEach(function (a) {
+        var row = document.createElement("div");
+        row.className = "article-row";
+        row.innerHTML =
+          '<div>' +
+            '<div class="article-row__title">' + escapeHtml(a.title) + '</div>' +
+            '<div class="article-row__meta">' + a.date + (a.readTime ? " · " + a.readTime : "") + '</div>' +
+          '</div>' +
+          '<div class="article-row__actions">' +
+            '<button type="button" data-action="edit" data-slug="' + a.slug + '">Edit</button>' +
+            '<button type="button" class="danger" data-action="delete" data-slug="' + a.slug + '">Delete</button>' +
+          '</div>';
+        listEl.appendChild(row);
+      });
+
+      listEl.querySelectorAll('[data-action="edit"]').forEach(function (btn) {
+        btn.addEventListener("click", function () { startEdit(btn.getAttribute("data-slug")); });
+      });
+      listEl.querySelectorAll('[data-action="delete"]').forEach(function (btn) {
+        btn.addEventListener("click", function () { deleteArticle(btn.getAttribute("data-slug")); });
+      });
+    } catch (err) {
+      showStatus(statusEl, "error", "Couldn't load articles: " + err.message);
+    }
+  }
+
+  function resetForm() {
+    editingSlug = null;
+    document.getElementById("form-heading").textContent = "New Article";
+    document.getElementById("publish-btn").textContent = "Publish Article 🚀";
+    document.getElementById("cancel-edit-btn").style.display = "none";
+    document.getElementById("title-input").value = "";
+    document.getElementById("excerpt-input").value = "";
+    document.getElementById("content-input").value = "";
+    document.getElementById("readtime-input").value = "3 min read";
+    document.getElementById("date-input").value = new Date().toISOString().slice(0, 10);
+    hideStatus(document.getElementById("publish-status"));
+  }
+
+  async function startEdit(slug) {
+    var statusEl = document.getElementById("articles-list-status");
+    showStatus(statusEl, "loading", "Loading article...");
+    try {
+      var token = getToken();
+      var file = await getFile(token);
+      var text = base64ToUtf8(file.content);
+      var block = getAllBlocks(text).find(function (b) { return b.indexOf('slug: "' + slug + '"') !== -1; });
+      if (!block) throw new Error("Article not found");
+      var data = parseBlock(block);
+
+      editingSlug = data.slug;
+      document.getElementById("form-heading").textContent = "Edit Article";
+      document.getElementById("publish-btn").textContent = "Save Changes ✅";
+      document.getElementById("cancel-edit-btn").style.display = "block";
+      document.getElementById("title-input").value = data.title;
+      document.getElementById("excerpt-input").value = data.excerpt;
+      document.getElementById("readtime-input").value = data.readTime;
+      document.getElementById("date-input").value = data.date;
+      document.getElementById("content-input").value = htmlToContent(data.contentHtml);
+      hideStatus(document.getElementById("publish-status"));
+      hideStatus(statusEl);
+      activateTab("new");
+    } catch (err) {
+      showStatus(statusEl, "error", "Couldn't open the article: " + err.message);
+    }
+  }
+
+  document.getElementById("cancel-edit-btn").addEventListener("click", function () {
+    resetForm();
+    activateTab("articles");
+  });
+
+  async function deleteArticle(slug) {
+    if (!confirm("Are you sure you want to delete this article? This can't be undone.")) return;
+    var statusEl = document.getElementById("articles-list-status");
+    showStatus(statusEl, "loading", "Deleting...");
+    try {
+      var token = getToken();
+      var file = await getFile(token);
+      var text = base64ToUtf8(file.content);
+      var block = getAllBlocks(text).find(function (b) { return b.indexOf('slug: "' + slug + '"') !== -1; });
+      if (!block) throw new Error("Article doesn't exist");
+
+      var idx = text.indexOf(block);
+      var newText = text.slice(0, idx) + text.slice(idx + block.length).replace(/^\n/, "");
+      var newB64 = utf8ToBase64(newText);
+
+      await putFile(token, newB64, file.sha, "Delete article");
+      showStatus(statusEl, "success", "Deleted ✅");
+      loadArticlesList();
+    } catch (err) {
+      showStatus(statusEl, "error", "Couldn't delete: " + err.message);
+    }
+  }
+
+  /* ==================== Publish / save edit ==================== */
+
+  document.getElementById("publish-btn").addEventListener("click", async function () {
+    var token = getToken();
+    var data = {
+      title: document.getElementById("title-input").value.trim(),
+      excerpt: document.getElementById("excerpt-input").value.trim(),
+      readTime: document.getElementById("readtime-input").value.trim() || "3 min read",
+      date: document.getElementById("date-input").value || new Date().toISOString().slice(0, 10),
+      content: document.getElementById("content-input").value.trim()
+    };
+
+    var publishStatus = document.getElementById("publish-status");
+
+    if (!data.title || !data.content) {
+      showStatus(publishStatus, "error", "You must at least write a title and content for the article.");
+      return;
+    }
+
+    var btn = document.getElementById("publish-btn");
+    btn.disabled = true;
+    showStatus(publishStatus, "loading", editingSlug ? "Saving changes..." : "Publishing...");
+
+    try {
+      var file = await getFile(token);
+      var currentContent = base64ToUtf8(file.content);
+      var newContent, commitMsg;
+
+      if (editingSlug) {
+        var oldBlock = getAllBlocks(currentContent).find(function (b) {
+          return b.indexOf('slug: "' + editingSlug + '"') !== -1;
+        });
+        if (!oldBlock) throw new Error("Couldn't find the original article to edit");
+        var newBlock = buildArticleBlock(data, editingSlug);
+        newContent = currentContent.replace(oldBlock, newBlock);
+        commitMsg = "Edit article: " + data.title;
+      } else {
+        var anchor = "window.ARTICLES = [";
+        var idx = currentContent.indexOf(anchor);
+        if (idx === -1) throw new Error("Couldn't find the insertion point in the file.");
+        var insertPos = idx + anchor.length;
+        var block = buildArticleBlock(data);
+        newContent = currentContent.slice(0, insertPos) + "\n" + block + currentContent.slice(insertPos);
+        commitMsg = "Add article: " + data.title;
+      }
+
+      var newContentB64 = utf8ToBase64(newContent);
+      await putFile(token, newContentB64, file.sha, commitMsg);
+
+      showStatus(publishStatus, "success",
+        (editingSlug ? "Changes saved successfully 🎉" : "Published successfully 🎉") +
+        ' Give it a minute, then open the <a href="blog.html" target="_blank">Articles page</a>.');
+
+      resetForm();
+      activateTab("articles");
+    } catch (err) {
+      showStatus(publishStatus, "error", "Something went wrong: " + err.message + "<br>Try again, and if the error persists, make sure your key is still active.");
+    } finally {
+      btn.disabled = false;
+    }
+  });
+
+  /* ==================== Startup ==================== */
+
+  document.getElementById("date-input").value = new Date().toISOString().slice(0, 10);
+
+  if (isAuthed() && hasPasswordSet()) {
+    showAdmin();
+  } else {
+    showLogin();
+  }
+})();
+</script>
+</body>
+</html>
